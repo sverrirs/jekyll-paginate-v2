@@ -4,7 +4,9 @@ Pagination plugin build for Jekyll 3.
 
 Enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate).
 
-The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were mostly drawn from discussions from the issues pages (especially https://github.com/jekyll/jekyll-paginate/issues/27) and some from the excellent [Octopress::Paginate code](https://github.com/octopress/paginate). Thanks guys!
+The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were mostly drawn from discussions from the issues pages (especially https://github.com/jekyll/jekyll-paginate/issues/27) and some from the excellent [Octopress::Paginate code](https://github.com/octopress/paginate). 
+
+Thanks everybody :heart:
 
 ## Features
 
@@ -220,7 +222,3 @@ pagination:
 ```
 
 ... and so on and so on
-
-
-
-:heart:
