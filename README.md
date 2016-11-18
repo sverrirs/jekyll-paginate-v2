@@ -21,7 +21,7 @@ In addition to all the features offered by the older [jekyll-paginate gem](https
 7. Fully customizable permalink format. E.g `/page:num/` or `/page/:num/` or `/:num/` or really anything you want.
 8. Optional title suffix for paginated pages (e.g. _Index - Page 2_)
 
-All this while being fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem!
+All this while being fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem (requires minimal additional front-matter, see [page-configuration](#page-configuration)).
 
 ## Installation
 
