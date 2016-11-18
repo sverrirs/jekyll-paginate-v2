@@ -10,7 +10,7 @@ Thanks everybody :heart:
 
 ## Features
 
-In addition to all the features offered by the older [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate) this new pagination plugin supports
+In addition to all the features offered by the older [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate) this new pagination plugin features include
 
 1. Works with any type of file ending (HTML, Markdown, etc) as long as the file has front-matter and the minimum page level pagination meta (see [page-configuration](#page-configuration)).
 2. Paginated files can have any file name (not just index.html).
