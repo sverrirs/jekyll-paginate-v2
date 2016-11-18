@@ -27,7 +27,8 @@ All this while being fully backwards compatible with the pld [jekyll-paginate](h
 
 Currently this plugin is in develpment mode and is not yet distributed as a gem (mostly because I don't know how).
 
-To install, simply copy the `lib\jekyll-paginate-v2.rb` file into the `_plugins` folder under your Jekyll site root. If the _plugins folder does not exist simply create it.
+To install, simply copy the `lib\jekyll-paginate-v2.rb` file into the `_plugins` folder under your Jekyll site root. 
+> If the _plugins folder does not exist simply create it.
 
 Then add the necessary [Site YML](#site-configuration) and [Page](#page-configuration) configuration elements.
 
@@ -165,7 +166,7 @@ pagination:
   category: software, ruby
 ```
 
-> To define categories you can either specify them in the front-matter or through the [directory structure](http://jekyllrb.com/docs/variables/#page-variables) of your jekyll site (Categories are derived from the directory structure above the \_posts directory). And why choose, when you can simply use both.
+> To define categories you can either specify them in the front-matter or through the [directory structure](http://jekyllrb.com/docs/variables/#page-variables) of your jekyll site (Categories are derived from the directory structure above the \_posts directory). You can actually use both approaches to assign your pages to multiple categories.
 
 ### Filtering tags
 
