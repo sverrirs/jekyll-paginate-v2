@@ -1,10 +1,11 @@
 # Jekyll::Paginate V2
 
-Pagination plugin built specially for Jekyll 3 and newer.
+Pagination gem built specially for Jekyll 3 and newer.
+https://rubygems.org/gems/jekyll-paginate-v2
 
-Enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate).
+Fully backwards compatable and enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate).
 
-The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were mostly drawn from discussions from the issues pages (especially https://github.com/jekyll/jekyll-paginate/issues/27) and some from the excellent [Octopress::Paginate code](https://github.com/octopress/paginate). 
+The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were mostly drawn from discussions from the issues pages (especially [#27](https://github.com/jekyll/jekyll-paginate/issues/27)) and some from the excellent [Octopress::Paginate code](https://github.com/octopress/paginate). 
 
 Thanks everybody :heart:
 
@@ -25,34 +26,19 @@ All this while being fully backwards compatible with the old [jekyll-paginate](h
 
 ## Installation
 
-Currently this plugin is in develpment mode and is not yet distributed as a gem (mostly because I don't know how).
-
-To install, simply copy the `lib\jekyll-paginate-v2.rb` file into the `_plugins` folder under your Jekyll site root. 
-> If the _plugins folder does not exist simply create it.
-
-Then add the necessary [Site YML](#site-configuration) and [Page](#page-configuration) configuration elements.
-
-Run `jekyll serve` and you should see the pagination plugin debug messages printed during site generation:
-
-``` bash
-  Generating...
-    Pagination: found template: pictures/bestof.md
-    Pagination: found template: puffins/list.html
-    Pagination: found template: index.html
+```
+gem install jekyll-paginate-v2
 ```
 
-## Current state
+Update your [_config.yml](#site-configuration) and [pages](#page-configuration).
 
-Currently this code is in dire need of feedback, code review and testing.
+> Although backwards compatible, this gem needs slightly extended [site yml](#site-configuration) configuration and adds miniscule new front-matter for the [paging templates](#page-configuration) configuration elements.
 
-I also would welcome guidance on how to write automated tests for this code so that I can publish it as a Gem.
-
-Come to think of it, I currently have no idea on how to publish a Gem... :/
-
-> Don't worry too much about the current structure, this is just the first iteration.
-> The code is currently a single file `jekyll-paginate-v2.rb` only because it makes it faster to develop and debug. As soon as I and hopefully other people test and green-light the logic I intend to break this code into separate files and distribute as a gem.  
+Now you're ready to run `jekyll serve` and your paginated files should be generated.
 
 ## Contributing
+
+I currently need testers and people willing to give me feedback and code reviews.
 
 1. Fork it ( https://github.com/sverrirs/jekyll-paginate-v2/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
