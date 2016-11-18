@@ -4,8 +4,6 @@ Pagination plugin build for Jekyll 3.
 
 Enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate).
 
-> Read more about this tool on my personal blog at <a href="https://blog.sverrirs.com/2016/06/webp-generator-for-jekyll-sites.html" target="_blank">blog.sverrirs.com</a> 
-
 The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were mostly drawn from discussions from the issues pages (especially https://github.com/jekyll/jekyll-paginate/issues/27) and some from the excellent [Octopress::Paginate code](https://github.com/octopress/paginate). Thanks guys!
 
 ## Features
