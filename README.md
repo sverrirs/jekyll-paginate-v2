@@ -86,7 +86,7 @@ pagination:
   limit: 0
   
   # Optional, defines the field that the posts should be sorted on (omit to default to 'date')
-  sort_field: 'title'
+  sort_field: 'date'
 
   # Optional, sorts the posts in reverse order (omit to default decending or sort_reverse: true)
   sort_reverse: true
