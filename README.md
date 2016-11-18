@@ -17,10 +17,11 @@ In addition to all the features offered by the older [jekyll-paginate gem](https
 3. Supports category, tag and locale filtering.
 4. Supports any combination of category, tag and locale filtering (e.g. _all posts in the 'ruby' category written for 'en\_US'_ or _all posts in 'car' and 'cycle' category tagged with 'cool' written for 'fr\_FR'_)
 5. Sorting of posts by any field. Decending or Ascending.
-6. Fully backwards compatible with the decommissioned jekyll-paginate gem
-7. Limits for number of pagenated pages (e.g. _only produce 15 pages_)
-8. Fully customizable permalink format. `/page:num/` or `/page/:num/` or `/:num/` or really anything you want.
-9. Optional title suffix for paginated pages (e.g. _Index - Page 2_)
+6. Optional limits of number of pagenated pages (e.g. _only produce 15 pages_)
+7. Fully customizable permalink format. E.g `/page:num/` or `/page/:num/` or `/:num/` or really anything you want.
+8. Optional title suffix for paginated pages (e.g. _Index - Page 2_)
+
+All this while being fully backwards compatible with the pld [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem!
 
 ## Installation
 
@@ -28,7 +29,9 @@ Currently this plugin is in develpment mode and is not yet distributed as a gem 
 
 To install, simply copy the `lib\jekyll-paginate-v2.rb` file into the `_plugins` folder under your Jekyll site root. If the _plugins folder does not exist simply create it.
 
-Run `jekyll serve` and you should see the pagination plugin run during site generation:
+Then add the necessary [Site YML](#site-configuration) and [Page](#page-configuration) configuration elements.
+
+Run `jekyll serve` and you should see the pagination plugin debug messages printed during site generation:
 
 ``` bash
   Generating...
@@ -45,9 +48,8 @@ I also would welcome guidance on how to write automated tests for this code so t
 
 Come to think of it, I currently have no idea on how to publish a Gem... :/
 
-The code is currently structured to be contained in a single file `jekyll-paginate-v2.rb` only because it makes it faster to develop and debug. As soon as I and hopefully other people will be happy with the logic I intend to break this code into separate files (the two main classes will be split and some of the utility functions as well). 
-
-So don't worry too much about the current structure, this is just the first iteration :) 
+> Don't worry too much about the current structure, this is just the first iteration.
+> The code is currently a single file `jekyll-paginate-v2.rb` only because it makes it faster to develop and debug. As soon as I and hopefully other people test and green-light the logic I intend to break this code into separate files and distribute as a gem.  
 
 ## Contributing
 
