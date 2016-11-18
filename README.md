@@ -204,7 +204,7 @@ Then for the relevant posts, include the `locale` variable in their front-matter
 locale: en_US
 ```
 
-## Paginate on conbination of filters
+## Paginate on combination of filters
 
 Including only posts from categories 'ruby' and 'software' written in English
 
@@ -225,3 +225,24 @@ pagination:
 ```
 
 ... and so on and so on
+
+## Configuration overrides
+
+All of the configuration elements from the `_config.yml` file can be overwritten in the pagination template pages. E.g. if you want one category page to have different permalink structure simply override the item like so
+
+``` yml
+pagination: 
+  enabled: true
+  category: cars
+  permalink: '/cars/:num/'
+```
+
+Overriding sorting to sort by the post title in ascending order for another paginated template could be done like so
+
+``` yml
+pagination: 
+  enabled: true
+  category: ruby
+  sort_field: 'title'
+  sort_reverse: false
+```
