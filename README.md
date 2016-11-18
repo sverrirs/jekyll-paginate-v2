@@ -1,6 +1,6 @@
 # Jekyll::Paginate V2
 
-Pagination plugin build for Jekyll 3.
+Pagination plugin built specially for Jekyll 3 and newer.
 
 Enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate).
 
