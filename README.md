@@ -46,8 +46,12 @@ I currently need testers and people willing to give me feedback and code reviews
 1. Fork it ( https://github.com/sverrirs/jekyll-paginate-v2/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+4. Build the gem locally (`gem build jekyll-paginate-v2.gemspec`)
+5. Test and verify the gem locally (`gem install ./jekyll-paginate-v2-x.x.x.gem`) 
+6. Push to the branch (`git push origin my-new-feature`)
+7. Create new Pull Request
+
+Note: This project uses [semantic versioning](http://semver.org/).
 
 ## Site configuration
 
