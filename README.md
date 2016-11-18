@@ -82,7 +82,7 @@ pagination:
   # Optional additional suffix for the title of the paginated pages (the prefix is inherited from the template page)
   title_suffix: ' - page :num'
 
-  # Limit how many content objects to paginate (default: 0, means all)
+  # Limit how many pagenated pages to create (default: 0, means all)
   limit: 0
   
   # Optional, defines the field that the posts should be sorted on (omit to default to 'date')
@@ -94,7 +94,7 @@ pagination:
   # The default category to use, just leave this as 'posts' to get a backwards-compatible behavior (all posts)
   category: 'posts'
 
-  # Optional, the default tag to use, omit to disabled
+  # Optional, the default tag to use, omit to disable
   tag: 'cool'
 
   # Optional, the default locale to use, omit to disable (depends on a field 'locale' to be specified in the posts, 
