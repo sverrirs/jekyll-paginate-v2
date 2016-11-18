@@ -12,7 +12,7 @@ Thanks everybody :heart:
 
 In addition to all the features offered by the older [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate) this new pagination plugin supports
 
-1. Works with any type of file ending (HTML, Markdown, etc) as long as the file has front-matter and the minimum page level pagination meta.
+1. Works with any type of file ending (HTML, Markdown, etc) as long as the file has front-matter and the minimum page level pagination meta (see [page-configuration](#page-configuration)).
 2. Paginated files can have any file name (not just index.html).
 3. Supports category, tag and locale filtering.
 4. Supports any combination of category, tag and locale filtering (e.g. _all posts in the 'ruby' category written for 'en\_US'_ or _all posts in 'car' and 'cycle' category tagged with 'cool' written for 'fr\_FR'_)
