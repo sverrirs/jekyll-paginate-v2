@@ -98,8 +98,11 @@ pagination:
 To enable pagination on a page (i.e. make that page a template for pagination) then simply include the minimal pagination configuration in the page front-matter:
 
 ``` yml
+---
+layout: page
 pagination: 
   enabled: true
+---
 ```
 
 Then you can use the normal `paginator.posts` logic to iterate through the posts.
