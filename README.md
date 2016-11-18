@@ -7,7 +7,21 @@ Fully backwards compatable and enhanced replacement for the previously built-in 
 
 The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were mostly drawn from discussions from the issues pages (especially [#27](https://github.com/jekyll/jekyll-paginate/issues/27)) and some from the excellent [Octopress::Paginate code](https://github.com/octopress/paginate). 
 
-Thanks everybody :heart:
+:heart:
+
+
+## Installation
+
+```
+gem install jekyll-paginate-v2
+```
+
+Update your [_config.yml](#site-configuration) and [pages](#page-configuration).
+
+> Although backwards compatible, this gem needs slightly extended [site yml](#site-configuration) configuration and adds miniscule new front-matter for the [paging templates](#page-configuration) configuration elements.
+
+Now you're ready to run `jekyll serve` and your paginated files should be generated.
+
 
 ## Features
 
@@ -24,17 +38,6 @@ In addition to all the features offered by the older [jekyll-paginate gem](https
 
 All this while being fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem (requires minimal additional front-matter, see [page-configuration](#page-configuration)).
 
-## Installation
-
-```
-gem install jekyll-paginate-v2
-```
-
-Update your [_config.yml](#site-configuration) and [pages](#page-configuration).
-
-> Although backwards compatible, this gem needs slightly extended [site yml](#site-configuration) configuration and adds miniscule new front-matter for the [paging templates](#page-configuration) configuration elements.
-
-Now you're ready to run `jekyll serve` and your paginated files should be generated.
 
 ## Contributing
 
