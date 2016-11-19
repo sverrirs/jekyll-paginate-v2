@@ -14,16 +14,15 @@ module Jekyll
       # config - the current configuration in use
       #
       # Returns the pagination path as a string
-      def self.paginate_path(template, cur_page_nr, config)
+      def self.paginate_path(template_url, cur_page_nr, permalink_format)
         return nil if cur_page_nr.nil?
-        return template.url if cur_page_nr <= 1
-        format = config['permalink']
-        if format.include?(":num")
-          format = Utils.format_page_number(format, cur_page_nr)
+        return template_url if cur_page_nr <= 1
+        if permalink_format.include?(":num")
+          permalink_format = Utils.format_page_number(permalink_format, cur_page_nr)
         else
-          raise ArgumentError.new("Invalid pagination path: '#{format}'. It must include ':num'.")
+          raise ArgumentError.new("Invalid pagination path: '#{permalink_format}'. It must include ':num'.")
         end
-        Utils.ensure_leading_slash(format)
+        Utils.ensure_leading_slash(permalink_format)
       end #function paginate_path
       
       # Static: returns a fully formatted string with the current page number if configured

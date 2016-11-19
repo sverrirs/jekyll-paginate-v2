@@ -121,17 +121,17 @@ And to display pagination links, simply
 
 ``` html
 {% if paginator.total_pages > 1 %}
-<ul class="pager">
-    {% if paginator.previous_page %}
-    <li class="previous">
-        <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">Newer Posts</a>
-    </li>
-    {% endif %}
-    {% if paginator.next_page %}
-    <li class="next">
-        <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Older Posts</a>
-    </li>
-    {% endif %}
+<ul>
+  {% if paginator.previous_page %}
+  <li>
+    <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}">Newer</a>
+  </li>
+  {% endif %}
+  {% if paginator.next_page %}
+  <li>
+    <a href="{{ paginator.next_page_path | prepend: site.baseurl }}">Older</a>
+  </li>
+  {% endif %}
 </ul>
 {% endif %}
 ```
@@ -242,3 +242,11 @@ pagination:
   sort_field: 'title'
   sort_reverse: false
 ```
+
+## Common issues
+
+#### I'm getting a bundler error after upgrading the gem (Bundler::GemNotFound)
+
+> bundler/spec_set.rb:95:in `block in materialize': Could not find jekyll-paginate-v2-1.0.0 in any of the sources (Bundler::GemNotFound) 
+
+When running `jekyll serve` if you ever get an error similar to the one above the solution is to delete your `Gemfile.lock` file and try again.

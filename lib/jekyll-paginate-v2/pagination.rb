@@ -215,11 +215,11 @@ module Jekyll
         # This .pager member is a built in thing in Jekyll and defines the paginator implementation
         # Simpy override to use mine
         (1..total_pages).each do |cur_page_nr|
-          pager = PaginatorV2.new( config, using_posts, cur_page_nr, total_pages, template )
+          pager = PaginatorV2.new( config['per_page'], config['permalink'], using_posts, cur_page_nr, total_pages, template.url )
           if( cur_page_nr > 1)
             newpage = Page.new( site, site.source, template.dir, template.name)
             newpage.pager = pager
-            newpage.dir = Utils.paginate_path(template, cur_page_nr, config)
+            newpage.dir = Utils.paginate_path(template.url, cur_page_nr, config['permalink'])
             if( config.has_key?('title_suffix'))
               if( !template.data['title'] )
                 tmp_title = site.config['title']
