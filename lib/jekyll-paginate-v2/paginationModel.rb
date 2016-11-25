@@ -1,40 +1,20 @@
 module Jekyll
   module PaginateV2
 
-    class PaginationV2 < Generator
-      # This generator is safe from arbitrary code execution.
-      safe true
+    class PaginationModel
 
-      # This generator should be passive with regard to its execution
-      priority :lowest
-      
-      # Generate paginated pages if necessary (Default entry point)
-      # site - The Site.
-      #
-      # Returns nothing.
-      def generate(site)
-        
-        # Retrieve and merge the folate configuration from the site yml file
-        default_config = DEFAULT.merge(site.config['pagination'] || {})
-        
-        # If disabled then simply quit
-        if !default_config['enabled']
-          Jekyll.logger.info "Pagination:","disabled in site.config."
-          return
-        end
-        
-        Jekyll.logger.debug "Pagination:","Starting"
-        
+      def run(default_config, site_pages, site_title, all_posts, &page_create_proc)
+        #if !block_given?
+        #  raise ArgumentError.new("No page creation block given, cannot continue.")
+        #end
+
         # By default if pagination is enabled we attempt to find all index.html pages in the site
-        templates = self.discover_paginate_templates(site)
+        templates = self.discover_paginate_templates(site_pages)
         if( templates.size.to_i <= 0 )
           Jekyll.logger.warn "Pagination:","is enabled, but I couldn't find " +
           "any index.html page to use as the pagination template. Skipping pagination."
           return
         end
-
-        # Get all posts that will be generated (excluding hidden posts such as drafts)
-        all_posts = site.site_payload['site']['posts'].reject { |post| post['hidden'] }
 
         # Create the necessary indexes for the posts
         all_categories = self.index_posts_by(all_posts, 'categories')
@@ -56,7 +36,8 @@ module Jekyll
             if( template_config['enabled'] )
               Jekyll.logger.info "Pagination:","found template: "+template.path
               # Now construct the pagination data for this template page
-              self.paginate(site, template, template_config, all_posts, all_tags, all_categories, all_locales)
+              #self.paginate(site, template, template_config, all_posts, all_tags, all_categories, all_locales)
+              self.paginate(template, template_config, site_title, all_posts, all_tags, all_categories, all_locales, &page_create_proc)
             end
           end
         end #for
@@ -64,13 +45,14 @@ module Jekyll
       end # function generate
       
       #
-      # Rolls through the entire site and finds all index.html pages available
+      # Rolls through all the pages passed in and finds all pages that have pagination enabled on them.
+      # These pages will be used as templates
       #
-      # site - The Site.
+      # site_pages - All pages in the site
       #
-      def discover_paginate_templates(site)
+      def discover_paginate_templates(site_pages)
         candidates = []
-        site.pages.select do |page|
+        site_pages.select do |page|
           # If the page has the enabled config set, supports any type of file name html or md
           if page.data['pagination'].is_a?(Hash) && page.data['pagination']['enabled']
             candidates << page
@@ -183,8 +165,7 @@ module Jekyll
       # template - The index.html Page that requires pagination.
       # config - The configuration settings that should be used
       #
-      def paginate(site, template, config, all_posts, all_tags, all_categories, all_locales)
-        
+      def paginate(template, config, site_title, all_posts, all_tags, all_categories, all_locales, &page_create_proc)
         # By default paginate on all posts in the site
         using_posts = all_posts
         
@@ -215,21 +196,21 @@ module Jekyll
         # This .pager member is a built in thing in Jekyll and defines the paginator implementation
         # Simpy override to use mine
         (1..total_pages).each do |cur_page_nr|
-          pager = PaginatorV2.new( config['per_page'], config['permalink'], using_posts, cur_page_nr, total_pages, template.url )
+          pager = Paginator.new( config['per_page'], config['permalink'], using_posts, cur_page_nr, total_pages, template.url )
           if( cur_page_nr > 1)
-            newpage = Page.new( site, site.source, template.dir, template.name)
+            # External Proc call to create the actual page for us (this is passed in when the pagination is run)
+            newpage = page_create_proc.call( template.dir, template.name )
             newpage.pager = pager
             newpage.dir = Utils.paginate_path(template.url, cur_page_nr, config['permalink'])
             if( config.has_key?('title_suffix'))
               if( !template.data['title'] )
-                tmp_title = site.config['title']
+                tmp_title = site_title
               else
                 tmp_title = template.data['title']
               end
                
               newpage.data['title'] = "#{tmp_title}#{Utils.format_page_number(config['title_suffix'], cur_page_nr)}"
             end
-            site.pages << newpage
           else
             template.pager = pager
           end

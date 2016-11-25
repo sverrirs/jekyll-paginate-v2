@@ -1,11 +1,11 @@
 require_relative 'spec_helper.rb'
 
 module Jekyll::PaginateV2
-  describe PaginatorV2 do
+  describe Paginator do
 
     it "must include the necessary paginator attributes" do
 
-      pager = PaginatorV2.new(10, "/page:num/", [], 1, 10, "/index.md")
+      pager = Paginator.new(10, "/page:num/", [], 1, 10, "/index.md")
 
       err = ->{ pager.page }.wont_raise NoMethodError
       err = ->{ pager.per_page }.wont_raise NoMethodError
@@ -20,8 +20,8 @@ module Jekyll::PaginateV2
     end
 
     it "must throw an error if the current page number is greater than the total pages" do
-      err = -> { pager = PaginatorV2.new(10, "/page:num/", [], 10, 8, "/index.md") }.must_raise RuntimeError
-      err = -> { pager = PaginatorV2.new(10, "/page:num/", [], 8, 10, "/index.md") }.wont_raise RuntimeError
+      err = -> { pager = Paginator.new(10, "/page:num/", [], 10, 8, "/index.md") }.must_raise RuntimeError
+      err = -> { pager = Paginator.new(10, "/page:num/", [], 8, 10, "/index.md") }.wont_raise RuntimeError
     end
 
     it "must trim the list of posts correctly based on the cur_page_nr and per_page" do
@@ -31,7 +31,7 @@ module Jekyll::PaginateV2
       # Initialize a pager with
       #   5 posts per page
       #   at page 2 out of 5 pages
-      pager = PaginatorV2.new(5, "/page:num/", posts, 2, 5, "/index.md")
+      pager = Paginator.new(5, "/page:num/", posts, 2, 5, "/index.md")
 
       pager.page.must_equal 2
       pager.per_page.must_equal 5
@@ -56,7 +56,7 @@ module Jekyll::PaginateV2
       # Initialize a pager with
       #   5 posts per page
       #   at page 2 out of 5 pages
-      pager = PaginatorV2.new(5, "/page:num/", posts, 1, 5, "/index.md")
+      pager = Paginator.new(5, "/page:num/", posts, 1, 5, "/index.md")
 
       pager.page.must_equal 1
       pager.per_page.must_equal 5
@@ -81,7 +81,7 @@ module Jekyll::PaginateV2
       # Initialize a pager with
       #   5 posts per page
       #   at page 2 out of 5 pages
-      pager = PaginatorV2.new(5, "/page:num/", posts, 5, 5, "/index.md")
+      pager = Paginator.new(5, "/page:num/", posts, 5, 5, "/index.md")
 
       pager.page.must_equal 5
       pager.per_page.must_equal 5

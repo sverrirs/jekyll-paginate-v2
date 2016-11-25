@@ -4,7 +4,7 @@ module Jekyll
     #
     # Handles the preparation of all the posts based on the current page index
     #
-    class PaginatorV2
+    class Paginator
       attr_reader :page, :per_page, :posts, :total_posts, :total_pages,
         :previous_page, :previous_page_path, :next_page, :next_page_path
       
@@ -52,7 +52,7 @@ module Jekyll
         }
       end
       
-    end # class PaginatorV2
+    end # class Paginator
 
   end # module PaginateV2
 end # module Jekyll

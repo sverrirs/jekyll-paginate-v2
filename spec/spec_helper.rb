@@ -2,10 +2,12 @@ require 'minitest/spec'
 require 'minitest/autorun'
 
 require 'jekyll'
+require_relative '../lib/jekyll-paginate-v2/version'
 require_relative '../lib/jekyll-paginate-v2/defaults'
 require_relative '../lib/jekyll-paginate-v2/utils'
 require_relative '../lib/jekyll-paginate-v2/paginator'
-require_relative '../lib/jekyll-paginate-v2/pagination'
+require_relative '../lib/jekyll-paginate-v2/paginationModel'
+require_relative '../lib/jekyll-paginate-v2/paginationGenerator'
 
 # From: http://stackoverflow.com/a/32335990/779521
 module MiniTest

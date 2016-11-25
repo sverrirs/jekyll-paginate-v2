@@ -13,7 +13,8 @@ require "jekyll-paginate-v2/version"
 require "jekyll-paginate-v2/defaults"
 require "jekyll-paginate-v2/utils"
 require "jekyll-paginate-v2/paginator"
-require "jekyll-paginate-v2/pagination"
+require "jekyll-paginate-v2/paginationModel"
+require "jekyll-paginate-v2/paginationGenerator"
 
 module Jekyll 
   module PaginateV2
