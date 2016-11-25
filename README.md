@@ -38,6 +38,16 @@ In addition to all the features offered by the older [jekyll-paginate gem](https
 
 All this while being fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem (requires minimal additional front-matter, see [page-configuration](#page-configuration)).
 
+## Issues / to-be-completed
+* Not fully compatible with the old jekyll-paginate plugin configuration yet.
+* Incomplete unit-tests [#26](https://github.com/jekyll/jekyll-paginate/issues/26)
+* Missing integration tests [#2](https://github.com/jekyll/jekyll-paginate/pull/2)
+* Missing more detailed examples
+* Code is still too tightly coupled with `site`
+* Unable to paginate _pages_ (still under consideration)
+* Unable to auto-generate category/tag/language pagination pages. Still requires programmer to specify the pages him/herself.
+* _Exclude_ filter not implemented [#6](https://github.com/jekyll/jekyll-paginate/issues/6)
+* 
 
 ## Contributing
 
@@ -136,6 +146,8 @@ And to display pagination links, simply
 </ul>
 {% endif %}
 ```
+
+> All posts that have the `hidden: true` in their front matter are ignored by the pagination logic.
 
 The code is fully backwards compatible and you will have access to all the normal paginator variables defined in the [official jekyll documentation](https://jekyllrb.com/docs/pagination/#liquid-attributes-available). 
 
