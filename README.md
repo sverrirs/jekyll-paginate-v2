@@ -13,7 +13,6 @@ The code was based on the original design of [jekyll-paginate](https://github.co
 * [Installation](#installation)
 * [Features](#features)
 * [Issues / to-be-completed](#issues--to-be-completed)
-* [Contributing](#contributing)
 * [Site configuration](#site-configuration)
   + [Backwards compatibility](#backwards-compatibility-with-jekyll-paginate)
 * [Page configuration](#page-configuration)
@@ -25,6 +24,7 @@ The code was based on the original design of [jekyll-paginate](https://github.co
 * [Configuration overrides](#configuration-overrides)
 * [Common issues](#common-issues)
     - [Bundler error upgrading gem (Bundler::GemNotFound)](#im-getting-a-bundler-error-after-upgrading-the-gem-bundlergemnotfound)
+* [How to Contribute](#contributing)
 
 ## Installation
 
@@ -60,21 +60,6 @@ All this while being fully backwards compatible with the old [jekyll-paginate](h
 * Missing more detailed examples
 * Unable to auto-generate category/tag/language pagination pages. Still requires programmer to specify the pages him/herself.
 * _Exclude_ filter not implemented [#6](https://github.com/jekyll/jekyll-paginate/issues/6) 
-
-## Contributing
-
-I currently need testers and people willing to give me feedback and code reviews.
-
-1. Fork it ( https://github.com/sverrirs/jekyll-paginate-v2/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Run the unit tests (`rake`)
-4. Commit your changes (`git commit -am 'Add some feature'`)
-5. Build the gem locally (`gem build jekyll-paginate-v2.gemspec`)
-6. Test and verify the gem locally (`gem install ./jekyll-paginate-v2-x.x.x.gem`) 
-7. Push to the branch (`git push origin my-new-feature`)
-8. Create new Pull Request
-
-Note: This project uses [semantic versioning](http://semver.org/).
 
 ## Site configuration
 
@@ -292,3 +277,19 @@ pagination:
 > bundler/spec_set.rb:95:in `block in materialize': Could not find jekyll-paginate-v2-1.0.0 in any of the sources (Bundler::GemNotFound) 
 
 When running `jekyll serve` if you ever get an error similar to the one above the solution is to delete your `Gemfile.lock` file and try again.
+
+
+## Contributing
+
+I currently need testers and people willing to give me feedback and code reviews.
+
+1. Fork it ( https://github.com/sverrirs/jekyll-paginate-v2/fork )
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Run the unit tests (`rake`)
+4. Commit your changes (`git commit -am 'Add some feature'`)
+5. Build the gem locally (`gem build jekyll-paginate-v2.gemspec`)
+6. Test and verify the gem locally (`gem install ./jekyll-paginate-v2-x.x.x.gem`) 
+7. Push to the branch (`git push origin my-new-feature`)
+8. Create new Pull Request
+
+Note: This project uses [semantic versioning](http://semver.org/).
