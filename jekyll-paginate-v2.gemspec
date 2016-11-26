@@ -7,14 +7,14 @@ Gem::Specification.new do |spec|
   spec.name          = "jekyll-paginate-v2"
   spec.version       = Jekyll::PaginateV2::VERSION
   spec.platform      = Gem::Platform::RUBY
-  spec.date          = '2016-11-19'
+  spec.date          = DateTime.now.strftime('%Y-%m-%d')
   spec.authors       = ["Sverrir Sigmundarson"]
   spec.email         = ["jekyll@sverrirs.com"]
   spec.homepage      = "https://github.com/sverrirs/jekyll-paginate-v2"
   spec.license       = "MIT"
 
   spec.summary       = %q{Pagination Generator for Jekyll 3}
-  spec.description   = %q{An enhanced in-place replacement for the previously built-in jekyll-paginate gem offering full backwards compatability as well as a slew of new frequently requested features}
+  spec.description   = %q{An enhanced zero-configuration in-place replacement for the now decomissioned built-in jekyll-paginate gem. This pagination gem offers full backwards compatability as well as a slew of new frequently requested features with minimal additional site and page configuration.}
   
   spec.files         = `git ls-files -z`.split("\x0")
   #spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
