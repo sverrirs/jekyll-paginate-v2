@@ -12,19 +12,19 @@ The code was based on the original design of [jekyll-paginate](https://github.co
 
 * [Installation](#installation)
 * [Features](#features)
-* [Issues / to-be-completed](#issues---to-be-completed)
+* [Issues / to-be-completed](#issues--to-be-completed)
 * [Contributing](#contributing)
 * [Site configuration](#site-configuration)
   + [Backwards compatibility](#backwards-compatibility-with-jekyll-paginate)
 * [Page configuration](#page-configuration)
-* [Paginate categories, tags, locales](#paginate-categories--tags--locales)
+* [Paginate categories, tags, locales](#paginate-categories-tags-locales)
   + [Filtering categories](#filtering-categories)
   + [Filtering tags](#filtering-tags)
   + [Filtering locales](#filtering-locales)
 * [Paginate on combination of filters](#paginate-on-combination-of-filters)
 * [Configuration overrides](#configuration-overrides)
 * [Common issues](#common-issues)
-    - [Bundler error upgrading gem (Bundler::GemNotFound)](#i-m-getting-a-bundler-error-after-upgrading-the-gem--bundler--gemnotfound-)
+    - [Bundler error upgrading gem (Bundler::GemNotFound)](#im-getting-a-bundler-error-after-upgrading-the-gem-bundlergemnotfound)
 
 ## Installation
 
