@@ -42,7 +42,6 @@ All this while being fully backwards compatible with the old [jekyll-paginate](h
 * Incomplete unit-tests 
 * Missing integration tests [#2](https://github.com/jekyll/jekyll-paginate/pull/2)
 * Missing more detailed examples
-* Unable to paginate _pages_ (still under consideration)
 * Unable to auto-generate category/tag/language pagination pages. Still requires programmer to specify the pages him/herself.
 * _Exclude_ filter not implemented [#6](https://github.com/jekyll/jekyll-paginate/issues/6) 
 
