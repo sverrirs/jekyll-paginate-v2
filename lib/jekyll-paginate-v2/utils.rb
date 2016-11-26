@@ -7,6 +7,16 @@ module Jekyll
     #
     class Utils
 
+      # Static: Calculate the number of pages.
+      #
+      # all_posts - The Array of all Posts.
+      # per_page  - The Integer of entries per page.
+      #
+      # Returns the Integer number of pages.
+      def self.calculate_number_of_pages(all_posts, per_page)
+        (all_posts.size.to_f / per_page.to_i).ceil
+      end
+
       # Static: Return the pagination path of the page
       #
       # site     - the Jekyll::Site object

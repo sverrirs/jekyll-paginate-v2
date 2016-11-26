@@ -22,10 +22,30 @@ module Jekyll
 
         # Retrieve and merge the pagination configuration from the site yml file
         default_config = DEFAULT.merge(site.config['pagination'] || {})
-        
+
+        # Compatibility Note: (REMOVE AFTER 2018-01-01)
+        # If the legacy paginate logic is configured then read those values and merge with config
+        if !site.config['paginate'].nil?
+          # You cannot run both the new code and the old code side by side
+          if !site.config['pagination'].nil?
+            err_msg = "The new jekyll-paginate-v2 and the old jekyll-paginate logic cannot both be configured in the site config at the same time. Please disable the old 'paginate:num' config settings."
+            Jekyll.logger.error err_msg 
+            raise ArgumentError.new(err_msg)
+          end
+
+          default_config['per_page'] = site.config['paginate'].to_i
+          default_config['legacy_source'] = site.config['source']
+          if !site.config['paginate_path'].nil?
+            default_config['permalink'] = site.config['paginate_path'].to_s
+          end
+          # In case of legacy, enable pagination by default
+          default_config['enabled'] = true
+          default_config['legacy'] = true
+        end # Compatibility END (REMOVE AFTER 2018-01-01)
+
         # If disabled then simply quit
         if !default_config['enabled']
-          Jekyll.logger.info "Pagination:","disabled in site.config."
+          Jekyll.logger.info "Pagination:","Disabled in site.config."
           return
         end
         
@@ -57,7 +77,11 @@ module Jekyll
         ################ 3 ####################
         # Now create and call the model with the real-life page creation proc and site data
         model = PaginationModel.new()
-        model.run(default_config, all_pages, site_title, all_posts, &page_create_lambda)
+        if( default_config['legacy'] ) #(REMOVE AFTER 2018-01-01)
+          model.run_compatability(default_config, all_pages, site_title, all_posts, &page_create_lambda) #(REMOVE AFTER 2018-01-01)
+        else
+          model.run(default_config, all_pages, site_title, all_posts, &page_create_lambda)
+        end
 
       end
     end # class PaginationGenerator

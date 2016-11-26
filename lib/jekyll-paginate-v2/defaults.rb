@@ -11,7 +11,8 @@ module Jekyll
       'page_num'     => 1,
       'sort_reverse' => false,
       'sort_field'   => 'date',
-      'limit'        => 0 # Limit how many content objects to paginate (default: 0, means all)
+      'limit'        => 0, # Limit how many content objects to paginate (default: 0, means all)
+      'legacy'       => false # Internal value, do not use (will be removed after 2018-01-01)
     }
 
   end # module PaginateV2

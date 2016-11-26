@@ -18,7 +18,7 @@ gem install jekyll-paginate-v2
 
 Update your [_config.yml](#site-configuration) and [pages](#page-configuration).
 
-> Although backwards compatible, this gem needs slightly extended [site yml](#site-configuration) configuration and adds miniscule new front-matter for the [paging templates](#page-configuration) configuration elements.
+> Although fully backwards compatible, to enable the new features this gem needs slightly extended [site yml](#site-configuration) configuration and miniscule additional new front-matter for the [paging templates](#page-configuration) configuration elements.
 
 Now you're ready to run `jekyll serve` and your paginated files should be generated.
 
@@ -36,10 +36,9 @@ In addition to all the features offered by the older [jekyll-paginate gem](https
 7. Fully customizable permalink format. E.g `/page:num/` or `/page/:num/` or `/:num/` or really anything you want.
 8. Optional title suffix for paginated pages (e.g. _Index - Page 2_)
 
-All this while being fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem (requires minimal additional front-matter, see [page-configuration](#page-configuration)).
+All this while being fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem.
 
 ## Issues / to-be-completed
-* Not fully compatible with the old jekyll-paginate plugin configuration yet.
 * Incomplete unit-tests 
 * Missing integration tests [#2](https://github.com/jekyll/jekyll-paginate/pull/2)
 * Missing more detailed examples
@@ -105,6 +104,20 @@ pagination:
 
 ############################################################
 ```
+
+### Backwards compatibility with jekyll-paginate
+This gem is fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem. If the old site config is detected then the gem will fall back to the old logic of pagination. 
+
+> You cannot run both the new pagination logic and the old one at the same time
+
+The following `_config.yml` settings are honored when running this gem in compatability mode
+
+``` yml
+paginate: 8
+paginate_path: "/legacy/page:num/"
+```
+
+See more about the old style of pagination at the [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) page.
 
 ## Page configuration
 
