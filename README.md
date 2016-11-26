@@ -157,10 +157,10 @@ paginate_path: "/legacy/page:num/"
 
 See more about the old style of pagination at the [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) page.
 
-<span style="display:block; margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #9F6000;  background-color: #FEEFB3;">
+<p style="display:block; margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #9F6000;  background-color: #FEEFB3;">
   <b>Warning</b> Backwards compatibility with the old jekyll-paginate gem is currently scheduled to be removed after <b>1st January 2018</b>.<br>
   Users will start receiving warning log messages when running jekyll two months before this date.
-</span>
+</p>
 
 ## Paginate categories, tags, locales
 
