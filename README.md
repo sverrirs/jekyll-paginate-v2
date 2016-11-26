@@ -105,7 +105,7 @@ pagination:
 ```
 
 ### Backwards compatibility with jekyll-paginate
-This gem is fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem. If the old site config is detected then the gem will fall back to the old logic of pagination. 
+This gem is fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem and can be used as a zero-configuration replacement for it. If the old site config is detected then the gem will fall back to the old logic of pagination. 
 
 > You cannot run both the new pagination logic and the old one at the same time
 
