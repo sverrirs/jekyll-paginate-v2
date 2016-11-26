@@ -157,7 +157,7 @@ paginate_path: "/legacy/page:num/"
 
 See more about the old style of pagination at the [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) page.
 
-:bangbang: **Warning** Backwards compatibility with the old jekyll-paginate gem is currently scheduled to be removed after **1st January 2018**. Users will start receiving warning log messages when running jekyll two months before this date.
+> :bangbang: **Warning** Backwards compatibility with the old jekyll-paginate gem is currently scheduled to be removed after **1st January 2018**. Users will start receiving warning log messages when running jekyll two months before this date.
 
 
 ## Paginate categories, tags, locales
