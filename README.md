@@ -12,18 +12,18 @@ The code was based on the original design of [jekyll-paginate](https://github.co
 
 * [Installation](#installation)
 * [Features](#features)
-* [Issues / to-be-completed](#issues--to-be-completed)
-* [Site configuration](#site-configuration)
+* [New site configuration](#site-configuration)
   + [Backwards compatibility](#backwards-compatibility-with-jekyll-paginate)
-* [Page configuration](#page-configuration)
-* [Paginate categories, tags, locales](#paginate-categories-tags-locales)
+* [New page configuration](#page-configuration)
+* [How to paginate categories, tags, locales](#paginate-categories-tags-locales)
   + [Filtering categories](#filtering-categories)
   + [Filtering tags](#filtering-tags)
   + [Filtering locales](#filtering-locales)
-* [Paginate on combination of filters](#paginate-on-combination-of-filters)
-* [Configuration overrides](#configuration-overrides)
+* [How to paginate on combination of filters](#paginate-on-combination-of-filters)
+* [Specifying configuration overrides](#configuration-overrides)
 * [Common issues](#common-issues)
     - [Bundler error upgrading gem (Bundler::GemNotFound)](#im-getting-a-bundler-error-after-upgrading-the-gem-bundlergemnotfound)
+* [Issues / to-be-completed](#issues--to-be-completed)
 * [How to Contribute](#contributing)
 
 ## Installation
@@ -53,13 +53,6 @@ In addition to all the features offered by the older [jekyll-paginate gem](https
 8. Optional title suffix for paginated pages (e.g. _Index - Page 2_)
 
 All this while being fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem.
-
-## Issues / to-be-completed
-* Incomplete unit-tests 
-* Missing integration tests [#2](https://github.com/jekyll/jekyll-paginate/pull/2)
-* Missing more detailed examples
-* Unable to auto-generate category/tag/language pagination pages. Still requires programmer to specify the pages him/herself.
-* _Exclude_ filter not implemented [#6](https://github.com/jekyll/jekyll-paginate/issues/6) 
 
 ## Site configuration
 
@@ -105,20 +98,6 @@ pagination:
 ############################################################
 ```
 
-### Backwards compatibility with jekyll-paginate
-This gem is fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem and can be used as a zero-configuration replacement for it. If the old site config is detected then the gem will fall back to the old logic of pagination. 
-
-> You cannot run both the new pagination logic and the old one at the same time
-
-The following `_config.yml` settings are honored when running this gem in compatability mode
-
-``` yml
-paginate: 8
-paginate_path: "/legacy/page:num/"
-```
-
-See more about the old style of pagination at the [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) page.
-
 ## Page configuration
 
 To enable pagination on a page (i.e. make that page a template for pagination) then simply include the minimal pagination configuration in the page front-matter:
@@ -163,6 +142,25 @@ And to display pagination links, simply
 The code is fully backwards compatible and you will have access to all the normal paginator variables defined in the [official jekyll documentation](https://jekyllrb.com/docs/pagination/#liquid-attributes-available). 
 
 Neat!
+
+## Backwards compatibility with jekyll-paginate
+This gem is fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem and can be used as a zero-configuration replacement for it. If the old site config is detected then the gem will fall back to the old logic of pagination. 
+
+> You cannot run both the new pagination logic and the old one at the same time
+
+The following `_config.yml` settings are honored when running this gem in compatability mode
+
+``` yml
+paginate: 8
+paginate_path: "/legacy/page:num/"
+```
+
+See more about the old style of pagination at the [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) page.
+
+<div style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #9F6000;  background-color: #FEEFB3;">
+  <b>Warning</b> Backwards compatibility with the old jekyll-paginate gem is currently scheduled to be removed after <b>1st January 2018</b>.<br>
+  Users will start receiving warning log messages when running jekyll two months before this date.
+</div>
 
 ## Paginate categories, tags, locales
 
@@ -278,6 +276,12 @@ pagination:
 
 When running `jekyll serve` if you ever get an error similar to the one above the solution is to delete your `Gemfile.lock` file and try again.
 
+## Issues / to-be-completed
+* Incomplete unit-tests 
+* Missing integration tests [#2](https://github.com/jekyll/jekyll-paginate/pull/2)
+* Missing more detailed examples
+* Unable to auto-generate category/tag/language pagination pages. Still requires programmer to specify the pages him/herself.
+* _Exclude_ filter not implemented [#6](https://github.com/jekyll/jekyll-paginate/issues/6)
 
 ## Contributing
 
