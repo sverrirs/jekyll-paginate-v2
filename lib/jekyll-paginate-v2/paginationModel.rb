@@ -7,9 +7,8 @@ module Jekyll
         # By default if pagination is enabled we attempt to find all index.html pages in the site
         templates = self.discover_paginate_templates(site_pages)
         if( templates.size.to_i <= 0 )
-          logging_lambda.call "Is enabled, but I couldn't find any pagination template page "+
-          "to use as the pagination template. Skipping pagination. "+
-          "Templates must have 'paginate: enabled: true' in their front-matter.", "warn"
+          logging_lambda.call "Is enabled, but I couldn't find any pagination page. Skipping pagination. "+
+          "Pages must have 'paginate: enabled: true' in their front-matter for pagination to work.", "warn"
           return
         end
 
@@ -30,7 +29,7 @@ module Jekyll
             # requiring this makes the logic simpler as I don't need to determine which index pages 
             # were generated automatically and which weren't
             if( template_config['enabled'] )
-              logging_lambda.call "found template: "+template.path
+              logging_lambda.call "found page: "+template.path
               # Now construct the pagination data for this template page
               #self.paginate(site, template, template_config, all_posts, all_tags, all_categories, all_locales)
               self.paginate(template, template_config, site_title, all_posts, all_tags, all_categories, all_locales, page_create_lambda, logging_lambda)
@@ -64,7 +63,7 @@ module Jekyll
           CompatibilityUtils.paginate(legacy_config, all_posts, template, page_create_lambda, logging_lambda)
         else
           logging_lambda.call "Legacy pagination is enabled, but I couldn't find " +
-          "an index.html page to use as the pagination template. Skipping pagination.", "warn"
+          "an index.html page to use as the pagination page. Skipping pagination.", "warn"
         end
       end # function run_compatability (REMOVE AFTER 2018-01-01)
       

@@ -28,7 +28,7 @@ module Jekyll
         if !site.config['paginate'].nil?
           # You cannot run both the new code and the old code side by side
           if !site.config['pagination'].nil?
-            err_msg = "The new jekyll-paginate-v2 and the old jekyll-paginate logic cannot both be configured in the site config at the same time. Please disable the old 'paginate:num' config settings."
+            err_msg = "The new jekyll-paginate-v2 and the old jekyll-paginate logic cannot both be configured in the site config at the same time. Please disable the old 'paginate:' config settings."
             Jekyll.logger.error err_msg 
             raise ArgumentError.new(err_msg)
           end

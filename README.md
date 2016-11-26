@@ -34,7 +34,7 @@ gem install jekyll-paginate-v2
 
 Update your [_config.yml](#site-configuration) and [pages](#page-configuration).
 
-> Although fully backwards compatible, to enable the new features this gem needs slightly extended [site yml](#site-configuration) configuration and miniscule additional new front-matter for the [paging templates](#page-configuration) configuration elements.
+> Although fully backwards compatible, to enable the new features this gem needs slightly extended [site yml](#site-configuration) configuration and miniscule additional new front-matter for the [pages to paginate on](#page-configuration).
 
 Now you're ready to run `jekyll serve` and your paginated files should be generated.
 
@@ -73,7 +73,7 @@ pagination:
   # The permalink structure for the paginated pages (this can be any level deep)
   permalink: '/page/:num/'
 
-  # Optional additional suffix for the title of the paginated pages (the prefix is inherited from the template page)
+  # Optional additional suffix for the title of the paginated pages (the prefix is inherited from the original page)
   title_suffix: ' - page :num'
 
   # Limit how many pagenated pages to create (default: 0, means all)
@@ -106,7 +106,7 @@ gems: [jekyll-paginate-v2]
 
 ## Page configuration
 
-To enable pagination on a page (i.e. make that page a template for pagination) then simply include the minimal pagination configuration in the page front-matter:
+To enable pagination on a page then simply include the minimal pagination configuration in the page front-matter:
 
 ``` yml
 ---
@@ -168,7 +168,7 @@ See more about the old style of pagination at the [jekyll-paginate](https://gith
 
 ## Paginate categories, tags, locales
 
-Enabling pagination for specific categories, tags or locales is as simple as adding values to the pagination template front-matter and corresponding values in the posts.
+Enabling pagination for specific categories, tags or locales is as simple as adding values to the pagination page front-matter and corresponding values in the posts.
 
 ### Filtering categories
 
@@ -253,7 +253,7 @@ pagination:
 
 ## Configuration overrides
 
-All of the configuration elements from the `_config.yml` file can be overwritten in the pagination template pages. E.g. if you want one category page to have different permalink structure simply override the item like so
+All of the configuration elements from the `_config.yml` file can be overwritten in the pagination pages. E.g. if you want one category page to have different permalink structure simply override the item like so
 
 ``` yml
 pagination: 
@@ -262,7 +262,7 @@ pagination:
   permalink: '/cars/:num/'
 ```
 
-Overriding sorting to sort by the post title in ascending order for another paginated template could be done like so
+Overriding sorting to sort by the post title in ascending order for another paginated page could be done like so
 
 ``` yml
 pagination: 
@@ -276,9 +276,17 @@ pagination:
 
 #### I'm getting a bundler error after upgrading the gem (Bundler::GemNotFound)
 
-> bundler/spec_set.rb:95:in `block in materialize': Could not find jekyll-paginate-v2-1.0.0 in any of the sources (Bundler::GemNotFound) 
+> bundler/spec_set.rb:95:in `block in materialize': Could not find jekyll-paginate-v2-1.0.0 in any of the sources (Bundler::GemNotFound)
 
 When running `jekyll serve` if you ever get an error similar to the one above the solution is to delete your `Gemfile.lock` file and try again.
+
+#### My pagination pages are not being found (Couldn't find any pagination page. Skipping pagination)
+
+> Pagination: Is enabled, but I couldn't find any pagination page. Skipping pagination...
+
+Pagination only works inside **pages** they are not supported in the liquid templates. Those are the files that live in the folders prefixed by the underscore (i.e. files under `_layouts/`, `_includes/`, `_posts/` etc ). 
+
+Create a normal page with a `layout:page` in it's front-matter and place the pagination logic there.
 
 ## Issues / to-be-completed
 * Incomplete unit-tests 
