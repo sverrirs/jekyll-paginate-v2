@@ -65,6 +65,7 @@ module Jekyll
 
         ################ 2 ####################
         # Create the proc that constructs the real-life site page
+        # This is necessary to decouple the code from the Jekyll site object
         page_create_lambda = lambda do | template_dir, template_name |
           # Create the new page
           newpage = Page.new( site, site.source, template_dir, template_name)
@@ -75,12 +76,27 @@ module Jekyll
         end
 
         ################ 3 ####################
+        # Create a proc that will delegate logging
+        # Decoupling Jekyll specific logging
+        logging_lambda = lambda do | message, type="info" |
+          if type == 'debug'
+            Jekyll.logger.debug "Pagination:", message
+          elsif type == 'error'
+            Jekyll.logger.error "Pagination:", message
+          elsif type == 'warn'
+            Jekyll.logger.warn "Pagination:", message
+          else
+            Jekyll.logger.info "Pagination:", message
+          end
+        end
+
+        ################ 4 ####################
         # Now create and call the model with the real-life page creation proc and site data
         model = PaginationModel.new()
         if( default_config['legacy'] ) #(REMOVE AFTER 2018-01-01)
-          model.run_compatability(default_config, all_pages, site_title, all_posts, &page_create_lambda) #(REMOVE AFTER 2018-01-01)
+          model.run_compatability(default_config, all_pages, site_title, all_posts, page_create_lambda, logging_lambda) #(REMOVE AFTER 2018-01-01)
         else
-          model.run(default_config, all_pages, site_title, all_posts, &page_create_lambda)
+          model.run(default_config, all_pages, site_title, all_posts, page_create_lambda, logging_lambda)
         end
 
       end

@@ -48,12 +48,12 @@ module Jekyll
       # directories, e.g.: page2/index.html, page3/index.html, etc and adds more
       # site-wide data.
       #
-      def self.paginate(legacy_config, all_posts, page, &page_create_proc )
+      def self.paginate(legacy_config, all_posts, page, page_create_lambda, logging_lambda )
         pages = Utils.calculate_number_of_pages(all_posts, legacy_config['per_page'].to_i)
         (1..pages).each do |num_page|
           pager = Paginator.new( legacy_config['per_page'], legacy_config['permalink'], all_posts, num_page, pages, page.url )
           if num_page > 1
-            newpage = page_create_proc.call( page.dir, page.name )
+            newpage = page_create_lambda.call( page.dir, page.name )
             newpage.pager = pager
             newpage.dir = Utils.paginate_path(page.url, num_page, legacy_config['permalink'])
           else

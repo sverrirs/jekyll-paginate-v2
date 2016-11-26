@@ -3,12 +3,13 @@ module Jekyll
 
     class PaginationModel
 
-      def run(default_config, site_pages, site_title, all_posts, &page_create_proc)
+      def run(default_config, site_pages, site_title, all_posts, page_create_lambda, logging_lambda)
         # By default if pagination is enabled we attempt to find all index.html pages in the site
         templates = self.discover_paginate_templates(site_pages)
         if( templates.size.to_i <= 0 )
-          Jekyll.logger.warn "Pagination:","is enabled, but I couldn't find " +
-          "any index.html page to use as the pagination template. Skipping pagination."
+          logging_lambda.call "Is enabled, but I couldn't find any pagination template page "+
+          "to use as the pagination template. Skipping pagination. "+
+          "Templates must have 'paginate: enabled: true' in their front-matter.", "warn"
           return
         end
 
@@ -29,10 +30,10 @@ module Jekyll
             # requiring this makes the logic simpler as I don't need to determine which index pages 
             # were generated automatically and which weren't
             if( template_config['enabled'] )
-              Jekyll.logger.info "Pagination:","found template: "+template.path
+              logging_lambda.call "found template: "+template.path
               # Now construct the pagination data for this template page
               #self.paginate(site, template, template_config, all_posts, all_tags, all_categories, all_locales)
-              self.paginate(template, template_config, site_title, all_posts, all_tags, all_categories, all_locales, &page_create_proc)
+              self.paginate(template, template_config, site_title, all_posts, all_tags, all_categories, all_locales, page_create_lambda, logging_lambda)
             end
           end
         end #for
@@ -43,21 +44,27 @@ module Jekyll
       # no changes should be made to this function and it should be retired and deleted after 2018-01-01
       # (REMOVE AFTER 2018-01-01)
       #
-      def run_compatability(legacy_config, site_pages, site_title, all_posts, &page_create_proc)
+      def run_compatability(legacy_config, site_pages, site_title, all_posts, page_create_lambda, logging_lambda)
 
+        # Decomissioning error
         if( date = Date.strptime("20180101","%Y%m%d") <= Date.today )
           raise ArgumentError.new("Legacy jekyll-paginate configuration compatibility mode has expired. Please upgrade to jekyll-paginate-v2 configuration.")
         end
 
-        Jekyll.logger.warn "Pagination:", "Detected legacy jekyll-paginate logic being run. "+
-        "Please update your configs to use the new pagination logic (gem jekyll-paginate-v2). This compatibility function "+
-        "will stop working after Jan 1st 2018 and your site build will throw an error."
-        
-        if template = CompatibilityUtils.template_page(site_pages, legacy_config['legacy_source'], legacy_config['permalink'])
-          CompatibilityUtils.paginate(legacy_config, all_posts, template, &page_create_proc)
+        # Two month warning or general notification
+        if( date = Date.strptime("20171101","%Y%m%d") <= Date.today )
+          logging_lambda.call "Legacy pagination logic will stop working on Jan 1st 2018, update your configs before that time.", "warn"
         else
-          Jekyll.logger.warn "Pagination:", "Legacy pagination is enabled, but I couldn't find " +
-          "an index.html page to use as the pagination template. Skipping pagination."
+          logging_lambda.call "Detected legacy jekyll-paginate logic being run. "+
+          "Please update your configs to use the new pagination logic. This compatibility function "+
+          "will stop working after Jan 1st 2018 and your site build will throw an error."
+        end
+
+        if template = CompatibilityUtils.template_page(site_pages, legacy_config['legacy_source'], legacy_config['permalink'])
+          CompatibilityUtils.paginate(legacy_config, all_posts, template, page_create_lambda, logging_lambda)
+        else
+          logging_lambda.call "Legacy pagination is enabled, but I couldn't find " +
+          "an index.html page to use as the pagination template. Skipping pagination.", "warn"
         end
       end # function run_compatability (REMOVE AFTER 2018-01-01)
       
@@ -182,7 +189,7 @@ module Jekyll
       # template - The index.html Page that requires pagination.
       # config - The configuration settings that should be used
       #
-      def paginate(template, config, site_title, all_posts, all_tags, all_categories, all_locales, &page_create_proc)
+      def paginate(template, config, site_title, all_posts, all_tags, all_categories, all_locales, page_create_lambda, logging_lambda)
         # By default paginate on all posts in the site
         using_posts = all_posts
         
@@ -216,7 +223,7 @@ module Jekyll
           pager = Paginator.new( config['per_page'], config['permalink'], using_posts, cur_page_nr, total_pages, template.url )
           if( cur_page_nr > 1)
             # External Proc call to create the actual page for us (this is passed in when the pagination is run)
-            newpage = page_create_proc.call( template.dir, template.name )
+            newpage = page_create_lambda.call( template.dir, template.name )
             newpage.pager = pager
             newpage.dir = Utils.paginate_path(template.url, cur_page_nr, config['permalink'])
             if( config.has_key?('title_suffix'))
