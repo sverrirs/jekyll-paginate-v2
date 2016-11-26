@@ -172,9 +172,12 @@ Enabling pagination for specific categories, tags or locales is as simple as add
 Filter single category 'software'
 
 ``` yml
+---
+layout: post
 pagination: 
   enabled: true
   category: software
+---
 ```
 
 Filter multiple categories (lists only posts belonging to all categories)
