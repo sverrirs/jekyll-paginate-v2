@@ -98,6 +98,12 @@ pagination:
 ############################################################
 ```
 
+Also ensure that you remove the old 'jekyll-paginate' gem from your `gems` list and add this new gem instead
+
+``` yml
+gems: [jekyll-paginate-v2]
+```
+
 ## Page configuration
 
 To enable pagination on a page (i.e. make that page a template for pagination) then simply include the minimal pagination configuration in the page front-matter:
