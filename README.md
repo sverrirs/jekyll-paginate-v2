@@ -11,6 +11,7 @@ The code was based on the original design of [jekyll-paginate](https://github.co
 
 
 * [Installation](#installation)
+* [Examples](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples)
 * [Features](#features)
 * [New site configuration](#site-configuration)
 * [New page configuration](#page-configuration)
@@ -41,6 +42,8 @@ Update your [_config.yml](#site-configuration) and [pages](#page-configuration).
 > Although fully backwards compatible, to enable the new features this gem needs slightly extended [site yml](#site-configuration) configuration and miniscule additional new front-matter for the [pages to paginate on](#page-configuration).
 
 Now you're ready to run `jekyll serve` and your paginated files should be generated.
+
+Please see the [Examples](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples) for more information on how to configure the pagination logic.
 
 
 ## Features
@@ -152,6 +155,8 @@ And to display pagination links, simply
 The code is fully backwards compatible and you will have access to all the normal paginator variables defined in the [official jekyll documentation](https://jekyllrb.com/docs/pagination/#liquid-attributes-available). 
 
 Neat!
+
+Please see the [Examples](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples) for more detailed information and working site configurations.
 
 ## Backwards compatibility with jekyll-paginate
 This gem is fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem and can be used as a zero-configuration replacement for it. If the old site config is detected then the gem will fall back to the old logic of pagination. 
