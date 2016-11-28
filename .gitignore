@@ -14,3 +14,7 @@ rdoc
 spec/reports
 spec/dest
 tmp
+_site/
+.sass-cache
+.jekyll-metadata
+.gitignore

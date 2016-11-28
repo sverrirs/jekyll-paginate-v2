@@ -15,7 +15,7 @@ module Jekyll
       # all_posts - The Array of all the site's Posts.
       # num_pages - The Integer number of pages or nil if you'd like the number
       #             of pages calculated.
-      def initialize(config_per_page, config_permalink, posts, cur_page_nr, num_pages, template_url )
+      def initialize(config_per_page, config_permalink, posts, cur_page_nr, num_pages, template_url, template_path )
         @page = cur_page_nr
         @per_page = config_per_page.to_i
         @total_pages = num_pages
@@ -30,9 +30,9 @@ module Jekyll
         @total_posts = posts.size
         @posts = posts[init..offset]
         @previous_page = @page != 1 ? @page - 1 : nil
-        @previous_page_path = @page != 1 ? Utils.paginate_path(template_url, @previous_page, config_permalink) : nil
+        @previous_page_path = @page != 1 ? Utils.paginate_path(template_url, template_path, @previous_page, config_permalink) : nil
         @next_page = @page != @total_pages ? @page + 1 : nil
-        @next_page_path = @page != @total_pages ? Utils.paginate_path(template_url, @next_page, config_permalink) : nil
+        @next_page_path = @page != @total_pages ? Utils.paginate_path(template_url, template_path, @next_page, config_permalink) : nil
       end
 
       # Convert this Paginator's data to a Hash suitable for use by Liquid.

@@ -24,7 +24,7 @@ module Jekyll
       # config - the current configuration in use
       #
       # Returns the pagination path as a string
-      def self.paginate_path(template_url, cur_page_nr, permalink_format)
+      def self.paginate_path(template_url, template_path, cur_page_nr, permalink_format)
         return nil if cur_page_nr.nil?
         return template_url if cur_page_nr <= 1
         if permalink_format.include?(":num")
@@ -32,6 +32,13 @@ module Jekyll
         else
           raise ArgumentError.new("Invalid pagination path: '#{permalink_format}'. It must include ':num'.")
         end
+
+        # If the template url is not just root "/" then pre-pend the template_url path to it
+        template_dir = File.dirname(template_path)
+        if( template_dir != "" && template_dir != "/" )
+          permalink_format = File.join(template_url, permalink_format)
+        end
+
         Utils.ensure_leading_slash(permalink_format)
       end #function paginate_path
       

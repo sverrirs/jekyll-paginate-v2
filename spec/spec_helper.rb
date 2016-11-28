@@ -7,6 +7,7 @@ require_relative '../lib/jekyll-paginate-v2/defaults'
 require_relative '../lib/jekyll-paginate-v2/utils'
 require_relative '../lib/jekyll-paginate-v2/compatibilityUtils'
 require_relative '../lib/jekyll-paginate-v2/paginator'
+require_relative '../lib/jekyll-paginate-v2/paginationPage'
 require_relative '../lib/jekyll-paginate-v2/paginationModel'
 require_relative '../lib/jekyll-paginate-v2/paginationGenerator'
 

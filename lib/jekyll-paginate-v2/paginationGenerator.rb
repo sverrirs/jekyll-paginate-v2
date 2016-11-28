@@ -66,13 +66,20 @@ module Jekyll
         ################ 2 ####################
         # Create the proc that constructs the real-life site page
         # This is necessary to decouple the code from the Jekyll site object
-        page_create_lambda = lambda do | template_dir, template_name |
-          # Create the new page
-          newpage = Page.new( site, site.source, template_dir, template_name)
-          # Add the page to the site so that it is generated correctly
-          site.pages << newpage
-          # Return the site to the calling code
-          return newpage
+        page_create_lambda = lambda do | template_path |
+          template_full_path = File.join(site.source, template_path)
+          template_dir = File.dirname(template_path)
+
+          # Create the Jekyll page entry for the page
+          newpage = PaginationPage.new( site, site.source, template_dir, template_full_path)
+          site.pages << newpage # Add the page to the site so that it is generated correctly
+          return newpage # Return the site to the calling code
+        end
+
+        ################ 2.5 ####################
+        # lambda that removes a page from the site pages list
+        page_remove_lambda = lambda do | page_to_remove |
+          site.pages.delete_if {|page| page == page_to_remove } 
         end
 
         ################ 3 ####################
@@ -96,7 +103,7 @@ module Jekyll
         if( default_config['legacy'] ) #(REMOVE AFTER 2018-01-01)
           model.run_compatability(default_config, all_pages, site_title, all_posts, page_create_lambda, logging_lambda) #(REMOVE AFTER 2018-01-01)
         else
-          model.run(default_config, all_pages, site_title, all_posts, page_create_lambda, logging_lambda)
+          model.run(default_config, all_pages, site_title, all_posts, page_create_lambda, logging_lambda, page_remove_lambda)
         end
 
       end

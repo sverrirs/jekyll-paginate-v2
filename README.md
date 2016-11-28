@@ -20,9 +20,13 @@ The code was based on the original design of [jekyll-paginate](https://github.co
   + [Filtering tags](#filtering-tags)
   + [Filtering locales](#filtering-locales)
 * [How to paginate on combination of filters](#paginate-on-combination-of-filters)
+* [How to detect auto-generated pages](#detecting-generated-pagination-pages)
 * [Specifying configuration overrides](#configuration-overrides)
 * [Common issues](#common-issues)
+    - [Dependency Error after installing](#i-keep-getting-a-dependency-error-when-running-jekyll-serve-after-installing-this-gem)
     - [Bundler error upgrading gem (Bundler::GemNotFound)](#im-getting-a-bundler-error-after-upgrading-the-gem-bundlergemnotfound)
+    - [Pagination pages are not found](#my-pagination-pages-are-not-being-found-couldnt-find-any-pagination-page-skipping-pagination)
+    - [Categories cause excess folder nesting](#when-using-categories-my-pages-are-being-nested-multiple-levels-deep)
 * [Issues / to-be-completed](#issues--to-be-completed)
 * [How to Contribute](#contributing)
 
@@ -272,21 +276,69 @@ pagination:
   sort_reverse: false
 ```
 
+## Detecting generated pagination pages
+
+To identify the auto-generated pages that are created by the pagination logic when iterating through collections such as `site.pages` the `page.autogen` variable can be used like so
+
+```
+{% for my_page in site.pages %}
+  {% if my_page.title and my_page.autogen == nil %}
+    <h1>{{ my_page.title | escape }}</h1>
+  {% endif %}
+{% endfor %}
+```
+_In this example only pages that have a title and are not auto-generated are included._
+
+This variable is created and assigned the value `page.autogen = "jekyll-paginate-v2"` by the pagination logic. This way you can detect which pages are auto-generated and by what gem. 
+
 ## Common issues
 
-#### I'm getting a bundler error after upgrading the gem (Bundler::GemNotFound)
+### I keep getting a dependency error when running jekyll serve after installing this gem
+
+> Dependency Error: Yikes! It looks like you don't have jekyll-paginate-v2 or one of its dependencies installed...
+
+Check your `Gemfile` in the site root. Ensure that the jekyll-paginate-v2 gem is present in the jekyll_plugins group like the example below. If this group is missing add to the file.
+
+``` ruby
+group :jekyll_plugins do
+  gem "jekyll-paginate-v2"
+end
+```
+
+### I'm getting a bundler error after upgrading the gem (Bundler::GemNotFound)
 
 > bundler/spec_set.rb:95:in `block in materialize': Could not find jekyll-paginate-v2-1.0.0 in any of the sources (Bundler::GemNotFound)
 
 When running `jekyll serve` if you ever get an error similar to the one above the solution is to delete your `Gemfile.lock` file and try again.
 
-#### My pagination pages are not being found (Couldn't find any pagination page. Skipping pagination)
+### My pagination pages are not being found (Couldn't find any pagination page. Skipping pagination)
 
 > Pagination: Is enabled, but I couldn't find any pagination page. Skipping pagination...
 
 Pagination only works inside **pages** they are not supported in the liquid templates. Those are the files that live in the folders prefixed by the underscore (i.e. files under `_layouts/`, `_includes/`, `_posts/` etc ). 
 
 Create a normal page with a `layout:page` in it's front-matter and place the pagination logic there.
+
+### My pages are being nested multiple levels deep
+
+When using `categories` for posts it is advisable to explicitly state a `permalink` structure in your `_config.yml` file. 
+
+```
+permalink: /:year/:month/:title.html
+```
+
+This is because the default behavior in Jekyll is to nest pages for every category that they belong to and Jekyll unfortunately does not understand multi-categories separated with `,` or `;` but instead does all separation on `[space]` only. 
+
+### My pagination pages are overwriting each others pages
+If you specify multiple pages that paginate in the site root then you must give them unique and separate pagination permalink. This link is set in the pagination page front-matter like so
+
+``` yml
+pagination:
+  enabled: true
+  permalink: '/cars/:num/'
+```
+
+Make absolutely sure that your pagination permalink paths do not clash with any other paths in your final site. For simplicity it is recommended that you keep all custom pagination (non root index.html) in a single or multiple separate sub folders under your site root.
 
 ## Issues / to-be-completed
 * Incomplete unit-tests 

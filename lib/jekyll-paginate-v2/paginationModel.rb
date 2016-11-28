@@ -3,7 +3,7 @@ module Jekyll
 
     class PaginationModel
 
-      def run(default_config, site_pages, site_title, all_posts, page_create_lambda, logging_lambda)
+      def run(default_config, site_pages, site_title, all_posts, page_create_lambda, logging_lambda, page_remove_lambda)
         # By default if pagination is enabled we attempt to find all index.html pages in the site
         templates = self.discover_paginate_templates(site_pages)
         if( templates.size.to_i <= 0 )
@@ -14,11 +14,11 @@ module Jekyll
 
         # Create the necessary indexes for the posts
         all_categories = self.index_posts_by(all_posts, 'categories')
-        all_categories['posts'] = all_posts; # Popuplate a category for all posts 
+        all_categories['posts'] = all_posts; # Populate a category for all posts 
                                              # (this is a default and must not be used in the category system)
         all_tags = self.index_posts_by(all_posts, 'tags')
         all_locales = self.index_posts_by(all_posts, 'locale')
-        
+
         # Now for each template page generate the paginator for it
         for template in templates
           # All pages that should be paginated need to include the pagination config element
@@ -32,7 +32,7 @@ module Jekyll
               logging_lambda.call "found page: "+template.path
               # Now construct the pagination data for this template page
               #self.paginate(site, template, template_config, all_posts, all_tags, all_categories, all_locales)
-              self.paginate(template, template_config, site_title, all_posts, all_tags, all_categories, all_locales, page_create_lambda, logging_lambda)
+              self.paginate(template, template_config, site_title, all_posts, all_tags, all_categories, all_locales, page_create_lambda, logging_lambda, page_remove_lambda)
             end
           end
         end #for
@@ -188,7 +188,7 @@ module Jekyll
       # template - The index.html Page that requires pagination.
       # config - The configuration settings that should be used
       #
-      def paginate(template, config, site_title, all_posts, all_tags, all_categories, all_locales, page_create_lambda, logging_lambda)
+      def paginate(template, config, site_title, all_posts, all_tags, all_categories, all_locales, page_create_lambda, logging_lambda, page_remove_lambda)
         # By default paginate on all posts in the site
         using_posts = all_posts
         
@@ -219,23 +219,58 @@ module Jekyll
         # This .pager member is a built in thing in Jekyll and defines the paginator implementation
         # Simpy override to use mine
         (1..total_pages).each do |cur_page_nr|
-          pager = Paginator.new( config['per_page'], config['permalink'], using_posts, cur_page_nr, total_pages, template.url )
-          if( cur_page_nr > 1)
-            # External Proc call to create the actual page for us (this is passed in when the pagination is run)
-            newpage = page_create_lambda.call( template.dir, template.name )
-            newpage.pager = pager
-            newpage.dir = Utils.paginate_path(template.url, cur_page_nr, config['permalink'])
-            if( config.has_key?('title_suffix'))
-              if( !template.data['title'] )
-                tmp_title = site_title
-              else
-                tmp_title = template.data['title']
-              end
-               
-              newpage.data['title'] = "#{tmp_title}#{Utils.format_page_number(config['title_suffix'], cur_page_nr)}"
-            end
+          logging_lambda.call "-------------------------------", 'debug'
+          logging_lambda.call "Template.name: "+ template.name, 'debug'
+          logging_lambda.call "Template.url: "+ template.url, 'debug'
+          logging_lambda.call "Template.dir: "+ template.dir, 'debug'
+          logging_lambda.call "Template.basename: "+ template.basename, 'debug'
+          logging_lambda.call "Template.path: "+ template.path, 'debug'
+          logging_lambda.call "Template.ext: "+ template.ext, 'debug'
+
+          pager = Paginator.new( config['per_page'], config['permalink'], using_posts, cur_page_nr, total_pages, template.url, template.path )
+          
+          # External Proc call to create the actual page for us (this is passed in when the pagination is run)
+          newpage = page_create_lambda.call( template.path )
+          newpage.pager = pager
+
+          # Force the newly created files to live under the same dir as the template plus the permalink structure
+          new_path = Utils.paginate_path(template.url, template.path, cur_page_nr, config['permalink'])
+          newpage.dir = new_path
+          
+          # Update the permalink for the paginated pages as well if the template had one
+          if( template.data['permalink'] )
+            newpage.data['permalink'] = new_path
+          end
+
+          # Transfer the title across to the new page
+          if( !template.data['title'] )
+            tmp_title = site_title
           else
-            template.pager = pager
+            tmp_title = template.data['title']
+          end
+          # If the user specified a title suffix to be added then let's add that to all the pages except the first
+          if( cur_page_nr > 1 && config.has_key?('title_suffix') )
+            newpage.data['title'] = "#{tmp_title}#{Utils.format_page_number(config['title_suffix'], cur_page_nr)}"
+          else
+            newpage.data['title'] = tmp_title
+          end
+
+
+          # Signals that this page is automatically generated by the pagination logic
+          # (we don't do this for the first page as it is there to mask the one we removed)
+          if cur_page_nr > 1
+            newpage.data['autogen'] = "jekyll-paginate-v2"
+          end
+          
+          logging_lambda.call "newpage.name: "+ newpage.name, 'debug'
+          logging_lambda.call "newpage.url: "+ newpage.url, 'debug'
+          logging_lambda.call "newpage.dir: "+ newpage.dir, 'debug'  
+          
+          # Only request that the template page be removed from the output once
+          # We actually create a dummy page for this actual page in the Jekyll output 
+          # so we don't need the original page anymore
+          if cur_page_nr == 1
+            page_remove_lambda.call( template )
           end
         end
       end # function paginate

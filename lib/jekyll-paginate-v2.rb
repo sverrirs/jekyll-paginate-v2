@@ -14,6 +14,7 @@ require "jekyll-paginate-v2/defaults"
 require "jekyll-paginate-v2/compatibilityUtils"
 require "jekyll-paginate-v2/utils"
 require "jekyll-paginate-v2/paginator"
+require "jekyll-paginate-v2/paginationPage"
 require "jekyll-paginate-v2/paginationModel"
 require "jekyll-paginate-v2/paginationGenerator"
 
