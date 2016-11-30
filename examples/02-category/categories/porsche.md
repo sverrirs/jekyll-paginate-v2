@@ -5,5 +5,6 @@ permalink: /porsches/
 pagination: 
   enabled: true
   category: porsche
+  permalink: /:num/
 ---
 
