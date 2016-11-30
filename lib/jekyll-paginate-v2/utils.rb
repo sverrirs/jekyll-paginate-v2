@@ -68,6 +68,45 @@ module Jekyll
         path[0..0] == "/" ? path[1..-1] : path
       end
 
+      #
+      # Sorting routine used for ordering posts by custom fields.
+      # Handles Strings separately as we want a case-insenstive sorting
+      #
+      def self.sort_values(a, b)
+        if a.is_a?(String)
+          return a.downcase <=> b.downcase
+        end
+        
+        # By default use the built in sorting for the data type
+        return a <=> b
+      end
+
+      # Retrieves the given sort field from the given post
+      # the sort_field variable can be a hierarchical value on the form "parent_field:child_field" repeated as many times as needed
+      # only the leaf child_field will be retrieved  
+      def self.sort_get_post_data(post, sort_field)
+        
+        # Begin by splitting up the sort_field by (;,:.)
+        sort_split = sort_field.split(":")
+        sort_value = post.data
+
+        for r_key in sort_split
+          key = r_key.downcase.strip # Remove any erronious whitespace and convert to lower case
+          if !sort_value.has_key?(key)
+            return nil
+          end
+          # Work my way through the hash
+          sort_value = sort_value[key]
+        end
+
+        # If the sort value is a hash then return nil else return the value
+        if( sort_value.is_a?(Hash) )
+          return nil
+        else
+          return sort_value
+        end
+      end
+
     end
 
   end # module PaginateV2

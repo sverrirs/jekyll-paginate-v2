@@ -166,20 +166,7 @@ module Jekyll
         # The fully filtered final post list
         return posts
       end #function read_config_value_and_filter_posts
-      
-      #
-      # Sorting routine used for ordering posts by custom fields.
-      # Handles Strings separately as we want a case-insenstive sorting
-      #
-      def _sort_posts(a, b)
-        if a.is_a?(String)
-          return a.downcase <=> b.downcase
-        end
-        
-        # By default use the built in sorting for the data type
-        return a <=> b
-      end
-      
+            
       # Paginates the blog's posts. Renders the index.html file into paginated
       # directories, e.g.: page2/index.html, page3/index.html, etc and adds more
       # site-wide data.
@@ -200,8 +187,7 @@ module Jekyll
         # Apply sorting to the posts if configured, any field for the post is available for sorting
         if config['sort_field']
           sort_field = config['sort_field'].to_s
-          using_posts.sort!{ |a,b| self._sort_posts(a.data[sort_field], b.data[sort_field]) }
-          
+          using_posts.sort!{ |a,b| Utils.sort_values(Utils.sort_get_post_data(a, sort_field), Utils.sort_get_post_data(b, sort_field)) }
           if config['sort_reverse']
             using_posts.reverse!
           end

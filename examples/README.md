@@ -15,9 +15,9 @@ This example also demonstrates how the page can operate as a zero-config replace
 Car site that has multiple paginated pages and multiple post categories.
 
 ## Example 3: Tag Pagination
-Recipie site that organizes its content by tags and categories
+Book review site that organizes its content by tags and categories. Uses the `pretty` permalink structure for the site.
 
-_Incomplete_
+This site also demonstrates how to sort posts by nested front-matter attributes.
 
 ## Example 4: Locale Pagination
 Book store that has book descriptions in multiple languages, categories and tags.

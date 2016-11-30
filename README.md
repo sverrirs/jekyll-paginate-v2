@@ -21,13 +21,15 @@ The code was based on the original design of [jekyll-paginate](https://github.co
   + [Filtering tags](#filtering-tags)
   + [Filtering locales](#filtering-locales)
 * [How to paginate on combination of filters](#paginate-on-combination-of-filters)
+* [Overriding site configuration](#configuration-overrides)
+* [Advanced Sorting](#advanced-sorting)
 * [How to detect auto-generated pages](#detecting-generated-pagination-pages)
-* [Specifying configuration overrides](#configuration-overrides)
 * [Common issues](#common-issues)
     - [Dependency Error after installing](#i-keep-getting-a-dependency-error-when-running-jekyll-serve-after-installing-this-gem)
     - [Bundler error upgrading gem (Bundler::GemNotFound)](#im-getting-a-bundler-error-after-upgrading-the-gem-bundlergemnotfound)
     - [Pagination pages are not found](#my-pagination-pages-are-not-being-found-couldnt-find-any-pagination-page-skipping-pagination)
-    - [Categories cause excess folder nesting](#when-using-categories-my-pages-are-being-nested-multiple-levels-deep)
+    - [Categories cause excess folder nesting](#my-pages-are-being-nested-multiple-levels-deep)
+    - [Pagination pages overwriting each others pages](#my-pagination-pages-are-overwriting-each-others-pages)
 * [Issues / to-be-completed](#issues--to-be-completed)
 * [How to Contribute](#contributing)
 
@@ -220,6 +222,8 @@ pagination:
   tag: cool, life
 ```
 
+> When specifying tags in your posts make sure that the values are not enclosed in single quotes (double quotes are fine). If they are you will get a cryptic error when generating your site that looks like _"Error: could not read file <FILE>: did not find expected key while parsing a block mapping at line 2 column 1"_
+
 ### Filtering locales
 
 In the case your site offers multiple languages you can include a `locale` item in your post front matter. The paginator can then use this value to filter on
@@ -279,6 +283,49 @@ pagination:
   category: ruby
   sort_field: 'title'
   sort_reverse: false
+```
+
+## Advanced Sorting
+Sorting can be done by any field that is available in the post front-matter. You can even sort by nested fields.
+
+> When sorting by nested fields separate the fields with a colon `:` character.
+
+As an example, assuming all your posts have the following front-matter
+
+``` yml
+---
+layout: post
+author:
+  name: 
+    first: "John"
+    last: "Smith"
+  born: 1960
+---
+```
+
+You can define pagination sorting on the nested `last` field like so
+
+``` yml
+---
+layout: page
+title: "Authors by first name"
+pagination: 
+  enabled: true
+  sort_field: 'author:name:first'
+---
+```
+
+To sort by the `born` year in decending order (youngest first)
+
+``` yml
+---
+layout: page
+title: "Authors by birth year"
+pagination: 
+  enabled: true
+  sort_field: 'author:born'
+  sort_reverse: true
+---
 ```
 
 ## Detecting generated pagination pages

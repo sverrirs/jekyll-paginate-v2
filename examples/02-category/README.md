@@ -13,7 +13,9 @@ gem install jekyll-paginate-v2
 ```
 
 ## Structure
-The blog has one type of posts that can be found under the `cars/_posts` folder. This folder structure automatically assigns the category `cars` to all posts under it.
+The blog has two types of posts that can be found under `_posts/` and the `cars/_posts` folder. 
+
+> The `cars/_posts` folder structure is handy as it automatically assigns the category `cars` to all posts under it.
 
 Users can then assign other categories to their posts by editing each post's front-matter as they see fit.
 
