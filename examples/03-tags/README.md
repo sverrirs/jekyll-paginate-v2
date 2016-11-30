@@ -32,7 +32,7 @@ Pagination pages are:
 * index.md
 * byisbn.md
 
-Most pages are self explanatory and most implement an advanced sorting mechanism of books by the nested attribute `rank`.
+Most pages are self explanatory and most sort books by the nested attribute `rank`.
 
 ### byisbn.md 
 Demonstrates how to have multiple pagination pages defined in the root of the site without their pagination pages clashing. Uses permalinks to achieve this.
