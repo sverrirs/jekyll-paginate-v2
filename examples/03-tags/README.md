@@ -6,10 +6,6 @@ This example bookshop website expands on the category example and adds paginatio
   <img src="https://raw.githubusercontent.com/sverrirs/jekyll-paginate-v2/master/examples/img/03-example-screenshot-main.png" />
 </p>
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/sverrirs/jekyll-paginate-v2/master/examples/img/03-example-screenshot-main.png" />
-</p>
-
 The site is generated using the jekyll built in new command `jekyll new myblog` and it uses the [default `minima` theme](https://github.com/jekyll/minima).
 
 After generating the pagination gem was installed using
