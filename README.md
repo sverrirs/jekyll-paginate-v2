@@ -394,10 +394,9 @@ Make absolutely sure that your pagination permalink paths do not clash with any 
 
 ## Issues / to-be-completed
 * Incomplete unit-tests 
-* Missing integration tests [#2](https://github.com/jekyll/jekyll-paginate/pull/2)
-* Missing more detailed examples
-* Unable to auto-generate category/tag/language pagination pages. Still requires programmer to specify the pages him/herself.
+* No integration tests [#2](https://github.com/jekyll/jekyll-paginate/pull/2)
 * _Exclude_ filter not implemented [#6](https://github.com/jekyll/jekyll-paginate/issues/6)
+* Feature being considered is to auto-generate category/tag/language pagination pages. Project still requires programmer to specify the pages him/herself.
 
 ## Contributing
 
