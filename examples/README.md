@@ -19,8 +19,3 @@ Book review site that organizes its content by tags and categories. Uses the `pr
 
 This site also demonstrates how to sort posts by nested front-matter attributes.
 
-## Example 4: Locale Pagination
-Book store that has book descriptions in multiple languages, categories and tags.
-
-_Incomplete_
-

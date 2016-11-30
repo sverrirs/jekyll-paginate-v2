@@ -113,29 +113,6 @@ end
 
 At this point is is advisable to delete the `Gemfile.lock` file to clear out any potential issues with gem caching and dependency issues (no worries this file will be auto generated for you again).
 
-## Configuring the pagination
-
-Add the pagination configuration to `_config.yml`
-
-``` yml
-# Pagination Settings
-pagination:
-  enabled: true
-  per_page: 3
-  permalink: '/page/:num/'
-  title_suffix: ' - page :num'
-  limit: 0
-  sort_field: 'date'
-  sort_reverse: true
-```
-
-
-Due to the way the entries in the blog utilize multiple categories it is also good to explicitly state the permalink format to avoid excessive nesting of the post pages. So place the following line into the `_config.yml` file as well
-
-``` yml
-# Produces a cleaner folder structure when using categories
-permalink: /:year/:month/:title.html
-```
 
 Try building the site yourself using `jekyll build` or `jekyll serve`.
 
