@@ -1,5 +1,5 @@
 # Example 02::Category pagination
-This example website contains information about sports cars and has a single main paginated front page that lists all entries in the system. It also contains separate paginated category pages that list only _Porche_ cars an another that lists only _Toyota_ cars.
+This example website contains information about sports cars and has a single main paginated front page that lists all entries in the system. It also contains separate paginated category pages that list only subset of cars on the site.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/sverrirs/jekyll-paginate-v2/master/examples/img/02-example-screenshot-main.png" />
@@ -19,9 +19,9 @@ Users can then assign other categories to their posts by editing each post's fro
 
 This site uses the same `_layouts/home.html` and `_includes/header.html` overrides as Example 01 does (please refer to that example project for details).
 
-Additionally this project adds additional pagination pages `toyota/index.md`, `categories/porsche.md`, `categories/byname.md`.
+The project also has additional pagination pages that only list subsets of the car list `toyota/index.md`, `categories/porsche.md`, `categories/byname.md`.
 
-> It is not advisable to have multiple pagination pages stored directly under the main site root. It makes it easy to mis-configure resulting in overwritten pagination pages unless developers remember to specify a unique pagination: permalink: '' override for each pagination page.
+> It is not advisable to have multiple pagination pages stored directly under the main site root. It makes it easy to mis-configure resulting in overwritten pagination pages unless developers remember to specify a unique `pagination: permalink: ''` override for each pagination page.
 
 
 ### Toyota/index.md
