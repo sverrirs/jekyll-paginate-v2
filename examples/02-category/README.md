@@ -37,7 +37,7 @@ pagination:
 ---
 ```
 
-This configuration draws the paging permalink structure from the `_config.yml` file. Therefore the generated paging urls will look like:
+This configuration draws the paging permalink structure from the `_config.yml` file. Therefore the generated paging urls will be based on the folder name of the pagination page with the site configuration permalink added to it, like so:
 
 ```
 Page 1: http://localhost:4000/toyota/
@@ -72,6 +72,7 @@ Page N: http://localhost:4000/porsches/N/
 This pagination page expands on the the first two examples by adding a custom sorting for the category pagination. It displays all cars but by alphabetical order by Car name.
 
 This configuration is achieved with the following front-matter configuration
+``` yml
 ---
 layout: home
 title: By Name
@@ -83,6 +84,7 @@ pagination:
   sort_field: 'title'
   sort_reverse: false
 ---
+```
 
 The paging url structure will look similar to the example before
 
