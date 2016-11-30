@@ -7,7 +7,9 @@ Please feel free to fork and play around with this code to quickly test out diff
 All examples are generated from running the `jekyll new .` command and they all use the [default `minima` theme](https://github.com/jekyll/minima).
 
 ## Example 1: Typical Blog
-Simple blog that only has one type of post pages. Index.md page does the pagination.
+Simple blog that only has one type of post pages. The index.html page does the pagination. 
+
+This example also demonstrates how the page can operate as a zero-config replacement for the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem.
 
 ## Example 2: Category Pagination
 Car site that has multiple paginated pages and multiple post categories.
@@ -22,7 +24,3 @@ Book store that has book descriptions in multiple languages, categories and tags
 
 _Incomplete_
 
-## Example 5: Backwards Compatability 
-Simple blog that demonstrates the gems ability to operate as a drop-in replacement for the old jekyll-paginate gem.
-
-_Incomplete_

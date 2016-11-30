@@ -8,6 +8,7 @@ This example site shows how the pagination gem can be used on a simple blog site
 The site is generated using the jekyll built in new command `jekyll new myblog` and it uses the [default `minima` theme](https://github.com/jekyll/minima).
 
 After generating the pagination gem was installed using
+
 ```
 gem install jekyll-paginate-v2
 ```
@@ -60,7 +61,7 @@ permalink: /:year/:month/:title.html
 ```
 
 ## Completing the setup
-Now the pagination simply needs to be enabled in the `index.md` file.
+Now the pagination simply needs to be enabled in the `index.html` file.
 
 ``` yml
 ---
@@ -73,5 +74,18 @@ pagination:
 That is it, no further configuration is needed!
 
 Try building the site yourself using `jekyll build` or `jekyll serve`.
+
+## Testing backwards compatability
+
+In the `_config.yml` file remove or comment out the new `pagination:` configuration and paste/uncomment the following configuration instead. 
+
+``` yml
+# Old jekyll-paginate pagination logic
+paginate: 3
+paginate_path: "/legacy/page:num/"
+```
+Now run `jekyll serve` again and the gem will generate the pagination according to the old jekyll-paginate rules and behavior.
+
+> You must disable the new pagination configuration for the old one to work. You cannot run both configurations at the same time.
 
 Cheers :heart:
