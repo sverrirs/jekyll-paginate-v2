@@ -7,6 +7,8 @@ Fully backwards compatable and enhanced replacement for the previously built-in 
 
 The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were mostly drawn from discussions from the issues pages (especially [#27](https://github.com/jekyll/jekyll-paginate/issues/27)) and some from the excellent [Octopress::Paginate code](https://github.com/octopress/paginate). 
 
+You can reach me here via the project issues section or via email at [jekyll@sverrirs.com](mailto:jekyll@sverrirs.com).
+
 :heart:
 
 
@@ -363,7 +365,7 @@ author:
 ---
 ```
 
-You can define pagination sorting on the nested `last` field like so
+You can define pagination sorting on the nested `first` field like so
 
 ``` yml
 ---
@@ -421,15 +423,18 @@ end
 
 > bundler/spec_set.rb:95:in `block in materialize': Could not find jekyll-paginate-v2-1.0.0 in any of the sources (Bundler::GemNotFound)
 
-When running `jekyll serve` if you ever get an error similar to the one above the solution is to delete your `Gemfile.lock` file and try again.
+Delete your `Gemfile.lock` file and try again.
 
 ### My pagination pages are not being found (Couldn't find any pagination page. Skipping pagination)
 
 > Pagination: Is enabled, but I couldn't find any pagination page. Skipping pagination...
 
-Pagination only works inside **pages** they are not supported in the liquid templates. Those are the files that live in the folders prefixed by the underscore (i.e. files under `_layouts/`, `_includes/`, `_posts/` etc ). 
-
-Create a normal page with a `layout:page` in it's front-matter and place the pagination logic there.
+* Ensure that you have the correct minimum front-matter in the pagination pages
+``` yml
+pagination:
+  enabled: true
+```
+* You can place pagination logic into either the pages or liquid templates (templates are stored under the `_layouts/` and `_includes/` folders).
 
 ### My pages are being nested multiple levels deep
 
@@ -453,14 +458,16 @@ pagination:
 Make absolutely sure that your pagination permalink paths do not clash with any other paths in your final site. For simplicity it is recommended that you keep all custom pagination (non root index.html) in a single or multiple separate sub folders under your site root.
 
 ## Issues / to-be-completed
-* Incomplete unit-tests 
-* No integration tests [#2](https://github.com/jekyll/jekyll-paginate/pull/2)
+* A few missing unit-tests 
+* No integration tests yet [#2](https://github.com/jekyll/jekyll-paginate/pull/2)
 * _Exclude_ filter not implemented [#6](https://github.com/jekyll/jekyll-paginate/issues/6)
-* Feature being considered is to auto-generate category/tag/language pagination pages. Project still requires programmer to specify the pages him/herself.
+* Considering adding a feature to auto-generate collection/category/tag/locale pagination pages. In cases where projects have hundreds of tags creating the pages by hand is not a feasible option.
 
 ## Contributing
 
-I currently need testers and people willing to give me feedback and code reviews.
+I currently really need testers for the gem and people willing to give me feedback and code reviews. 
+
+If you don't want to open issues here on Github, you can also send me your feedback by email at [jekyll@sverrirs.com](mailto:jekyll@sverrirs.com).
 
 1. Fork it ( https://github.com/sverrirs/jekyll-paginate-v2/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
