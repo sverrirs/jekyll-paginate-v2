@@ -1,13 +1,8 @@
 # Jekyll::Paginate V2
 
-Pagination gem built specially for Jekyll 3 and newer.
-https://rubygems.org/gems/jekyll-paginate-v2
+Pagination gem built specially for Jekyll 3 and newer. https://rubygems.org/gems/jekyll-paginate-v2. It is a fully backwards compatable and enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate).
 
-Fully backwards compatable and enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate).
-
-The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were mostly drawn from discussions from the issues pages (especially [#27](https://github.com/jekyll/jekyll-paginate/issues/27)) and some from the excellent [Octopress::Paginate code](https://github.com/octopress/paginate). 
-
-You can reach me here via the project issues section or via email at [jekyll@sverrirs.com](mailto:jekyll@sverrirs.com).
+You can reach me via the project issues section or via email at [jekyll@sverrirs.com](mailto:jekyll@sverrirs.com).
 
 :heart:
 
@@ -68,6 +63,8 @@ In addition to all the features offered by the older [jekyll-paginate gem](https
 8. Optional title suffix for paginated pages (e.g. _Index - Page 2_)
 
 All this while being fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem.
+
+> The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were also sourced from the issues pages discussions (especially [#27](https://github.com/jekyll/jekyll-paginate/issues/27), thanks @gynter).
 
 ## Site configuration
 
