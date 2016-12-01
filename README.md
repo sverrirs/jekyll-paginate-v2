@@ -2,6 +2,8 @@
 
 Pagination gem built specially for Jekyll 3 and newer and is a fully backwards compatable and enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate). View it on [rubygems.org](https://rubygems.org/gems/jekyll-paginate-v2).
 
+[![Build Status](https://travis-ci.org/sverrirs/jekyll-paginate-v2.svg?branch=master)](https://travis-ci.org/sverrirs/jekyll-paginate-v2)
+
 Reach me at the [project issues](https://github.com/sverrirs/jekyll-paginate-v2/issues) section or via email at [jekyll@sverrirs.com](mailto:jekyll@sverrirs.com).
 
 > The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were sourced discussions such as [#27](https://github.com/jekyll/jekyll-paginate/issues/27) (thanks [Günter Kits](https://github.com/gynter)).
