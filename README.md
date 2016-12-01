@@ -16,6 +16,10 @@ The code was based on the original design of [jekyll-paginate](https://github.co
 * [New site configuration](#site-configuration)
 * [New page configuration](#page-configuration)
 * [Backwards compatibility](#backwards-compatibility-with-jekyll-paginate)
+* [Paginating collections](#paginating-collections)
+  + [Single collection](#paginating-a-single-collection)
+  + [Multiple collection](#paginating-multiple-collections)
+  + [The special 'all' collection](#the-special-all-collection)
 * [How to paginate categories, tags, locales](#paginate-categories-tags-locales)
   + [Filtering categories](#filtering-categories)
   + [Filtering tags](#filtering-tags)
@@ -452,7 +456,6 @@ Make absolutely sure that your pagination permalink paths do not clash with any 
 * Incomplete unit-tests 
 * No integration tests [#2](https://github.com/jekyll/jekyll-paginate/pull/2)
 * _Exclude_ filter not implemented [#6](https://github.com/jekyll/jekyll-paginate/issues/6)
-* Pagination for [Collections](http://ben.balter.com/2015/02/20/jekyll-collections/) not implemented yet
 * Feature being considered is to auto-generate category/tag/language pagination pages. Project still requires programmer to specify the pages him/herself.
 
 ## Contributing
