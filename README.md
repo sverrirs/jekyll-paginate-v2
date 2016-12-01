@@ -1,15 +1,10 @@
 # Jekyll::Paginate V2
 
-Pagination gem built specially for Jekyll 3 and newer and is a fully backwards compatable and enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate).
-
-View it on [rubygems.org](https://rubygems.org/gems/jekyll-paginate-v2).
+Pagination gem built specially for Jekyll 3 and newer and is a fully backwards compatable and enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate). View it on [rubygems.org](https://rubygems.org/gems/jekyll-paginate-v2).
 
 Reach me at the [project issues](https://github.com/sverrirs/jekyll-paginate-v2/issues) section or via email at [jekyll@sverrirs.com](mailto:jekyll@sverrirs.com).
 
 > The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were sourced discussions such as [#27](https://github.com/jekyll/jekyll-paginate/issues/27) (thanks [Günter Kits](https://github.com/gynter)).
-
-:heart:
-
 
 * [Installation](#installation)
 * [Example Sites](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples)
@@ -36,6 +31,10 @@ Reach me at the [project issues](https://github.com/sverrirs/jekyll-paginate-v2/
     - [Pagination pages overwriting each others pages](#my-pagination-pages-are-overwriting-each-others-pages)
 * [Issues / to-be-completed](#issues--to-be-completed)
 * [How to Contribute](#contributing)
+
+> _"Be excellent to each other"_
+
+:heart:
 
 ## Installation
 
