@@ -5,4 +5,5 @@ gemspec
 
 if ENV["JEKYLL_VERSION"]
   gem "jekyll", "~> #{ENV["JEKYLL_VERSION"]}"
+  gem 'minitest', '~> 5.8', '>= 5.8.4' # Minitest required for travis bunder run
 end
