@@ -64,7 +64,7 @@ In addition to all the features offered by the older [jekyll-paginate gem](https
 
 All this while being fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem.
 
-> The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were also sourced from the issues pages discussions (especially [#27](https://github.com/jekyll/jekyll-paginate/issues/27), thanks @gynter).
+> The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were also sourced from the issues pages (especially [#27](https://github.com/jekyll/jekyll-paginate/issues/27), thanks [Günter Kits](https://github.com/gynter)).
 
 ## Site configuration
 
