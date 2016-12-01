@@ -51,17 +51,38 @@ module Jekyll
         
         Jekyll.logger.debug "Pagination:","Starting"
 
-        ################# 1 ###################
-        # Extract the necessary information out of the site object and then instantiate the model
-
-        # Get all posts that will be generated (excluding hidden posts that have hidden:true in the front matter)
-        all_posts = site.site_payload['site']['posts'].reject { |post| post['hidden'] }
-
+        ################ 0 #################### 
         # Get all pages in the site (this will be used to find the pagination templates)
         all_pages = site.pages
 
         # Get the default title of the site (used as backup when there is no title available for pagination)
         site_title = site.config['title']
+
+        ################ 1 #################### 
+        # Specify the callback function that returns the correct docs/posts based on the collection name
+        # "posts" are just another collection in Jekyll but a specialized version that require timestamps
+        # This collection is the default and if the user doesn't specify a collection in their front-matter then that is the one we load
+        # If the collection is not found then empty array is returned
+        collection_by_name_lambda = lambda do |collection_name|
+          coll = []
+          if collection_name == "all"
+            # the 'all' collection_name is a special case and includes all collections in the site (except posts!!)
+            # this is useful when you want to list items across multiple collections
+            for coll_name, coll_data in site.collections
+              if( !coll_data.nil? && coll_name != 'posts')
+                coll += coll_data.docs.select { |doc| !doc.data.has_key?('pagination') } # Exclude all pagination pages
+              end
+            end
+          else
+            # Just the one collection requested
+            if !site.collections.has_key?(collection_name)
+              return []
+            end
+
+            coll = site.collections[collection_name].docs.select { |doc| !doc.data.has_key?('pagination') } # Exclude all pagination pages
+          end
+          return coll
+        end
 
         ################ 2 ####################
         # Create the proc that constructs the real-life site page
@@ -101,9 +122,10 @@ module Jekyll
         # Now create and call the model with the real-life page creation proc and site data
         model = PaginationModel.new()
         if( default_config['legacy'] ) #(REMOVE AFTER 2018-01-01)
+          all_posts = site.site_payload['site']['posts'].reject { |post| post['hidden'] }
           model.run_compatability(default_config, all_pages, site_title, all_posts, page_create_lambda, logging_lambda) #(REMOVE AFTER 2018-01-01)
         else
-          model.run(default_config, all_pages, site_title, all_posts, page_create_lambda, logging_lambda, page_remove_lambda)
+          model.run(default_config, all_pages, site_title, page_create_lambda, logging_lambda, page_remove_lambda, collection_by_name_lambda)
         end
 
       end

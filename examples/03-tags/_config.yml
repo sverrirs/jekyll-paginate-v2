@@ -30,6 +30,18 @@ exclude:
   - Gemfile
   - Gemfile.lock
   
+# Collection configurations
+collections:
+  biography:
+    output: true
+    permalink: /biography/:path/
+  fantasy:
+    output: true
+    permalink: /fantasy/:path/
+  romance: 
+    output: true
+    permalink: /romance/:path/
+  
 # This site uses the pretty permalink structure, this renders all urls with a slash / at the end and 
 # no file endings, I guess that is considered pretty :)
 permalink: pretty

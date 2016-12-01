@@ -3,7 +3,7 @@ module Jekyll
 
     class PaginationModel
 
-      def run(default_config, site_pages, site_title, all_posts, page_create_lambda, logging_lambda, page_remove_lambda)
+      def run(default_config, site_pages, site_title, page_create_lambda, logging_lambda, page_remove_lambda, collection_by_name_lambda)
         # By default if pagination is enabled we attempt to find all index.html pages in the site
         templates = self.discover_paginate_templates(site_pages)
         if( templates.size.to_i <= 0 )
@@ -11,13 +11,6 @@ module Jekyll
           "Pages must have 'paginate: enabled: true' in their front-matter for pagination to work.", "warn"
           return
         end
-
-        # Create the necessary indexes for the posts
-        all_categories = self.index_posts_by(all_posts, 'categories')
-        all_categories['posts'] = all_posts; # Populate a category for all posts 
-                                             # (this is a default and must not be used in the category system)
-        all_tags = self.index_posts_by(all_posts, 'tags')
-        all_locales = self.index_posts_by(all_posts, 'locale')
 
         # Now for each template page generate the paginator for it
         for template in templates
@@ -30,6 +23,19 @@ module Jekyll
             # were generated automatically and which weren't
             if( template_config['enabled'] )
               logging_lambda.call "found page: "+template.path
+
+              # Request all documents in all collections that the user has requested 
+              all_posts = self.get_docs_in_collections(template_config['collection'], collection_by_name_lambda)
+
+              # Create the necessary indexes for the posts
+              all_categories = self.index_posts_by(all_posts, 'categories')
+              all_categories['posts'] = all_posts; # Populate a category for all posts (this is here for backward compatibility, do not use this as it will be decommissioned 2018-01-01) 
+                                                  # (this is a default and must not be used in the category system)
+              all_tags = self.index_posts_by(all_posts, 'tags')
+              all_locales = self.index_posts_by(all_posts, 'locale')
+
+              # TODO: NOTE!!! This whole request for posts and indexing results could be cached to improve performance, leaving like this for now during testing
+
               # Now construct the pagination data for this template page
               #self.paginate(site, template, template_config, all_posts, all_tags, all_categories, all_locales)
               self.paginate(template, template_config, site_title, all_posts, all_tags, all_categories, all_locales, page_create_lambda, logging_lambda, page_remove_lambda)
@@ -66,6 +72,25 @@ module Jekyll
           "an index.html page to use as the pagination page. Skipping pagination.", "warn"
         end
       end # function run_compatability (REMOVE AFTER 2018-01-01)
+
+      # Returns the combination of all documents in the collections that are specified
+      # raw_collection_names can either be a list of collections separated by a ',' or ' ' or a single string
+      def get_docs_in_collections(raw_collection_names, collection_by_name_lambda)
+        if raw_collection_names.is_a?(String)
+          collection_names = raw_collection_names.split(/;|,|\s/)
+        else
+          collection_names = raw_collection_names
+        end
+
+        docs = []
+        # Now for each of the collections get the docs
+        for coll_name in collection_names
+          # Request all the documents for the collection in question, and join it with the total collection 
+          docs += collection_by_name_lambda.call(coll_name.downcase.strip)
+        end
+
+        return docs
+      end
       
       #
       # Rolls through all the pages passed in and finds all pages that have pagination enabled on them.

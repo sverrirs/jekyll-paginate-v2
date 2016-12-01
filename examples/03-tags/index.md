@@ -6,6 +6,7 @@ layout: home
 title: Home
 pagination: 
   enabled: true
+  collection: biography, fantasy, romance
   sort_field: 'title'
   sort_reverse: false
 ---

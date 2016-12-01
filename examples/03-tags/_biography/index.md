@@ -3,7 +3,7 @@ layout: home
 title: Biographies by Rank
 pagination: 
   enabled: true
-  category: biography
+  collection: biography
   permalink: /:num/
   sort_field: 'book:rank'
   sort_reverse: false

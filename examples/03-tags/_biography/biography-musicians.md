@@ -3,7 +3,7 @@ layout: home
 title: Biographies by Musicians
 pagination: 
   enabled: true
-  category: biography
+  collection: biography
   tag: Musicians
   permalink: /:num/
   sort_field: 'book:rank'

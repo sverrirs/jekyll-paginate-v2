@@ -14,8 +14,10 @@ This example also demonstrates how the page can operate as a zero-config replace
 ## Example 2: Category Pagination
 Car site that has multiple paginated pages and multiple post categories.
 
-## Example 3: Tag Pagination
-Book review site that organizes its content by tags and categories. Uses the `pretty` permalink structure for the site.
+## Example 3: Tag and Collection Pagination
+Book review site that organizes its content into collections and by tags. Uses the `pretty` permalink structure for the site.
+
+This site demonstrates how the pagination logic handles paginating across one or more collections at the same time. The pagination can also paginate over all collections. 
 
 This site also demonstrates how to sort posts by nested front-matter attributes.
 

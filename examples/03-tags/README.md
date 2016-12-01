@@ -1,6 +1,8 @@
-# Example 03::Tag pagination
+# Example 03::Tag and Collection pagination
 
-This example bookshop website expands on the category example and adds pagination by both category and tags. The site uses the pretty permalink structure. It also demonstrates advanced sorting features such as nested fields. 
+This example bookshop website uses collections to organize its books^*. The site relies on pagination of its books by both collections and tags. The site shows how to paginate by single, multiple or all collections at the same time. 
+
+The site uses the pretty permalink structure. It also demonstrates advanced sorting features such as nested fields. 
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/sverrirs/jekyll-paginate-v2/master/examples/img/03-example-screenshot-main.png" />
@@ -13,11 +15,13 @@ After generating the pagination gem was installed using
 gem install jekyll-paginate-v2
 ```
 
+^* _It could be argued that the bookstore should have just used categories here and collections were better suited to separate things into 'books', 'DVDs', 'Games' etc..._
+
 ## Structure
 
-The site has four types of post categories `biography/_posts`, `blog/_posts`, `fantasy/_posts`, `romance/_posts`. 
+The site has three types of document collections `_biography/`, `_fantasy/`, `_romance/`. In addition to that the bookstore also has a blog and those posts are stored under `blog/_posts`. 
 
-All book posts have assigned multiple tags to them.
+All books have multiple tags assigned to them.
 
 Permalinks are configured to the `pretty` format site-wide. The pagination logic handles this configuration without problems and constructs the correct sub url structure.
 
@@ -34,8 +38,11 @@ Pagination pages are:
 
 Most pages are self explanatory and most sort books by the nested attribute `rank`.
 
-### byisbn.md 
+### Page: byisbn.md 
 Demonstrates how to have multiple pagination pages defined in the root of the site without their pagination pages clashing. Uses permalinks to achieve this.
+
+### Page: Under tags/
+Demonstrate how to paginate across multiple collections by using the `collections: all` front matter configuration
 
 ## Setup Configuration
 The gem is added to the `_config.yml` file under

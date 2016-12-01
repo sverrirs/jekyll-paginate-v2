@@ -3,6 +3,7 @@ layout: home
 title: Contemporary
 pagination: 
   enabled: true
+  collection: all
   tag: contemporary
   permalink: /:num/
 ---

@@ -4,6 +4,7 @@ title: By ISBN
 permalink: /isbn/
 pagination: 
   enabled: true
+  collection: all
   permalink: '/:num/'
   sort_field: 'book:ISBN13'
   sort_reverse: false

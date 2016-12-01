@@ -14,7 +14,7 @@ book:
 price: 
   usd: 22.19
   eur: 20.97
-tags: Memoirs,Films,Autobiography,Actors
+tags: Memoirs,Films,Autobiography,Actors,Science Fiction
 ---
 
 The Princess Diarist is Carrie Fisher's intimate, hilarious and revealing recollection of what happened behind the scenes on one of the most famous film sets of all time, the first Star Wars movie. 

@@ -3,7 +3,7 @@ layout: home
 title: Historical Romance
 pagination: 
   enabled: true
-  category: romance
+  collection: romance
   tag: historical, fiction
   per_page: 2
   permalink: /:num/

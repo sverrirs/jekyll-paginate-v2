@@ -76,6 +76,9 @@ pagination:
   # Site-wide kill switch, disabled here it doesn't run at all 
   enabled: true
 
+  # The default document collection to paginate if nothing is specified ('posts' is default)
+  collection: 'posts'
+
   # How many objects per paginated page, used to be `paginate` (default: 0, means all)
   per_page: 10
 
@@ -175,6 +178,59 @@ paginate_path: "/legacy/page:num/"
 See more about the old style of pagination at the [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) page.
 
 > :bangbang: **Warning** Backwards compatibility with the old jekyll-paginate gem is currently scheduled to be removed after **1st January 2018**. Users will start receiving warning log messages when running jekyll two months before this date.
+
+## Paginating collections
+By default the pagination system only paginates `posts`. If you only have `posts` and `pages` in your site you don't need to worry about a thing, everything will work as intended without you configuring anything. 
+
+However if you use document collections, or would like to, then this pagination gem offers extensive support for paginating documents in one or more collections at the same time. 
+
+> Collections are groups of documents that belong together but should not be grouped by date. 
+> See more about ['collections'](http://ben.balter.com/2015/02/20/jekyll-collections/) on Ben Balters blog.
+
+### Paginating a single collection
+
+Lets expand on Ben's collection discussion (linked above). Let's say that you have hundreds of cupcake pages in your cupcake collection. To create a pagination page for only documents from the cupcake collection you would do this
+
+``` yml
+---
+layout: page
+title: All Cupcakes
+pagination: 
+  enabled: true
+  collection: cupcakes
+---
+```
+
+### Paginating multiple collections
+
+Lets say that you want to create a single pagination page for only small cakes on your page (you have both cupcakes and cookies to sell). You could do that like this
+
+``` yml
+---
+layout: page
+title: Lil'bits
+pagination: 
+  enabled: true
+  collection: cupcakes, cookies
+---
+```
+
+### The special 'all' collection
+
+Now your site has grown and you have multiple cake collections on it and you want to have a single page that paginates all of your collections at the same time. 
+You can use the special `all` collection name for this.
+
+``` yml
+---
+layout: page
+title: All the Cakes!
+pagination: 
+  enabled: true
+  collection: all
+---
+```
+
+> Note: Due to the `all` keyword being reserved for this feature, you cannot have a collection called `all` in your site configuration. Sorry. 
 
 
 ## Paginate categories, tags, locales
