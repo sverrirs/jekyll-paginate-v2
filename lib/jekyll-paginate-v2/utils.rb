@@ -36,7 +36,8 @@ module Jekyll
         # If the template url is not just root "/" then pre-pend the template_url path to it
         template_dir = File.dirname(template_path)
         if( template_dir != "" && template_dir != "/" )
-          permalink_format = File.join(template_url, permalink_format)
+          template_url_noext = File.join(File.dirname(template_url), File.basename(template_url, '.*'))
+          permalink_format = File.join(template_url_noext, permalink_format)
         end
 
         Utils.ensure_leading_slash(permalink_format)
@@ -84,11 +85,11 @@ module Jekyll
       # Retrieves the given sort field from the given post
       # the sort_field variable can be a hierarchical value on the form "parent_field:child_field" repeated as many times as needed
       # only the leaf child_field will be retrieved  
-      def self.sort_get_post_data(post, sort_field)
+      def self.sort_get_post_data(post_data, sort_field)
         
         # Begin by splitting up the sort_field by (;,:.)
         sort_split = sort_field.split(":")
-        sort_value = post.data
+        sort_value = post_data
 
         for r_key in sort_split
           key = r_key.downcase.strip # Remove any erronious whitespace and convert to lower case

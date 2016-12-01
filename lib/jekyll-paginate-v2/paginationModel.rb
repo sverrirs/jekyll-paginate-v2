@@ -1,6 +1,9 @@
 module Jekyll
   module PaginateV2
 
+    #
+    # The main model for the pagination, handles the orchestration of the pagination and calling all the necessary bits and bobs needed :)
+    #
     class PaginationModel
 
       def run(default_config, site_pages, site_title, page_create_lambda, logging_lambda, page_remove_lambda, collection_by_name_lambda)
@@ -28,11 +31,11 @@ module Jekyll
               all_posts = self.get_docs_in_collections(template_config['collection'], collection_by_name_lambda)
 
               # Create the necessary indexes for the posts
-              all_categories = self.index_posts_by(all_posts, 'categories')
+              all_categories = PaginationIndexer.index_posts_by(all_posts, 'categories')
               all_categories['posts'] = all_posts; # Populate a category for all posts (this is here for backward compatibility, do not use this as it will be decommissioned 2018-01-01) 
                                                   # (this is a default and must not be used in the category system)
-              all_tags = self.index_posts_by(all_posts, 'tags')
-              all_locales = self.index_posts_by(all_posts, 'locale')
+              all_tags = PaginationIndexer.index_posts_by(all_posts, 'tags')
+              all_locales = PaginationIndexer.index_posts_by(all_posts, 'locale')
 
               # TODO: NOTE!!! This whole request for posts and indexing results could be cached to improve performance, leaving like this for now during testing
 
@@ -108,89 +111,6 @@ module Jekyll
         end
         return candidates
       end # function discover_paginate_templates
-     
-      #
-      # Create a hash index for all post based on a key in the post.data table
-      #
-      def index_posts_by(all_posts, index_key)
-        return nil if all_posts.nil?
-        return all_posts if index_key.nil?
-        index = {}
-        for post in all_posts
-          next if post.data.nil?
-          next if !post.data.has_key?(index_key)
-          next if post.data[index_key].nil?
-          next if post.data[index_key].size <= 0
-          next if post.data[index_key].to_s.strip.length == 0
-          
-          # Only tags and categories come as premade arrays, locale does not, so convert any data
-          # elements that are strings into arrays
-          post_data = post.data[index_key]
-          if post_data.is_a?(String)
-            post_data = post_data.split(/;|,|\s/)
-          end
-          
-          for key in post_data
-            key = key.downcase.strip
-            # If the key is a delimetered list of values 
-            # (meaning the user didn't use an array but a string with commas)
-            for k_split in key.split(/;|,/)
-              k_split = k_split.downcase.strip #Clean whitespace and junk
-              if !index.has_key?(k_split)
-                index[k_split.to_s] = []
-              end
-              index[k_split.to_s] << post
-            end
-          end
-        end
-        return index
-      end # function index_posts_by
-      
-      #
-      # Creates an intersection (only returns common elements)
-      # between multiple arrays
-      #
-      def intersect_arrays(first, *rest)
-        return nil if first.nil?
-        return nil if rest.nil?
-        
-        intersect = first
-        rest.each do |item|
-          return [] if item.nil?
-          intersect = intersect & item
-        end
-        return intersect
-      end #function intersect_arrays
-      
-      #
-      # Filters posts based on a keyed source_posts hash of indexed posts and performs a intersection of 
-      # the two sets. Returns only posts that are common between all collections 
-      #
-      def read_config_value_and_filter_posts(config, config_key, posts, source_posts)
-        return nil if posts.nil?
-        return nil if source_posts.nil? # If the source is empty then simply don't do anything
-        return posts if config.nil?
-        return posts if !config.has_key?(config_key)
-        return posts if config[config_key].nil?
-        
-        # Get the filter values from the config (this is the cat/tag/locale values that should be filtered on)
-        config_value = config[config_key]
-        
-        # If we're dealing with a delimitered string instead of an array then let's be forgiving
-        if( config_value.is_a?(String))
-          config_value = config_value.split(/;|,/)
-        end
-          
-        # Now for all filter values for the config key, let's remove all items from the posts that
-        # aren't common for all collections that the user wants to filter on
-        for key in config_value
-          key = key.downcase.strip
-          posts = self.intersect_arrays(posts, source_posts[key])
-        end
-        
-        # The fully filtered final post list
-        return posts
-      end #function read_config_value_and_filter_posts
             
       # Paginates the blog's posts. Renders the index.html file into paginated
       # directories, e.g.: page2/index.html, page3/index.html, etc and adds more
@@ -205,14 +125,14 @@ module Jekyll
         using_posts = all_posts
         
         # Now start filtering out any posts that the user doesn't want included in the pagination
-        using_posts = self.read_config_value_and_filter_posts(config, 'category', using_posts, all_categories)
-        using_posts = self.read_config_value_and_filter_posts(config, 'tag', using_posts, all_tags)
-        using_posts = self.read_config_value_and_filter_posts(config, 'locale', using_posts, all_locales)
+        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'category', using_posts, all_categories)
+        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'tag', using_posts, all_tags)
+        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'locale', using_posts, all_locales)
         
         # Apply sorting to the posts if configured, any field for the post is available for sorting
         if config['sort_field']
           sort_field = config['sort_field'].to_s
-          using_posts.sort!{ |a,b| Utils.sort_values(Utils.sort_get_post_data(a, sort_field), Utils.sort_get_post_data(b, sort_field)) }
+          using_posts.sort!{ |a,b| Utils.sort_values(Utils.sort_get_post_data(a.data, sort_field), Utils.sort_get_post_data(b.data, sort_field)) }
           if config['sort_reverse']
             using_posts.reverse!
           end
@@ -230,14 +150,6 @@ module Jekyll
         # This .pager member is a built in thing in Jekyll and defines the paginator implementation
         # Simpy override to use mine
         (1..total_pages).each do |cur_page_nr|
-          logging_lambda.call "-------------------------------", 'debug'
-          logging_lambda.call "Template.name: "+ template.name, 'debug'
-          logging_lambda.call "Template.url: "+ template.url, 'debug'
-          logging_lambda.call "Template.dir: "+ template.dir, 'debug'
-          logging_lambda.call "Template.basename: "+ template.basename, 'debug'
-          logging_lambda.call "Template.path: "+ template.path, 'debug'
-          logging_lambda.call "Template.ext: "+ template.ext, 'debug'
-
           pager = Paginator.new( config['per_page'], config['permalink'], using_posts, cur_page_nr, total_pages, template.url, template.path )
           
           # External Proc call to create the actual page for us (this is passed in when the pagination is run)
@@ -272,10 +184,6 @@ module Jekyll
           if cur_page_nr > 1
             newpage.data['autogen'] = "jekyll-paginate-v2"
           end
-          
-          logging_lambda.call "newpage.name: "+ newpage.name, 'debug'
-          logging_lambda.call "newpage.url: "+ newpage.url, 'debug'
-          logging_lambda.call "newpage.dir: "+ newpage.dir, 'debug'  
           
           # Only request that the template page be removed from the output once
           # We actually create a dummy page for this actual page in the Jekyll output 

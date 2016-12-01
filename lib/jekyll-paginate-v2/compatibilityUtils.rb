@@ -7,6 +7,8 @@ module Jekyll
     # that sites still running the old gem work without problems
     # (REMOVE AFTER 2018-01-01)
     #
+    # THIS CLASS IS ADAPTED FROM THE ORIGINAL IMPLEMENTATION AND WILL BE REMOVED, THERE ARE DELIBERATELY NO TESTS FOR THIS CLASS
+    #
     class CompatibilityUtils
 
       # Public: Find the Jekyll::Page which will act as the pager template

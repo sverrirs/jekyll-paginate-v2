@@ -37,29 +37,54 @@ module Jekyll::PaginateV2
     end
 
     it "paginate must return nil if cur_page_nr is nill" do
-      Utils.paginate_path(nil, nil, nil).must_be_nil
-      Utils.paginate_path("/index/moore", nil, "/page:num/").must_be_nil
+      Utils.paginate_path(nil, nil, nil, nil).must_be_nil
+      Utils.paginate_path("/index/moore","/index/moore.md", nil, "/page:num/").must_be_nil
     end
 
     it "paginate must return the url to the template if cur_page_nr is equal to 1" do
-      Utils.paginate_path("/index/moore", 1, "/page:num/").must_equal "/index/moore"
-      Utils.paginate_path("/index.html", 1, "/page/").must_equal "/index.html"
+      Utils.paginate_path("/index/moore", "/index/moore.md", 1, "/page:num/").must_equal "/index/moore"
+      Utils.paginate_path("/index.html", "/index.html", 1, "/page/").must_equal "/index.html"
     end
 
     it "paginate must throw an error if the permalink path doesn't include :num" do
-      err = ->{ Utils.paginate_path("/index.html", 3, "/page/")}.must_raise ArgumentError
+      err = ->{ Utils.paginate_path("/index.html", "/index.html", 3, "/page/")}.must_raise ArgumentError
       err.message.must_include ":num"
     end
 
     it "paginate must use the permalink value and format it based on the cur_page_nr" do
-      Utils.paginate_path("/index.html", 3, "/page:num/").must_equal "/page3/"
-      Utils.paginate_path("/index.html", 646, "/page/:num/").must_equal "/page/646/"
+      Utils.paginate_path("/index.html", "/index.html", 3, "/page:num/").must_equal "/page3/"
+      Utils.paginate_path("/index.html", "/index.html", 646, "/page/:num/").must_equal "/page/646/"
     end
 
     it "paginate must ensure a leading slash in the url it returns" do
-      Utils.paginate_path("/index.html", 3, "page:num/").must_equal "/page3/"
-      Utils.paginate_path("/index.html", 646, "page/:num/").must_equal "/page/646/"
+      Utils.paginate_path("/index.html", "/index.html", 3, "page:num/").must_equal "/page3/"
+      Utils.paginate_path("/index.html", "/index.html", 646, "page/:num/").must_equal "/page/646/"
     end
+
+    it "paginate must pre-pend the template.path url to it if we're not at root" do
+      Utils.paginate_path("/sub/index.html", "/sub/index.html", 3, "page:num/").must_equal "/sub/index/page3/"
+      Utils.paginate_path("/sub/index", "/sub/index.html", 3, "page:num/").must_equal "/sub/index/page3/"
+      Utils.paginate_path("/index/", "/sub/index.html", 3, "page:num/").must_equal "/index/page3/"
+    end
+
+    it "sort must sort strings lowercase" do
+      Utils.sort_values( "AARON", "Aaron").must_equal 0
+      Utils.sort_values( "AARON", "aaron").must_equal 0
+      Utils.sort_values( "aaron", "AARON").must_equal 0 
+    end
+
+    it "when sorting by nested post data the values must be resolved fully" do
+      data = {'book'=>{ 'name' => { 'first'=> 'John', 'last'=> 'Smith'}, 'rank'=>20}}
+      Utils.sort_get_post_data(data, "book:rank").must_equal 20
+      Utils.sort_get_post_data(data, "book:name:first").must_equal "John"
+      Utils.sort_get_post_data(data, "book:name:last").must_equal "Smith"
+
+      Utils.sort_get_post_data(data, "book:name").must_be_nil
+      Utils.sort_get_post_data(data, "name").must_be_nil
+      Utils.sort_get_post_data(data, "book").must_be_nil
+    end
+
+
   end
 end
 
