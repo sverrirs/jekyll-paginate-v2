@@ -1,17 +1,20 @@
 # Jekyll::Paginate V2
 
-Pagination gem built specially for Jekyll 3 and newer. https://rubygems.org/gems/jekyll-paginate-v2. It is a fully backwards compatable and enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate).
+Pagination gem built specially for Jekyll 3 and newer and is a fully backwards compatable and enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate).
 
-You can reach me via the project issues section or via email at [jekyll@sverrirs.com](mailto:jekyll@sverrirs.com).
+View it on [rubygems.org](https://rubygems.org/gems/jekyll-paginate-v2).
+
+Reach me at the [project issues](https://github.com/sverrirs/jekyll-paginate-v2/issues) section or via email at [jekyll@sverrirs.com](mailto:jekyll@sverrirs.com).
+
+> The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were sourced discussions such as [#27](https://github.com/jekyll/jekyll-paginate/issues/27) (thanks [Günter Kits](https://github.com/gynter)).
 
 :heart:
 
 
 * [Installation](#installation)
-* [Examples](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples)
-* [Features](#features)
-* [New site configuration](#site-configuration)
-* [New page configuration](#page-configuration)
+* [Example Sites](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples)
+* [Site configuration](#site-configuration)
+* [Page configuration](#page-configuration)
 * [Backwards compatibility](#backwards-compatibility-with-jekyll-paginate)
 * [Paginating collections](#paginating-collections)
   + [Single collection](#paginating-a-single-collection)
@@ -46,25 +49,7 @@ Update your [_config.yml](#site-configuration) and [pages](#page-configuration).
 
 Now you're ready to run `jekyll serve` and your paginated files should be generated.
 
-Please see the [Examples](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples) for more information on how to configure the pagination logic.
-
-
-## Features
-
-In addition to all the features offered by the older [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate) this new pagination plugin features include
-
-1. Works with any type of file ending (HTML, Markdown, etc) as long as the file has front-matter and the minimum page level pagination meta (see [page-configuration](#page-configuration)).
-2. Paginated files can have any file name (not just index.html).
-3. Supports category, tag and locale filtering.
-4. Supports any combination of category, tag and locale filtering (e.g. _all posts in the 'ruby' category written for 'en\_US'_ or _all posts in 'car' and 'cycle' category tagged with 'cool' written for 'fr\_FR'_)
-5. Sorting of posts by any field. Decending or Ascending.
-6. Optional limits of number of pagenated pages (e.g. _only produce 15 pages_)
-7. Fully customizable permalink format. E.g `/page:num/` or `/page/:num/` or `/:num/` or really anything you want.
-8. Optional title suffix for paginated pages (e.g. _Index - Page 2_)
-
-All this while being fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem.
-
-> The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were also sourced from the issues pages (especially [#27](https://github.com/jekyll/jekyll-paginate/issues/27), thanks [Günter Kits](https://github.com/gynter)).
+Please see the [Examples](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples) for tips and tricks on how to configure the pagination logic.
 
 ## Site configuration
 
@@ -164,7 +149,7 @@ The code is fully backwards compatible and you will have access to all the norma
 
 Neat!
 
-Please see the [Examples](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples) for more detailed information and working site configurations.
+Don't delay, go see the [Examples](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples), they're way more useful than read-me docs at this point :)
 
 ## Backwards compatibility with jekyll-paginate
 This gem is fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem and can be used as a zero-configuration replacement for it. If the old site config is detected then the gem will fall back to the old logic of pagination. 
