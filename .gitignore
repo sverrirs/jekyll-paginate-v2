@@ -18,3 +18,4 @@ _site/
 .sass-cache
 .jekyll-metadata
 .gitignore
+vendor/

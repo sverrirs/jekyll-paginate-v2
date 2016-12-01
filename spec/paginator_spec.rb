@@ -7,21 +7,24 @@ module Jekyll::PaginateV2
 
       pager = Paginator.new(10, "/page:num/", [], 1, 10, "/index.md", "/index.md")
 
-      err = ->{ pager.page }.wont_raise NoMethodError
-      err = ->{ pager.per_page }.wont_raise NoMethodError
-      err = ->{ pager.posts }.wont_raise NoMethodError
-      err = ->{ pager.total_posts }.wont_raise NoMethodError
-      err = ->{ pager.total_pages }.wont_raise NoMethodError
-      err = ->{ pager.previous_page }.wont_raise NoMethodError
-      err = ->{ pager.previous_page_path }.wont_raise NoMethodError
-      err = ->{ pager.next_page }.wont_raise NoMethodError
-      err = ->{ pager.next_page_path }.wont_raise NoMethodError
+      # None of these accessors should throw errors, just run through them to test
+      val = pager.page
+      val = pager.per_page
+      val = pager.posts
+      val = pager.total_posts
+      val = pager.total_pages
+      val = pager.previous_page
+      val = pager.previous_page_path
+      val = pager.next_page
+      val = pager.next_page_path
       
     end
 
     it "must throw an error if the current page number is greater than the total pages" do
       err = -> { pager = Paginator.new(10, "/page:num/", [], 10, 8, "/index.md", "/index.md") }.must_raise RuntimeError
-      err = -> { pager = Paginator.new(10, "/page:num/", [], 8, 10, "/index.md", "/index.md") }.wont_raise RuntimeError
+
+      # No error should be raised below
+      pager = Paginator.new(10, "/page:num/", [], 8, 10, "/index.md", "/index.md")
     end
 
     it "must trim the list of posts correctly based on the cur_page_nr and per_page" do
