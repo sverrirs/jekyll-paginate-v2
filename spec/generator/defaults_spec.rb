@@ -8,7 +8,7 @@ module Jekyll::PaginateV2::Generator
       DEFAULT.must_include 'collection'
       DEFAULT.must_include 'per_page'
       DEFAULT.must_include 'permalink'
-      DEFAULT.must_include 'title_suffix'
+      DEFAULT.must_include 'title'
       DEFAULT.must_include 'page_num'
       DEFAULT.must_include 'sort_reverse'
       DEFAULT.must_include 'sort_field'
@@ -22,7 +22,7 @@ module Jekyll::PaginateV2::Generator
       DEFAULT['collection'].must_equal 'posts'
       DEFAULT['per_page'].must_equal 10
       DEFAULT['permalink'].must_equal '/page:num/'
-      DEFAULT['title_suffix'].must_equal ' - page :num'
+      DEFAULT['title'].must_equal ':title - page :num'
       DEFAULT['page_num'].must_equal 1
       DEFAULT['sort_reverse'].must_equal false
       DEFAULT['sort_field'].must_equal 'date'
