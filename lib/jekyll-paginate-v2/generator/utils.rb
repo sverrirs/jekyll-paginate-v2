@@ -1,5 +1,5 @@
 module Jekyll 
-  module PaginateV2
+  module PaginateV2::Generator
 
     #
     # Static utility functions that are used in the code and 
@@ -48,6 +48,12 @@ module Jekyll
       def self.format_page_number(toFormat, cur_page_nr)
         return toFormat.sub(':num', cur_page_nr.to_s)
       end #function format_page_number
+
+      # Static: returns a fully formatted string with the :title variable replaced
+      #
+      def self.format_page_title(toFormat, title)
+        return toFormat.sub(':title', title.to_s)
+      end #function format_page_title
       
       # Static: Return a String version of the input which has a leading slash.
       #         If the input already has a forward slash in position zero, it will be

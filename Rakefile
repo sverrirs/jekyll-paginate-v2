@@ -8,8 +8,8 @@ Rake::TestTask.new do |t|
   t.libs.push 'lib'
   t.libs.push 'specs'
   t.verbose = true
-  t.pattern = "spec/*_spec.rb"
-  t.test_files = FileList['spec/*_spec.rb']
+  t.pattern = "spec/**/*_spec.rb"
+  t.test_files = FileList['spec/**/*_spec.rb']
 end
 
 desc "Run tests"

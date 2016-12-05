@@ -1,6 +1,6 @@
-require_relative 'spec_helper.rb'
+require_relative '../spec_helper.rb'
 
-module Jekyll::PaginateV2
+module Jekyll::PaginateV2::Generator
   describe "tesing pagination page implementation" do
 
     it "sould always read the template file into itself" do

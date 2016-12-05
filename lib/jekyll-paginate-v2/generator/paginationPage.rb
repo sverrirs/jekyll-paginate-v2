@@ -1,5 +1,5 @@
 module Jekyll
-  module PaginateV2
+  module PaginateV2::Generator
 
     #
     # This page handles the creation of the fake pagination pages based on the original page configuration

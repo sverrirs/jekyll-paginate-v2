@@ -67,6 +67,9 @@ pagination:
   # Site-wide kill switch, disabled here it doesn't run at all 
   enabled: true
 
+  # Set to 'true' to enable pagination debugging. This can be enabled in the site config or only for individual pagination pages
+  debug: false
+
   # The default document collection to paginate if nothing is specified ('posts' is default)
   collection: 'posts'
 
@@ -76,8 +79,8 @@ pagination:
   # The permalink structure for the paginated pages (this can be any level deep)
   permalink: '/page/:num/'
 
-  # Optional additional suffix for the title of the paginated pages (the prefix is inherited from the original page)
-  title_suffix: ' - page :num'
+  # Optional the title format for the paginated pages (supports :title for original page title, :num for pagination page number)
+  title: ':title - page :num'
 
   # Limit how many pagenated pages to create (default: 0, means all)
   limit: 0
@@ -88,15 +91,15 @@ pagination:
   # Optional, sorts the posts in reverse order (omit to default decending or sort_reverse: true)
   sort_reverse: true
 
-  # The default category to use, just leave this as 'posts' to get a backwards-compatible behavior (all posts)
+  # Optional, the default category to use, omit or just leave this as 'posts' to get a backwards-compatible behavior (all posts)
   category: 'posts'
 
   # Optional, the default tag to use, omit to disable
-  tag: 'cool'
+  tag: ''
 
   # Optional, the default locale to use, omit to disable (depends on a field 'locale' to be specified in the posts, 
   # in reality this can be any value, suggested are the Microsoft locale-codes (e.g. en_US, en_GB) or simply the ISO-639 language code )
-  locale: 'en_US' 
+  locale: '' 
 
 ############################################################
 ```

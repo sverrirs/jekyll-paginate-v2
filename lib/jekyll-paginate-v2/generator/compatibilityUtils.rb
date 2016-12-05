@@ -1,5 +1,5 @@
 module Jekyll 
-  module PaginateV2
+  module PaginateV2::Generator
 
     #
     # Static utility functions that provide backwards compatibility with the old 
@@ -50,7 +50,7 @@ module Jekyll
       # directories, e.g.: page2/index.html, page3/index.html, etc and adds more
       # site-wide data.
       #
-      def self.paginate(legacy_config, all_posts, page, page_create_lambda, logging_lambda )
+      def self.paginate(legacy_config, all_posts, page, page_create_lambda )
         pages = Utils.calculate_number_of_pages(all_posts, legacy_config['per_page'].to_i)
         (1..pages).each do |num_page|
           pager = Paginator.new( legacy_config['per_page'], legacy_config['permalink'], all_posts, num_page, pages, page.url, page.path )

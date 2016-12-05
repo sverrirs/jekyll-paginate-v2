@@ -10,14 +10,17 @@
 #   - https://opensource.org/licenses/MIT
 
 require "jekyll-paginate-v2/version"
-require "jekyll-paginate-v2/defaults"
-require "jekyll-paginate-v2/compatibilityUtils"
-require "jekyll-paginate-v2/utils"
-require "jekyll-paginate-v2/paginationIndexer"
-require "jekyll-paginate-v2/paginator"
-require "jekyll-paginate-v2/paginationPage"
-require "jekyll-paginate-v2/paginationModel"
-require "jekyll-paginate-v2/paginationGenerator"
+# Files needed for the pagination generator
+require "jekyll-paginate-v2/generator/defaults"
+require "jekyll-paginate-v2/generator/compatibilityUtils"
+require "jekyll-paginate-v2/generator/utils"
+require "jekyll-paginate-v2/generator/paginationIndexer"
+require "jekyll-paginate-v2/generator/paginator"
+require "jekyll-paginate-v2/generator/paginationPage"
+require "jekyll-paginate-v2/generator/paginationModel"
+require "jekyll-paginate-v2/generator/paginationGenerator"
+# Files needed for the auto category and tag pages
+
 
 module Jekyll 
   module PaginateV2

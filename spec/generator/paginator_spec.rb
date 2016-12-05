@@ -1,6 +1,6 @@
-require_relative 'spec_helper.rb'
+require_relative '../spec_helper.rb'
 
-module Jekyll::PaginateV2
+module Jekyll::PaginateV2::Generator
   describe Paginator do
 
     it "must include the necessary paginator attributes" do

@@ -1,6 +1,6 @@
-require_relative 'spec_helper.rb'
+require_relative '../spec_helper.rb'
 
-module Jekyll::PaginateV2
+module Jekyll::PaginateV2::Generator
   describe "checking default config" do
 
     it "should always contain the following keys" do
@@ -13,7 +13,8 @@ module Jekyll::PaginateV2
       DEFAULT.must_include 'sort_reverse'
       DEFAULT.must_include 'sort_field'
       DEFAULT.must_include 'limit'
-      DEFAULT.size.must_be :>=, 9
+      DEFAULT.must_include 'debug'
+      DEFAULT.size.must_be :>=, 10
     end
 
     it "should always contain the following key defaults" do
@@ -26,6 +27,7 @@ module Jekyll::PaginateV2
       DEFAULT['sort_reverse'].must_equal false
       DEFAULT['sort_field'].must_equal 'date'
       DEFAULT['limit'].must_equal 0
+      DEFAULT['debug'].must_equal false
     end
 
   end

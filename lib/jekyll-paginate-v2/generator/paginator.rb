@@ -1,5 +1,5 @@
 module Jekyll
-  module PaginateV2
+  module PaginateV2::Generator
     
     #
     # Handles the preparation of all the posts based on the current page index

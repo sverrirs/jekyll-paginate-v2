@@ -1,5 +1,5 @@
 module Jekyll
-  module PaginateV2
+  module PaginateV2::Generator
   
     #
     # The main entry point into the generator, called by Jekyll
@@ -48,7 +48,12 @@ module Jekyll
           Jekyll.logger.info "Pagination:","Disabled in site.config."
           return
         end
-        
+
+        # Handle deprecation of settings and features
+        if( !default_config['title_suffix' ].nil? )
+          Jekyll.logger.warn "Pagination:", "The 'title_suffix' configuration has been deprecated. Please use 'title'. See https://github.com/sverrirs/jekyll-paginate-v2#site-configuration"
+        end
+
         Jekyll.logger.debug "Pagination:","Starting"
 
         ################ 0 #################### 
@@ -108,24 +113,24 @@ module Jekyll
         # Decoupling Jekyll specific logging
         logging_lambda = lambda do | message, type="info" |
           if type == 'debug'
-            Jekyll.logger.debug "Pagination:", message
+            Jekyll.logger.debug "Pagination:","#{message}"
           elsif type == 'error'
-            Jekyll.logger.error "Pagination:", message
+            Jekyll.logger.error "Pagination:", "#{message}"
           elsif type == 'warn'
-            Jekyll.logger.warn "Pagination:", message
+            Jekyll.logger.warn "Pagination:", "#{message}"
           else
-            Jekyll.logger.info "Pagination:", message
+            Jekyll.logger.info "Pagination:", "#{message}"
           end
         end
 
         ################ 4 ####################
         # Now create and call the model with the real-life page creation proc and site data
-        model = PaginationModel.new()
+        model = PaginationModel.new(logging_lambda, page_create_lambda, page_remove_lambda, collection_by_name_lambda)
         if( default_config['legacy'] ) #(REMOVE AFTER 2018-01-01)
           all_posts = site.site_payload['site']['posts'].reject { |post| post['hidden'] }
-          model.run_compatability(default_config, all_pages, site_title, all_posts, page_create_lambda, logging_lambda) #(REMOVE AFTER 2018-01-01)
+          model.run_compatability(default_config, all_pages, site_title, all_posts) #(REMOVE AFTER 2018-01-01)
         else
-          model.run(default_config, all_pages, site_title, page_create_lambda, logging_lambda, page_remove_lambda, collection_by_name_lambda)
+          model.run(default_config, all_pages, site_title)
         end
 
       end

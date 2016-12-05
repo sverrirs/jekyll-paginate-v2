@@ -1,5 +1,5 @@
 module Jekyll
-  module PaginateV2
+  module PaginateV2::Generator
 
     # 
     # Performs indexing of the posts or collection documents
