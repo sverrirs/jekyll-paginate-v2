@@ -165,6 +165,13 @@ module Jekyll
           end
         end
       end
+
+      def _debug_print_filtering_info(filter_name, before_count, after_count)
+        # Debug print the config
+        if @debug
+          puts "Pagination: ".rjust(20) + " Filtering by: "+filter_name.to_s.ljust(9) + " " + before_count.to_s.rjust(3) + " => " + after_count.to_s  
+        end
+      end
       
       #
       # Rolls through all the pages passed in and finds all pages that have pagination enabled on them.
@@ -196,9 +203,15 @@ module Jekyll
         using_posts = all_posts
         
         # Now start filtering out any posts that the user doesn't want included in the pagination
+        before = using_posts.size.to_i
         using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'category', using_posts, all_categories)
+        self._debug_print_filtering_info('Category', before, using_posts.size.to_i)
+        before = using_posts.size.to_i
         using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'tag', using_posts, all_tags)
+        self._debug_print_filtering_info('Tag', before, using_posts.size.to_i)
+        before = using_posts.size.to_i
         using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'locale', using_posts, all_locales)
+        self._debug_print_filtering_info('Locale', before, using_posts.size.to_i)
         
         # Apply sorting to the posts if configured, any field for the post is available for sorting
         if config['sort_field']
