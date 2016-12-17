@@ -1,6 +1,7 @@
 ---
 layout: home
 title: Biographies by Musicians
+permalink: /biography/musicians
 pagination: 
   enabled: true
   collection: biography

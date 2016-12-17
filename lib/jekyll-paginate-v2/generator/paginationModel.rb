@@ -8,14 +8,14 @@ module Jekyll
 
       @debug = false # is debug output enabled?
       @logging_lambda = nil # The lambda to use for logging
-      @page_create_lambda = nil # The lambda used to create pages and add them to the site
+      @page_add_lambda = nil # The lambda used to create pages and add them to the site
       @page_remove_lambda = nil # Lambda to remove a page from the site.pages collection
       @collection_by_name_lambda = nil # Lambda to get all documents/posts in a particular collection (by name)
 
       # ctor
-      def initialize(logging_lambda, page_create_lambda, page_remove_lambda, collection_by_name_lambda)
+      def initialize(logging_lambda, page_add_lambda, page_remove_lambda, collection_by_name_lambda)
         @logging_lambda = logging_lambda
-        @page_create_lambda = page_create_lambda
+        @page_add_lambda = page_add_lambda
         @page_remove_lambda = page_remove_lambda
         @collection_by_name_lambda = collection_by_name_lambda
       end
@@ -34,7 +34,7 @@ module Jekyll
         for template in templates
           # All pages that should be paginated need to include the pagination config element
           if template.data['pagination'].is_a?(Hash)
-            template_config = default_config.merge(template.data['pagination'])
+            template_config = Jekyll::Utils.deep_merge_hashes(default_config, template.data['pagination'] || {})
 
             # Handling deprecation of configuration values
             self._fix_deprecated_config_features(template_config)
@@ -48,7 +48,7 @@ module Jekyll
             # were generated automatically and which weren't
             if( template_config['enabled'] )
               if !@debug
-                @logging_lambda.call "found page: "+template.path
+                @logging_lambda.call "found page: "+template.path, 'debug'
               end
 
               # Request all documents in all collections that the user has requested 
@@ -64,7 +64,6 @@ module Jekyll
               # TODO: NOTE!!! This whole request for posts and indexing results could be cached to improve performance, leaving like this for now during testing
 
               # Now construct the pagination data for this template page
-              #self.paginate(site, template, template_config, all_posts, all_tags, all_categories, all_locales)
               self.paginate(template, template_config, site_title, all_posts, all_tags, all_categories, all_locales)
             end
           end
@@ -93,7 +92,7 @@ module Jekyll
         end
 
         if template = CompatibilityUtils.template_page(site_pages, legacy_config['legacy_source'], legacy_config['permalink'])
-          CompatibilityUtils.paginate(legacy_config, all_posts, template, @page_create_lambda)
+          CompatibilityUtils.paginate(legacy_config, all_posts, template, @page_add_lambda)
         else
           @logging_lambda.call "Legacy pagination is enabled, but I couldn't find " +
           "an index.html page to use as the pagination page. Skipping pagination.", "warn"
@@ -229,24 +228,48 @@ module Jekyll
         if config['limit'] && config['limit'].to_i > 0 && config['limit'].to_i < total_pages
           total_pages = config['limit'].to_i
         end
+
+        #### BEFORE STARTING REMOVE THE TEMPLATE PAGE FROM THE SITE LIST!
+        @page_remove_lambda.call( template )
         
         # Now for each pagination page create it and configure the ranges for the collection
         # This .pager member is a built in thing in Jekyll and defines the paginator implementation
         # Simpy override to use mine
         (1..total_pages).each do |cur_page_nr|
-          pager = Paginator.new( config['per_page'], config['permalink'], using_posts, cur_page_nr, total_pages, template.url, template.path )
-          
-          # External Proc call to create the actual page for us (this is passed in when the pagination is run)
-          newpage = @page_create_lambda.call( template.path )
-          newpage.pager = pager
 
-          # Force the newly created files to live under the same dir as the template plus the permalink structure
-          new_path = Utils.paginate_path(template.url, template.path, cur_page_nr, config['permalink'])
-          newpage.dir = new_path
+          # OK, I need to simplify this whole logic!!!
+          # 1. template already has all the config that and page data that I need. So there is no reason to re-load it from disk!
+          #    let's just create a purely in-memory version of it and discard the real copy before getting in here!!
+          #       - This will also work with the AutoPages as they should be purely virtual as well (no physical page to read from)
+          # 2. After creating the copy of the fake page the url structure can be created based on the pagination config and simply append
+          #    it to the url currently set for the page (template.url), there is no template.path available now as there is no physical page
+          #    so we don't have to worry anymore about mis-matches between location on disk vs location in output
+          # 3. The pagination logic can now be simplified based on these assumptions
+          #      - We just need to keep track of the urls generated for the pages and pass in the stored precomputed paths (no recalculation every time)
+          #      - No special consideration is needed for the autopages logic
           
-          # Update the permalink for the paginated pages as well if the template had one
+
+          # 1. Create the in-memory page
+          #    External Proc call to create the actual page for us (this is passed in when the pagination is run)
+          newpage = PaginationPageInMemory.new( template, true )
+
+          # 2. Create the url for the in-memory page (calc permalink etc), construct the title, set all page.data values needed
+          paginated_page_url = config['permalink']
+          first_index_page_url = ""
+          if template.data['permalink']
+            first_index_page_url = template.data['permalink']
+          else
+            first_index_page_url = template.dir
+          end
+          paginated_page_url = File.join(first_index_page_url, paginated_page_url)
+          
+          # 3. Create the pager logic for this page, pass in the prev and next page numbers, assign pager to in-memory page
+          newpage.pager = Paginator.new( config['per_page'], first_index_page_url, paginated_page_url, using_posts, cur_page_nr, total_pages)
+
+          # Create the url for the new page, make sure we prepend any permalinks that are defined in the template page before
+          newpage.set_url(File.join(newpage.pager.page_path, 'index.html'))
           if( template.data['permalink'] )
-            newpage.data['permalink'] = new_path
+            newpage.data['permalink'] = newpage.pager.page_path
           end
 
           # Transfer the title across to the new page
@@ -262,19 +285,14 @@ module Jekyll
             newpage.data['title'] = tmp_title
           end
 
-
           # Signals that this page is automatically generated by the pagination logic
           # (we don't do this for the first page as it is there to mask the one we removed)
           if cur_page_nr > 1
             newpage.data['autogen'] = "jekyll-paginate-v2"
           end
           
-          # Only request that the template page be removed from the output once
-          # We actually create a dummy page for this actual page in the Jekyll output 
-          # so we don't need the original page anymore
-          if cur_page_nr == 1
-            @page_remove_lambda.call( template )
-          end
+          # Add the page to the site
+          @page_add_lambda.call( newpage )
         end
       end # function paginate
 

@@ -6,7 +6,7 @@ module Jekyll
     #
     class Paginator
       attr_reader :page, :per_page, :posts, :total_posts, :total_pages,
-        :previous_page, :previous_page_path, :next_page, :next_page_path
+        :previous_page, :previous_page_path, :next_page, :next_page_path, :page_path
       
       # Initialize a new Paginator.
       #
@@ -15,7 +15,7 @@ module Jekyll
       # all_posts - The Array of all the site's Posts.
       # num_pages - The Integer number of pages or nil if you'd like the number
       #             of pages calculated.
-      def initialize(config_per_page, config_permalink, posts, cur_page_nr, num_pages, template_url, template_path )
+      def initialize(config_per_page, first_index_page_url, paginated_page_url, posts, cur_page_nr, num_pages)
         @page = cur_page_nr
         @per_page = config_per_page.to_i
         @total_pages = num_pages
@@ -29,10 +29,11 @@ module Jekyll
 
         @total_posts = posts.size
         @posts = posts[init..offset]
+        @page_path = @page == 1 ? first_index_page_url : Utils.format_page_number(paginated_page_url, cur_page_nr)
         @previous_page = @page != 1 ? @page - 1 : nil
-        @previous_page_path = @page != 1 ? Utils.paginate_path(template_url, template_path, @previous_page, config_permalink) : nil
+        @previous_page_path = @page != 1 ? @page == 2 ? first_index_page_url : Utils.format_page_number(paginated_page_url, @previous_page) : nil
         @next_page = @page != @total_pages ? @page + 1 : nil
-        @next_page_path = @page != @total_pages ? Utils.paginate_path(template_url, template_path, @next_page, config_permalink) : nil
+        @next_page_path = @page != @total_pages ? Utils.format_page_number(paginated_page_url, @next_page) : nil
       end
 
       # Convert this Paginator's data to a Hash suitable for use by Liquid.
@@ -45,6 +46,7 @@ module Jekyll
           'total_posts' => total_posts,
           'total_pages' => total_pages,
           'page' => page,
+          'page_path' => page_path,
           'previous_page' => previous_page,
           'previous_page_path' => previous_page_path,
           'next_page' => next_page,

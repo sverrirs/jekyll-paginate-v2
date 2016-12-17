@@ -35,9 +35,17 @@ module Jekyll
 
         # If the template url is not just root "/" then pre-pend the template_url path to it
         template_dir = File.dirname(template_path)
-        if( template_dir != "" && template_dir != "/" )
+        if( template_dir != "." && template_dir != "" && template_dir != "/" )
           template_url_noext = File.join(File.dirname(template_url), File.basename(template_url, '.*'))
+
+          # Now we want to remove any common part of the template url 
+          puts " *** >> Utils.paginate"
+          puts "           template_dir: "+template_dir
+          puts "           template_path: "+template_path
+          puts "           permalink: "+permalink_format
+          puts "           template_url: "+template_url_noext
           permalink_format = File.join(template_url_noext, permalink_format)
+          puts "           combined: "+permalink_format
         end
 
         Utils.ensure_leading_slash(permalink_format)

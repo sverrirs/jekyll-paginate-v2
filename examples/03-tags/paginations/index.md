@@ -1,6 +1,7 @@
 ---
 layout: home
 title: Biographies by Rank
+permalink: /biography
 pagination: 
   enabled: true
   collection: biography

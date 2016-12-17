@@ -20,7 +20,13 @@ require "jekyll-paginate-v2/generator/paginationPage"
 require "jekyll-paginate-v2/generator/paginationModel"
 require "jekyll-paginate-v2/generator/paginationGenerator"
 # Files needed for the auto category and tag pages
-
+require "jekyll-paginate-v2/autopages/utils"
+require "jekyll-paginate-v2/autopages/defaults"
+require "jekyll-paginate-v2/autopages/autoPages"
+require "jekyll-paginate-v2/autopages/pages/baseAutoPage"
+require "jekyll-paginate-v2/autopages/pages/categoryAutoPage"
+require "jekyll-paginate-v2/autopages/pages/collectionAutoPage"
+require "jekyll-paginate-v2/autopages/pages/tagAutoPage"
 
 module Jekyll 
   module PaginateV2

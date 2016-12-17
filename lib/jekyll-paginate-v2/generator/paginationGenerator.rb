@@ -19,9 +19,9 @@ module Jekyll
       #
       # Returns nothing.
       def generate(site)
-
+      #begin
         # Retrieve and merge the pagination configuration from the site yml file
-        default_config = DEFAULT.merge(site.config['pagination'] || {})
+        default_config = Jekyll::Utils.deep_merge_hashes(DEFAULT, site.config['pagination'] || {})
 
         # Compatibility Note: (REMOVE AFTER 2018-01-01)
         # If the legacy paginate logic is configured then read those values and merge with config
@@ -92,12 +92,7 @@ module Jekyll
         ################ 2 ####################
         # Create the proc that constructs the real-life site page
         # This is necessary to decouple the code from the Jekyll site object
-        page_create_lambda = lambda do | template_path |
-          template_full_path = File.join(site.source, template_path)
-          template_dir = File.dirname(template_path)
-
-          # Create the Jekyll page entry for the page
-          newpage = PaginationPage.new( site, site.source, template_dir, template_full_path)
+        page_add_lambda = lambda do | newpage |
           site.pages << newpage # Add the page to the site so that it is generated correctly
           return newpage # Return the site to the calling code
         end
@@ -125,7 +120,7 @@ module Jekyll
 
         ################ 4 ####################
         # Now create and call the model with the real-life page creation proc and site data
-        model = PaginationModel.new(logging_lambda, page_create_lambda, page_remove_lambda, collection_by_name_lambda)
+        model = PaginationModel.new(logging_lambda, page_add_lambda, page_remove_lambda, collection_by_name_lambda)
         if( default_config['legacy'] ) #(REMOVE AFTER 2018-01-01)
           all_posts = site.site_payload['site']['posts'].reject { |post| post['hidden'] }
           model.run_compatability(default_config, all_pages, site_title, all_posts) #(REMOVE AFTER 2018-01-01)
@@ -133,7 +128,11 @@ module Jekyll
           model.run(default_config, all_pages, site_title)
         end
 
-      end
+      #rescue => ex
+      #  puts ex.backtrace
+      #  raise
+      #end
+      end # function generate
     end # class PaginationGenerator
 
   end # module PaginateV2

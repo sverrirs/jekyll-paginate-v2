@@ -41,6 +41,15 @@ collections:
   romance: 
     output: true
     permalink: /romance/:path/
+
+autopages:
+  enabled: true
+  tags: 
+    layouts: 
+      - autopage_collections_tags.html
+      - autopage_tags.html
+    enabled: true
+    
   
 # This site uses the pretty permalink structure, this renders all urls with a slash / at the end and 
 # no file endings, I guess that is considered pretty :)
@@ -50,7 +59,7 @@ permalink: pretty
 pagination:
   enabled: true
   per_page: 3
-  permalink: '/book/:num/'
+  permalink: '/:num/'
   title_suffix: ' | :num'
   limit: 0
   sort_field: 'date'

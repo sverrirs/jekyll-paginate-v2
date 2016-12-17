@@ -2,6 +2,7 @@
 layout: post
 title:  "Welcome to Jekyll Paginate V2!"
 date:   2016-10-27 19:16:49 +0100
+tags: welcome, jekyll, blog, fun
 ---
 You’ll find this post in your `_posts` directory. This post along with all of the other example posts is paginated by the new [jekyll-paginate-v2 gem](https://github.com/sverrirs/jekyll-paginate-v2).
 
