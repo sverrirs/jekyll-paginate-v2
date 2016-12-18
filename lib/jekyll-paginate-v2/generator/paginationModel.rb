@@ -26,7 +26,7 @@ module Jekyll
         templates = self.discover_paginate_templates(site_pages)
         if( templates.size.to_i <= 0 )
           @logging_lambda.call "Is enabled, but I couldn't find any pagination page. Skipping pagination. "+
-          "Pages must have 'paginate: enabled: true' in their front-matter for pagination to work.", "warn"
+          "Pages must have 'pagination: enabled: true' in their front-matter for pagination to work.", "warn"
           return
         end
 
