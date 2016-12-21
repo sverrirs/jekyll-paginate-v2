@@ -1,5 +1,13 @@
 # Contributor Covenant Code of Conduct
 
+## TL;DR
+Try to be the best version of yourself and to be excellent to others.
+
+> “Be kind, for everyone you meet is fighting a harder battle.”
+> --Plato
+
+::heart::
+
 ## Our Pledge
 
 In the interest of fostering an open and welcoming environment, we as

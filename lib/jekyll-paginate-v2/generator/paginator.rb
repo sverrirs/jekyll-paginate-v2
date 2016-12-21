@@ -10,11 +10,6 @@ module Jekyll
       
       # Initialize a new Paginator.
       #
-      # site     - the Jekyll::Site object
-      # page_nr  - The Integer page number.
-      # all_posts - The Array of all the site's Posts.
-      # num_pages - The Integer number of pages or nil if you'd like the number
-      #             of pages calculated.
       def initialize(config_per_page, first_index_page_url, paginated_page_url, posts, cur_page_nr, num_pages)
         @page = cur_page_nr
         @per_page = config_per_page.to_i

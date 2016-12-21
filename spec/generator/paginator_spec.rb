@@ -5,7 +5,8 @@ module Jekyll::PaginateV2::Generator
 
     it "must include the necessary paginator attributes" do
 
-      pager = Paginator.new(10, "/page:num/", [], 1, 10, "/index.md", "/index.md")
+      #  config_per_page, first_index_page_url, paginated_page_url, posts, cur_page_nr, num_pages
+      pager = Paginator.new(10, "index.html", "/page:num/", [], 1, 10)
 
       # None of these accessors should throw errors, just run through them to test
       val = pager.page
@@ -21,10 +22,10 @@ module Jekyll::PaginateV2::Generator
     end
 
     it "must throw an error if the current page number is greater than the total pages" do
-      err = -> { pager = Paginator.new(10, "/page:num/", [], 10, 8, "/index.md", "/index.md") }.must_raise RuntimeError
+      err = -> { pager = Paginator.new(10, "index.html", "/page:num/", [], 10, 8) }.must_raise RuntimeError
 
       # No error should be raised below
-      pager = Paginator.new(10, "/page:num/", [], 8, 10, "/index.md", "/index.md")
+      pager = Paginator.new(10, "index.html", "/page:num/", [], 8, 10)
     end
 
     it "must trim the list of posts correctly based on the cur_page_nr and per_page" do
@@ -34,7 +35,7 @@ module Jekyll::PaginateV2::Generator
       # Initialize a pager with
       #   5 posts per page
       #   at page 2 out of 5 pages
-      pager = Paginator.new(5, "/page:num/", posts, 2, 5, "/index.md", "/index.md")
+      pager = Paginator.new(5, "index.html", "/page:num/", posts, 2, 5)
 
       pager.page.must_equal 2
       pager.per_page.must_equal 5
@@ -47,7 +48,7 @@ module Jekyll::PaginateV2::Generator
       pager.posts[4].must_equal '10'
 
       pager.previous_page.must_equal 1
-      pager.previous_page_path.must_equal '/index.md'
+      pager.previous_page_path.must_equal 'index.html'
       pager.next_page.must_equal 3
       pager.next_page_path.must_equal '/page3/'
     end
@@ -59,7 +60,7 @@ module Jekyll::PaginateV2::Generator
       # Initialize a pager with
       #   5 posts per page
       #   at page 2 out of 5 pages
-      pager = Paginator.new(5, "/page:num/", posts, 1, 5, "/index.md", "/index.md")
+      pager = Paginator.new(5, "index.html", "/page:num/", posts, 1, 5)
 
       pager.page.must_equal 1
       pager.per_page.must_equal 5
@@ -84,7 +85,7 @@ module Jekyll::PaginateV2::Generator
       # Initialize a pager with
       #   5 posts per page
       #   at page 2 out of 5 pages
-      pager = Paginator.new(5, "/page:num/", posts, 5, 5, "/index.md", "/index.md")
+      pager = Paginator.new(5, "index.html", "/page:num/", posts, 5, 5)
 
       pager.page.must_equal 5
       pager.per_page.must_equal 5

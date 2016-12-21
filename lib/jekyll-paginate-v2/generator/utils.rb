@@ -16,40 +16,6 @@ module Jekyll
       def self.calculate_number_of_pages(all_posts, per_page)
         (all_posts.size.to_f / per_page.to_i).ceil
       end
-
-      # Static: Return the pagination path of the page
-      #
-      # site     - the Jekyll::Site object
-      # cur_page_nr - the pagination page number
-      # config - the current configuration in use
-      #
-      # Returns the pagination path as a string
-      def self.paginate_path(template_url, template_path, cur_page_nr, permalink_format)
-        return nil if cur_page_nr.nil?
-        return template_url if cur_page_nr <= 1
-        if permalink_format.include?(":num")
-          permalink_format = Utils.format_page_number(permalink_format, cur_page_nr)
-        else
-          raise ArgumentError.new("Invalid pagination path: '#{permalink_format}'. It must include ':num'.")
-        end
-
-        # If the template url is not just root "/" then pre-pend the template_url path to it
-        template_dir = File.dirname(template_path)
-        if( template_dir != "." && template_dir != "" && template_dir != "/" )
-          template_url_noext = File.join(File.dirname(template_url), File.basename(template_url, '.*'))
-
-          # Now we want to remove any common part of the template url 
-          puts " *** >> Utils.paginate"
-          puts "           template_dir: "+template_dir
-          puts "           template_path: "+template_path
-          puts "           permalink: "+permalink_format
-          puts "           template_url: "+template_url_noext
-          permalink_format = File.join(template_url_noext, permalink_format)
-          puts "           combined: "+permalink_format
-        end
-
-        Utils.ensure_leading_slash(permalink_format)
-      end #function paginate_path
       
       # Static: returns a fully formatted string with the current page number if configured
       #

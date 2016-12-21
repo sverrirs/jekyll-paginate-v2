@@ -36,37 +36,6 @@ module Jekyll::PaginateV2::Generator
       Utils.remove_leading_slash("no").must_equal "no"
     end
 
-    it "paginate must return nil if cur_page_nr is nill" do
-      Utils.paginate_path(nil, nil, nil, nil).must_be_nil
-      Utils.paginate_path("/index/moore","/index/moore.md", nil, "/page:num/").must_be_nil
-    end
-
-    it "paginate must return the url to the template if cur_page_nr is equal to 1" do
-      Utils.paginate_path("/index/moore", "/index/moore.md", 1, "/page:num/").must_equal "/index/moore"
-      Utils.paginate_path("/index.html", "/index.html", 1, "/page/").must_equal "/index.html"
-    end
-
-    it "paginate must throw an error if the permalink path doesn't include :num" do
-      err = ->{ Utils.paginate_path("/index.html", "/index.html", 3, "/page/")}.must_raise ArgumentError
-      err.message.must_include ":num"
-    end
-
-    it "paginate must use the permalink value and format it based on the cur_page_nr" do
-      Utils.paginate_path("/index.html", "/index.html", 3, "/page:num/").must_equal "/page3/"
-      Utils.paginate_path("/index.html", "/index.html", 646, "/page/:num/").must_equal "/page/646/"
-    end
-
-    it "paginate must ensure a leading slash in the url it returns" do
-      Utils.paginate_path("/index.html", "/index.html", 3, "page:num/").must_equal "/page3/"
-      Utils.paginate_path("/index.html", "/index.html", 646, "page/:num/").must_equal "/page/646/"
-    end
-
-    it "paginate must pre-pend the template.path url to it if we're not at root" do
-      Utils.paginate_path("/sub/index.html", "/sub/index.html", 3, "page:num/").must_equal "/sub/index/page3/"
-      Utils.paginate_path("/sub/index", "/sub/index.html", 3, "page:num/").must_equal "/sub/index/page3/"
-      Utils.paginate_path("/index/", "/sub/index.html", 3, "page:num/").must_equal "/index/page3/"
-    end
-
     it "sort must sort strings lowercase" do
       Utils.sort_values( "AARON", "Aaron").must_equal 0
       Utils.sort_values( "AARON", "aaron").must_equal 0

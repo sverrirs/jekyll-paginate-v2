@@ -51,7 +51,7 @@ module Jekyll
 
         # Handle deprecation of settings and features
         if( !default_config['title_suffix' ].nil? )
-          Jekyll.logger.warn "Pagination:", "The 'title_suffix' configuration has been deprecated. Please use 'title'. See https://github.com/sverrirs/jekyll-paginate-v2#site-configuration"
+          Jekyll::Deprecator.deprecation_message "Pagination: The 'title_suffix' configuration has been deprecated. Please use 'title'. See https://github.com/sverrirs/jekyll-paginate-v2/blob/master/README-GENERATOR.md#site-configuration"
         end
 
         Jekyll.logger.debug "Pagination:","Starting"
@@ -122,10 +122,12 @@ module Jekyll
         # Now create and call the model with the real-life page creation proc and site data
         model = PaginationModel.new(logging_lambda, page_add_lambda, page_remove_lambda, collection_by_name_lambda)
         if( default_config['legacy'] ) #(REMOVE AFTER 2018-01-01)
+          Jekyll.logger.warn "Pagination:", "You are running jekyll-paginate backwards compatible pagination logic. Please ignore all earlier warnings displayed related to the old jekyll-paginate gem."
           all_posts = site.site_payload['site']['posts'].reject { |post| post['hidden'] }
           model.run_compatability(default_config, all_pages, site_title, all_posts) #(REMOVE AFTER 2018-01-01)
         else
-          model.run(default_config, all_pages, site_title)
+          count = model.run(default_config, all_pages, site_title)
+          Jekyll.logger.info "Pagination:", "Complete, processed #{count} pagination page(s)"
         end
 
       #rescue => ex

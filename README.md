@@ -12,8 +12,8 @@ Reach me at the [project issues](https://github.com/sverrirs/jekyll-paginate-v2/
 
 * [Installation](#installation)
 * [Example Sites](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples)
-* [Pagination Generator](README-GENERATOR.md)
-* [Auto-Pages](README-AUTOPAGES.md)
+* [Pagination Generator](#pagination-generator)
+* [Auto-Pages](#auto-pages)
 * [Issues / to-be-completed](#issues--to-be-completed)
 * [How to Contribute](#contributing)
 
@@ -27,9 +27,9 @@ Reach me at the [project issues](https://github.com/sverrirs/jekyll-paginate-v2/
 gem install jekyll-paginate-v2
 ```
 
-Update your [_config.yml](#site-configuration) and [pages](#page-configuration).
+Update your [_config.yml](README-GENERATOR.md#site-configuration) and [pages](README-GENERATOR.md#page-configuration).
 
-> Although fully backwards compatible, to enable the new features this gem needs slightly extended [site yml](#site-configuration) configuration and miniscule additional new front-matter for the [pages to paginate on](#page-configuration).
+> Although fully backwards compatible, to enable the new features this gem needs slightly extended [site yml](README-GENERATOR.md#site-configuration) configuration and miniscule additional new front-matter for the [pages to paginate on](README-GENERATOR.md#page-configuration).
 
 Now you're ready to run `jekyll serve` and your paginated files should be generated.
 
@@ -41,21 +41,27 @@ Please see the [Examples](https://github.com/sverrirs/jekyll-paginate-v2/tree/ma
 The [Pagination Generator](README-GENERATOR.md) forms the core of the pagination logic. Calculates and generates the pagination pages.
 
 
-## Auto-Pages
+## Auto Pages
 
 The [Auto-Pages](README-AUTOPAGES.md) is an optional feature that auto-magically generates paginated pages for all your tags, categories and collections.
 
 
 ## Issues / to-be-completed
 
-* A few missing unit-tests 
+* Unit-tests do not cover all critical code paths
 * No integration tests yet [#2](https://github.com/jekyll/jekyll-paginate/pull/2)
 * _Exclude_ filter not implemented [#6](https://github.com/jekyll/jekyll-paginate/issues/6)
+* Elegant way of collecting and printing debug information during pagination
 
+
+I welcome all testers and people willing to give me feedback and code reviews.
 
 ## Contributing
 
-I would welcome testers and people willing to give me feedback and code reviews. 
+Although this project is small it has a [code of conduct](CODE_OF_CONDUCT.md) that I hope everyone will do their best to follow when contributing to any aspects of this project. Be it discussions, issue reporting, documentation or programming. 
+
+> “Be kind, for everyone you meet is fighting a harder battle.”
+> --Plato
 
 If you don't want to open issues here on Github, send me your feedback by email at [jekyll@sverrirs.com](mailto:jekyll@sverrirs.com).
 

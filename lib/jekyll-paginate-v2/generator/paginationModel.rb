@@ -68,6 +68,9 @@ module Jekyll
             end
           end
         end #for
+
+        # Return the total number of templates found
+        return templates.size.to_i
       end # function run
 
       #
@@ -86,9 +89,9 @@ module Jekyll
         if( date = Date.strptime("20171101","%Y%m%d") <= Date.today )
           @logging_lambda.call "Legacy pagination logic will stop working on Jan 1st 2018, update your configs before that time.", "warn"
         else
-          @logging_lambda.call "Detected legacy jekyll-paginate logic being run. "+
-          "Please update your configs to use the new pagination logic. This compatibility function "+
-          "will stop working after Jan 1st 2018 and your site build will throw an error."
+          @logging_lambda.call "Detected legacy jekyll-paginate logic running. "+
+          "Please update your configs to use the jekyll-paginate-v2 logic. This compatibility function "+
+          "will stop working after Jan 1st 2018 and your site build will throw an error.", "warn"
         end
 
         if template = CompatibilityUtils.template_page(site_pages, legacy_config['legacy_source'], legacy_config['permalink'])
@@ -237,21 +240,9 @@ module Jekyll
         # Simpy override to use mine
         (1..total_pages).each do |cur_page_nr|
 
-          # OK, I need to simplify this whole logic!!!
-          # 1. template already has all the config that and page data that I need. So there is no reason to re-load it from disk!
-          #    let's just create a purely in-memory version of it and discard the real copy before getting in here!!
-          #       - This will also work with the AutoPages as they should be purely virtual as well (no physical page to read from)
-          # 2. After creating the copy of the fake page the url structure can be created based on the pagination config and simply append
-          #    it to the url currently set for the page (template.url), there is no template.path available now as there is no physical page
-          #    so we don't have to worry anymore about mis-matches between location on disk vs location in output
-          # 3. The pagination logic can now be simplified based on these assumptions
-          #      - We just need to keep track of the urls generated for the pages and pass in the stored precomputed paths (no recalculation every time)
-          #      - No special consideration is needed for the autopages logic
-          
-
           # 1. Create the in-memory page
           #    External Proc call to create the actual page for us (this is passed in when the pagination is run)
-          newpage = PaginationPageInMemory.new( template, true )
+          newpage = PaginationPage.new( template, true )
 
           # 2. Create the url for the in-memory page (calc permalink etc), construct the title, set all page.data values needed
           paginated_page_url = config['permalink']
