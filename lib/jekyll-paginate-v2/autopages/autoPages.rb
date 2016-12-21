@@ -7,7 +7,6 @@ module Jekyll
     Jekyll::Hooks.register :site, :post_read do |site|
 
       # Get the configuration for the auto pages
-      #autopage_config = DEFAULT.merge(site.config['autopages'] || {})
       autopage_config = Jekyll::Utils.deep_merge_hashes(DEFAULT, site.config['autopages'] || {})
       pagination_config = Jekyll::Utils.deep_merge_hashes(Jekyll::PaginateV2::Generator::DEFAULT, site.config['pagination'] || {})
 

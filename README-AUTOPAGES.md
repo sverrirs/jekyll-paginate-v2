@@ -10,6 +10,8 @@ The **AutoPages** are an optional pagination addon that automatically generates 
 * [Example Sites](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples)
 * [Common issues](#common-issues)
 
+:warning: This feature is still in active development and has not been released yet.
+
 ## Site configuration
 
 ``` yml
@@ -19,29 +21,14 @@ autopages:
     layouts: ['autopage_category.html']
     title: 'Posts in category :cat'
     permalink: '/category/:cat'
-
-    # In addition all the pagination settings can also be defined here
-    enabled: false
-    debug: false
-    collection: 'posts'
-    per_page: 10
-    limit: 0
-    sort_field: 'date'
-    sort_reverse: true
-    category: 'posts'
-    tag: ''
-    locale: '' 
-
   collections:
     layouts: ['autopage_collection.html']
     title: 'Posts in collection :coll'
     permalink: '/collection/:coll'
-    # ... default pagination configuration items ...
   tags:
     layouts: ['autopage_tags.html']
     title: 'Posts tagged with :tag'
     permalink: '/tag/:tag'
-    #... other pagination configuration items ...
 ```
 
 ## Advanced configuration

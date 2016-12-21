@@ -126,7 +126,7 @@ And to display pagination links, simply
 
 The code is fully backwards compatible and you will have access to all the normal paginator variables defined in the [official jekyll documentation](https://jekyllrb.com/docs/pagination/#liquid-attributes-available). 
 
-Neat!
+Neat! :ok_hand:
 
 Don't delay, go see the [Examples](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples), they're way more useful than read-me docs at this point :)
 

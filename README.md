@@ -58,10 +58,7 @@ I welcome all testers and people willing to give me feedback and code reviews.
 
 ## Contributing
 
-Although this project is small it has a [code of conduct](CODE_OF_CONDUCT.md) that I hope everyone will do their best to follow when contributing to any aspects of this project. Be it discussions, issue reporting, documentation or programming. 
-
-> “Be kind, for everyone you meet is fighting a harder battle.”
-> --Plato
+> Although this project is small it has a [code of conduct](CODE_OF_CONDUCT.md) that I hope everyone will do their best to follow when contributing to any aspects of this project. Be it discussions, issue reporting, documentation or programming. 
 
 If you don't want to open issues here on Github, send me your feedback by email at [jekyll@sverrirs.com](mailto:jekyll@sverrirs.com).
 
