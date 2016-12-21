@@ -1,6 +1,6 @@
 # Jekyll::Paginate V2::AutoPages
 
-The **AutoPages** are an optional pagination addon that automatically generates paginated pages for all your collections, tags and categories used in the pages on your site.
+**AutoPages** are an optional pagination addon that can automatically generate paginated pages for all your collections, tags and categories used in the pages on your site.
 
 > This feature is based on [code](https://github.com/stevecrozz/lithostech.com/blob/master/_plugins/tag_indexes.rb) written and graciously donated by [Stephen Crosby](https://github.com/stevecrozz). Thanks! :)
 
@@ -15,21 +15,38 @@ The **AutoPages** are an optional pagination addon that automatically generates 
 ## Site configuration
 
 ``` yml
+############################################################
+# Site configuration for the Auto-Pages feature
+# The values here represent the defaults if nothing is set
 autopages:
+
+  # Site-wide kill switch, disable here and it doesn't run at all 
   enabled: false
+
+  # Category pages, omit to disable
   categories: 
-    layouts: ['autopage_category.html']
+    # Layout that should be processed for every category found in the site
+    layouts: ['autopage_category.html'] 
+    # The title that each category paginate page should get (:cat is replaced by the Category name)
     title: 'Posts in category :cat'
+    # The permalink for the  pagination page (:cat is replaced), 
+    # the pagination permalink path is then appended to this permalink structure
     permalink: '/category/:cat'
+
+  # Collection pages, omit to disable
   collections:
     layouts: ['autopage_collection.html']
-    title: 'Posts in collection :coll'
+    title: 'Posts in collection :coll' # :coll is replaced by the collection name
     permalink: '/collection/:coll'
+  
+  # Tag pages, omit to disable
   tags:
     layouts: ['autopage_tags.html']
-    title: 'Posts tagged with :tag'
+    title: 'Posts tagged with :tag' # :tag is replaced by the tag name
     permalink: '/tag/:tag'
 ```
+
+## Simple configuration
 
 ## Advanced configuration
 
