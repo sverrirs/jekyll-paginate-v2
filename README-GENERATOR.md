@@ -1,8 +1,11 @@
 # Jekyll::Paginate V2::Generator
 
-The **Generator** forms the core of the pagination logic. It is responsible for performing the calculation and split into different pages. 
+The **Generator** forms the core of the pagination logic. It is responsible for reading the posts and collections in your site and split them correctly across multiple pages according to the supplied configuration. It also performs the necessary functions to link to the previous and next pages in the page-sets that it generates. 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/sverrirs/jekyll-paginate-v2/master/res/generator-logo.png" height="128" />
+</p>
 
-> The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were sourced discussions such as [#27](https://github.com/jekyll/jekyll-paginate/issues/27) (thanks [Günter Kits](https://github.com/gynter)).
+> The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were sourced from discussions such as [#27](https://github.com/jekyll/jekyll-paginate/issues/27) (thanks [Günter Kits](https://github.com/gynter)).
 
 * [Site configuration](#site-configuration)
 * [Page configuration](#page-configuration)

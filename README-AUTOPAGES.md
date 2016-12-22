@@ -1,6 +1,11 @@
 # Jekyll::Paginate V2::AutoPages
 
-**AutoPages** are an optional pagination addon that can automatically generate paginated pages for all your collections, tags and categories used in the pages on your site.
+**AutoPages** are an optional pagination addon that can automatically generate paginated pages for all your collections, tags and categories used in the pages on your site. This is useful if you have a large site where paginating the contents of your collections, tags or category lists provides a better user experience.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/sverrirs/jekyll-paginate-v2/master/res/autopages-logo.png" height="128" />
+</p>
+
 
 > This feature is based on [code](https://github.com/stevecrozz/lithostech.com/blob/master/_plugins/tag_indexes.rb) written and graciously donated by [Stephen Crosby](https://github.com/stevecrozz). Thanks! :)
 
@@ -10,7 +15,7 @@
 * [Example Sites](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples)
 * [Common issues](#common-issues)
 
-:warning: This feature is still in active development and has not been released yet.
+:warning: Please note, as of December 2016 this feature is still in **active development** and has not been released yet.
 
 ## Site configuration
 

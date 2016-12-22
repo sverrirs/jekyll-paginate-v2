@@ -31,15 +31,11 @@ module Jekyll
           Jekyll.logger.info "AutoPages:","Generating tag pages"
 
           # Roll through all documents in the posts collection and extract the tags
-          # construct the paginated tag page for each
-
-          # This retrieval of tags needs to be done more efficiently
-          tags_keys = Utils.index_posts_by(posts_to_use, 'tags').keys # Cannot use just the posts here, must use all things.. pages, posts, collections...
+          tags_keys = Utils.index_posts_by(posts_to_use, 'tags').keys # Cannot use just the posts here, must use all things.. posts, collections...
 
           tags_keys.each do |tag|
             # Iterate over each layout specified in the config
-            autopage_tag_config ['layouts'].each do | layout_name |              
-              
+            autopage_tag_config ['layouts'].each do | layout_name |
               #Jekyll.logger.info "AutoPages:","Tag '"+tag+"' > layout '"+layout_name+"'"
               # Use site.dest here as these pages are never created in the actual source but only inside the _site folder
               site.pages << TagAutoPage.new(site, site.dest, autopage_tag_config, pagination_config, layout_name, tag)
@@ -54,19 +50,15 @@ module Jekyll
       ###############################################
       # Generate the category pages if enabled
       #if !autopage_config['categories'].nil? 
-      #  # Roll through all documents in the posts collection and extract the tags
-      #  # construct the paginated tag page for each
-      #  site.posts.docs.map { |p| p.data['categories'] }.reduce(&:|).each do |category_name|
-      #    # Iterate over each layout specified in the config
-      #    autopage_config['categories']['layouts'].each do | layout_name |
-      #      site.pages << CategoryAutoPage.new(site, site.dest, '', autopage_config['categories'], layout_name, category_name)
-      #    end
-      #  end
+      
       #end
       
 
       ###############################################
       # Generate the Collection pages if enabled
+      #if !autopage_config['collections'].nil? 
+      
+      #end
     
 
       
