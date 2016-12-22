@@ -7,6 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "jekyll-paginate-v2"
   spec.version       = Jekyll::PaginateV2::VERSION
   spec.platform      = Gem::Platform::RUBY
+  spec.required_ruby_version = '>= 2.0.0'  # Same as Jekyll
   spec.date          = DateTime.now.strftime('%Y-%m-%d')
   spec.authors       = ["Sverrir Sigmundarson"]
   spec.email         = ["jekyll@sverrirs.com"]
@@ -20,8 +21,12 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "jekyll", ">= 3.0"
+  # Gem requires Jekyll to work
+  # ~> is the pessimistic operator and is equivalent to '>= 3.0', '< 4.0'
+  spec.add_runtime_dependency "jekyll", "~> 3.0"
+
+  # Development requires more
   spec.add_development_dependency "bundler", "~> 1.5"
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "minitest", '~> 5.4', '>= 5.4.3'
+  spec.add_development_dependency "rake", "~> 10.4"
+  spec.add_development_dependency "minitest", '~> 5.4'
 end
