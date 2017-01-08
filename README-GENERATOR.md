@@ -376,9 +376,9 @@ The `title` field in both the site.config and the front-matter configuration sup
 
 | Text | Replaced with | Example |
 | --- | --- | --- |
-| :title | The original page title | Page with `title: "Index"` and paginate config `title: ":title - split"` becomes `"Index - split"` |
-| :num | The number of the current page | Page with `title: "Index"` and paginate config `title: ":title (page :num)"` the second page becomes `"Index (page 2)"` |
-| :max | The total number of pages | Page with paginate config `title: ":num of :max"` the third page of 10 will become `"3 of 10"` |
+| :title | original page title | Page with `title: "Index"` and paginate config `title: ":title - split"` becomes `<title>Index - split</title>` |
+| :num | number of the current page | Page with `title: "Index"` and paginate config `title: ":title (page :num)"` the second page becomes `<title>Index (page 2)</title>` |
+| :max | total number of pages | Page with paginate config `title: ":num of :max"` the third page of 10 will become `<title>3 of 10</title>"` |
 
 ## Common issues
 
