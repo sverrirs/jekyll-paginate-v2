@@ -5,6 +5,7 @@ Pagination gem built specially for Jekyll 3 and newer and is a fully backwards c
 [![Build Status](https://travis-ci.org/sverrirs/jekyll-paginate-v2.svg?branch=master)](https://travis-ci.org/sverrirs/jekyll-paginate-v2) 
 [![Gem Version](https://badge.fury.io/rb/jekyll-paginate-v2.svg)](https://badge.fury.io/rb/jekyll-paginate-v2)
 [![Dependency Status](https://gemnasium.com/badges/github.com/sverrirs/jekyll-paginate-v2.svg)](https://gemnasium.com/github.com/sverrirs/jekyll-paginate-v2)
+[![Code Climate](https://codeclimate.com/github/sverrirs/jekyll-paginate-v2/badges/gpa.svg)](https://codeclimate.com/github/sverrirs/jekyll-paginate-v2)
 
 Reach me at the [project issues](https://github.com/sverrirs/jekyll-paginate-v2/issues) section or via email at [jekyll@sverrirs.com](mailto:jekyll@sverrirs.com).
 
