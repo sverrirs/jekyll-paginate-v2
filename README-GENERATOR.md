@@ -27,6 +27,7 @@ The **Generator** forms the core of the pagination logic. It is responsible for 
 * [Common issues](#common-issues)
     - [Dependency Error after installing](#i-keep-getting-a-dependency-error-when-running-jekyll-serve-after-installing-this-gem)
     - [Bundler error upgrading gem (Bundler::GemNotFound)](#im-getting-a-bundler-error-after-upgrading-the-gem-bundlergemnotfound)
+    - [Bundler error running gem (Gem::LoadError)](#im-getting-a-bundler-error-after-upgrading-the-gem-gemloaderror)
     - [Pagination pages are not found](#my-pagination-pages-are-not-being-found-couldnt-find-any-pagination-page-skipping-pagination)
     - [Categories cause excess folder nesting](#my-pages-are-being-nested-multiple-levels-deep)
     - [Pagination pages overwriting each others pages](#my-pagination-pages-are-overwriting-each-others-pages)
@@ -397,6 +398,13 @@ end
 ### I'm getting a bundler error after upgrading the gem (Bundler::GemNotFound)
 
 > bundler/spec_set.rb:95:in `block in materialize': Could not find jekyll-paginate-v2-1.0.0 in any of the sources (Bundler::GemNotFound)
+
+Delete your `Gemfile.lock` file and try again.
+
+
+### I'm getting a bundler error after upgrading the gem (Gem::LoadError)
+
+> bundler/runtime.rb:40:in 'block in setup': You have already activated addressable 2.5.0, but your Gemfile requires addressable 2.4.0. Prepending `bundle exec` to your command may solve this. (Gem::LoadError)
 
 Delete your `Gemfile.lock` file and try again.
 

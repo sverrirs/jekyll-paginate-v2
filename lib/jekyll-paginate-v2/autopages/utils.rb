@@ -27,7 +27,7 @@ module Jekyll
         coll = []
         for coll_name, coll_data in site_collections
           if !coll_data.nil? 
-            coll += coll_data.docs.select { |doc| !doc.data.has_key?('pagination') } # Exclude all pagination pages
+            coll += coll_data.docs.select { |doc| !doc.data.has_key?('pagination') }.each{ |doc| doc.data['__coll'] = coll_name } # Exclude all pagination pages and then for every page store it's collection name
           end
         end
         return coll

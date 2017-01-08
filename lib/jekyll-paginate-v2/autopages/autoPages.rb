@@ -1,12 +1,6 @@
 module Jekyll
   module PaginateV2::AutoPages
 
-    ## TODO
-    # 1. COME UP WITH A BETTER WAY TO DO FILTERING PER 'TAGS', INSTEAD OF UTILS.index_posts_by
-    # 2. IMPLEMENT CATEGORIES
-    # 3. IMPLEMENT COLLECTIONS
-    # 4. DOCUMENT
-
     #
     # When the site has been read then go a head an generate the necessary extra pages
     # This code is adapted from Stephen Crosby's code https://github.com/stevecrozz
@@ -31,44 +25,53 @@ module Jekyll
 
       ###############################################
       # Generate the Tag pages if enabled
-      if !autopage_config['tags'].nil?
-        autopage_tag_config = autopage_config['tags']
-        if autopage_tag_config ['enabled']
-          Jekyll.logger.info "AutoPages:","Generating tag pages"
-
-          # Roll through all documents in the posts collection and extract the tags
-          tags_keys = Utils.index_posts_by(posts_to_use, 'tags').keys # Cannot use just the posts here, must use all things.. posts, collections...
-
-          tags_keys.each do |tag|
-            # Iterate over each layout specified in the config
-            autopage_tag_config ['layouts'].each do | layout_name |
-              #Jekyll.logger.info "AutoPages:","Tag '"+tag+"' > layout '"+layout_name+"'"
-              # Use site.dest here as these pages are never created in the actual source but only inside the _site folder
-              site.pages << TagAutoPage.new(site, site.dest, autopage_tag_config, pagination_config, layout_name, tag)
-            end
-          end
-        else
-          Jekyll.logger.info "AutoPages:","Tag pages are disabled/not configured in site.config."
-        end
+      createtagpage_lambda = lambda do | autopage_tag_config, pagination_config, layout_name, tag |
+        site.pages << TagAutoPage.new(site, site.dest, autopage_tag_config, pagination_config, layout_name, tag)
       end
-
+      autopage_create(autopage_config, pagination_config, posts_to_use, 'tags', 'tags', createtagpage_lambda) # Call the actual function
+      
 
       ###############################################
       # Generate the category pages if enabled
-      #if !autopage_config['categories'].nil? 
+      createcatpage_lambda = lambda do | autopage_cat_config, pagination_config, layout_name, category |
+        site.pages << CategoryAutoPage.new(site, site.dest, autopage_cat_config, pagination_config, layout_name, category)
+      end
+      autopage_create(autopage_config, pagination_config,posts_to_use, 'categories', 'categories', createcatpage_lambda) # Call the actual function
       
-      #end
-      
-
       ###############################################
       # Generate the Collection pages if enabled
-      #if !autopage_config['collections'].nil? 
-      
-      #end
-    
-
-      
+      createcolpage_lambda = lambda do | autopage_col_config, pagination_config, layout_name, coll_name |
+        site.pages << CollectionAutoPage.new(site, site.dest, autopage_col_config, pagination_config, layout_name, coll_name)
+      end
+      autopage_create(autopage_config, pagination_config,posts_to_use, 'collections', '__coll', createcolpage_lambda) # Call the actual function
     
     end # Jekyll::Hooks
+
+
+    # STATIC: this function actually performs the steps to generate the autopages. It uses a lambda function to delegate the creation of the individual
+    #         page types to the calling code (this way all features can reuse the logic).
+    #
+    def self.autopage_create(autopage_config, pagination_config, posts_to_use, configkey_name, indexkey_name, createpage_lambda )
+       if !autopage_config[configkey_name].nil?
+        ap_sub_config = autopage_config[configkey_name]
+        if ap_sub_config ['enabled']
+          Jekyll.logger.info "AutoPages:","Generating #{configkey_name} pages"
+
+          # Roll through all documents in the posts collection and extract the tags
+          index_keys = Utils.index_posts_by(posts_to_use, indexkey_name).keys # Cannot use just the posts here, must use all things.. posts, collections...
+
+          index_keys.each do |index_key|
+            # Iterate over each layout specified in the config
+            ap_sub_config ['layouts'].each do | layout_name |
+              # Use site.dest here as these pages are never created in the actual source but only inside the _site folder
+              createpage_lambda.call(ap_sub_config, pagination_config, layout_name, index_key)
+            end
+          end
+        else
+          Jekyll.logger.info "AutoPages:","#{configkey_name} pages are disabled/not configured in site.config."
+        end
+      end
+    end
+
   end # module PaginateV2
 end # module Jekyll

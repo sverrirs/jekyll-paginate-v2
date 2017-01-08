@@ -49,6 +49,12 @@ autopages:
       - autopage_collections_tags.html
       - autopage_tags.html
     enabled: true
+  categories:
+    layouts:
+      - autopage_cat.html
+    enabled: true
+  collections:
+    enabled: true
     
   
 # This site uses the pretty permalink structure, this renders all urls with a slash / at the end and 
@@ -60,7 +66,7 @@ pagination:
   enabled: true
   per_page: 3
   permalink: '/:num/'
-  title_suffix: ' | :num'
+  title: ':title | :num of :max'
   limit: 0
   sort_field: 'date'
   sort_reverse: true
