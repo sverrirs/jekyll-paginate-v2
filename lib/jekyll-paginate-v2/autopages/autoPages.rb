@@ -12,9 +12,6 @@ module Jekyll
     # This code is adapted from Stephen Crosby's code https://github.com/stevecrozz
     Jekyll::Hooks.register :site, :post_read do |site|
 
-      # Development in progress...
-      return
-      
       # Get the configuration for the auto pages
       autopage_config = Jekyll::Utils.deep_merge_hashes(DEFAULT, site.config['autopages'] || {})
       pagination_config = Jekyll::Utils.deep_merge_hashes(Jekyll::PaginateV2::Generator::DEFAULT, site.config['pagination'] || {})
