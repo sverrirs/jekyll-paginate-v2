@@ -16,17 +16,21 @@ module Jekyll
       def self.calculate_number_of_pages(all_posts, per_page)
         (all_posts.size.to_f / per_page.to_i).ceil
       end
-      
-      # Static: returns a fully formatted string with the current page number if configured
+
+      # Static: returns a fully formatted string with the current (:num) page number and maximum (:max) page count replaced if configured
       #
-      def self.format_page_number(toFormat, cur_page_nr)
-        return toFormat.sub(':num', cur_page_nr.to_s)
+      def self.format_page_number(toFormat, cur_page_nr, total_page_count=nil)
+        s = toFormat.sub(':num', cur_page_nr.to_s)
+        if !total_page_count.nil?
+          s = s.sub(':max', total_page_count.to_s)
+        end
+        return s
       end #function format_page_number
 
-      # Static: returns a fully formatted string with the :title variable replaced
+      # Static: returns a fully formatted string with the :title variable and the current (:num) page number and maximum (:max) page count replaced
       #
-      def self.format_page_title(toFormat, title)
-        return toFormat.sub(':title', title.to_s)
+      def self.format_page_title(toFormat, title, cur_page_nr=nil, total_page_count=nil)
+        return format_page_number(toFormat.sub(':title', title.to_s), cur_page_nr, total_page_count)
       end #function format_page_title
       
       # Static: Return a String version of the input which has a leading slash.

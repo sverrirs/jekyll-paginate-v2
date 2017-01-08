@@ -23,6 +23,7 @@ The **Generator** forms the core of the pagination logic. It is responsible for 
 * [Overriding site configuration](#configuration-overrides)
 * [Advanced Sorting](#advanced-sorting)
 * [How to detect auto-generated pages](#detecting-generated-pagination-pages)
+* [Formatting page titles](#formatting-page-titles)
 * [Common issues](#common-issues)
     - [Dependency Error after installing](#i-keep-getting-a-dependency-error-when-running-jekyll-serve-after-installing-this-gem)
     - [Bundler error upgrading gem (Bundler::GemNotFound)](#im-getting-a-bundler-error-after-upgrading-the-gem-bundlergemnotfound)
@@ -55,7 +56,7 @@ pagination:
   # The permalink structure for the paginated pages (this can be any level deep)
   permalink: '/page/:num/'
 
-  # Optional the title format for the paginated pages (supports :title for original page title, :num for pagination page number)
+  # Optional the title format for the paginated pages (supports :title for original page title, :num for pagination page number, :max for total number of pages)
   title: ':title - page :num'
 
   # Limit how many pagenated pages to create (default: 0, means all)
@@ -368,6 +369,16 @@ To identify the auto-generated pages that are created by the pagination logic wh
 _In this example only pages that have a title and are not auto-generated are included._
 
 This variable is created and assigned the value `page.autogen = "jekyll-paginate-v2"` by the pagination logic. This way you can detect which pages are auto-generated and by what gem. 
+
+## Formatting page titles
+
+The `title` field in both the site.config and the front-matter configuration supports the following macros.
+
+| Text | Replaced with | Example |
+| --- | --- | --- |
+| :title | The original page title | Page with `title: "Index"` and paginate config `title: ":title - split"` becomes `"Index - split"` |
+| :num | The number of the current page | Page with `title: "Index"` and paginate config `title: ":title (page :num)"` the second page becomes `"Index (page 2)"` |
+| :max | The total number of pages | Page with paginate config `title: ":num of :max"` the third page of 10 will become `"3 of 10"` |
 
 ## Common issues
 

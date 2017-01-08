@@ -271,7 +271,7 @@ module Jekyll
           end
           # If the user specified a title suffix to be added then let's add that to all the pages except the first
           if( cur_page_nr > 1 && config.has_key?('title') )
-            newpage.data['title'] = "#{Utils.format_page_title(Utils.format_page_number(config['title'], cur_page_nr), tmp_title)}"
+            newpage.data['title'] = "#{Utils.format_page_title(config['title'], tmp_title, cur_page_nr, total_pages)}"
           else
             newpage.data['title'] = tmp_title
           end

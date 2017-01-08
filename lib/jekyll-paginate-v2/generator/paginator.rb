@@ -24,11 +24,11 @@ module Jekyll
 
         @total_posts = posts.size
         @posts = posts[init..offset]
-        @page_path = @page == 1 ? first_index_page_url : Utils.format_page_number(paginated_page_url, cur_page_nr)
+        @page_path = @page == 1 ? first_index_page_url : Utils.format_page_number(paginated_page_url, cur_page_nr, @total_pages)
         @previous_page = @page != 1 ? @page - 1 : nil
-        @previous_page_path = @page != 1 ? @page == 2 ? first_index_page_url : Utils.format_page_number(paginated_page_url, @previous_page) : nil
+        @previous_page_path = @page != 1 ? @page == 2 ? first_index_page_url : Utils.format_page_number(paginated_page_url, @previous_page, @total_pages) : nil
         @next_page = @page != @total_pages ? @page + 1 : nil
-        @next_page_path = @page != @total_pages ? Utils.format_page_number(paginated_page_url, @next_page) : nil
+        @next_page_path = @page != @total_pages ? Utils.format_page_number(paginated_page_url, @next_page, @total_pages) : nil
       end
 
       # Convert this Paginator's data to a Hash suitable for use by Liquid.

@@ -53,6 +53,14 @@ module Jekyll::PaginateV2::Generator
       Utils.sort_get_post_data(data, "book").must_be_nil
     end
 
+    it "should always replace max format with the specified number if specified" do
+      Utils.format_page_number( ":num-:max", 7, 16).must_equal "7-16"
+      Utils.format_page_number( ":num-:max", 13, 20).must_equal "13-20"
+      Utils.format_page_number( ":num-:max", -2, -4).must_equal "-2--4"
+      Utils.format_page_number( ":num_of_:max", 0, 10).must_equal "0_of_10"
+      Utils.format_page_number( ":num/:max", 1000, 2000).must_equal "1000/2000"
+    end
+
 
   end
 end
