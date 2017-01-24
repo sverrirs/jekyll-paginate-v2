@@ -27,11 +27,11 @@ module Jekyll
           end
           
           for key in post_data
-            key = key.downcase.strip
+            key = key.to_s.downcase.strip
             # If the key is a delimetered list of values 
             # (meaning the user didn't use an array but a string with commas)
             for k_split in key.split(/;|,/)
-              k_split = k_split.downcase.strip #Clean whitespace and junk
+              k_split = k_split.to_s.downcase.strip #Clean whitespace and junk
               if !index.has_key?(k_split)
                 index[k_split.to_s] = []
               end
@@ -80,7 +80,7 @@ module Jekyll
         # Now for all filter values for the config key, let's remove all items from the posts that
         # aren't common for all collections that the user wants to filter on
         for key in config_value
-          key = key.downcase.strip
+          key = key.to_s.downcase.strip
           posts = PaginationIndexer.intersect_arrays(posts, source_posts[key])
         end
         

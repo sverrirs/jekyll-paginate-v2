@@ -60,6 +60,7 @@ module Jekyll
               if !index.has_key?(k_split)
                 index[k_split.to_s] = []
               end
+              # TODO: Need to store the original key value here so that I can present it to the users as a page variable they can use (unmodified, e.g. tags not being 'sci-fi' but "Sci-Fi")
               index[k_split.to_s] << post
             end
           end
