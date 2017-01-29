@@ -12,6 +12,10 @@ module Jekyll
       'sort_reverse' => false,
       'sort_field'   => 'date',
       'limit'        => 0, # Limit how many content objects to paginate (default: 0, means all)
+      'trail'        => { 
+          'before' => 0, # Limits how many links to show before the current page in the pagination trail (0, means off, default: 0)
+          'after' => 0,  # Limits how many links to show after the current page in the pagination trail (0 means off, default: 0)
+      },
       'debug'        => false, # Turns on debug output for the gem
       'legacy'       => false # Internal value, do not use (will be removed after 2018-01-01)
     }

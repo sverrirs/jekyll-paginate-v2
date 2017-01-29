@@ -6,7 +6,15 @@ module Jekyll
     #
     class Paginator
       attr_reader :page, :per_page, :posts, :total_posts, :total_pages,
-        :previous_page, :previous_page_path, :next_page, :next_page_path, :page_path
+        :previous_page, :previous_page_path, :next_page, :next_page_path, :page_path, :page_trail
+
+      def page_trail
+        @page_trail
+      end
+
+      def page_trail=(page_array)
+        @page_trail = page_array
+      end
       
       # Initialize a new Paginator.
       #
@@ -45,11 +53,32 @@ module Jekyll
           'previous_page' => previous_page,
           'previous_page_path' => previous_page_path,
           'next_page' => next_page,
-          'next_page_path' => next_page_path
+          'next_page_path' => next_page_path,
+          'page_trail' => page_trail
         }
       end
       
     end # class Paginator
+
+    # Small utility class that handles individual pagination trails 
+    # and makes them easier to work with in Liquid
+    class PageTrail
+      attr_reader :num, :path, :title
+
+      def initialize( num, path, title )
+        @num = num
+        @path = path
+        @title = title
+      end #func initialize
+
+      def to_liquid
+        {
+          'num' => num,
+          'path' => path+"index.html",
+          'title' => title
+        }
+      end
+    end #class PageTrail
 
   end # module PaginateV2
 end # module Jekyll

@@ -22,6 +22,7 @@ The **Generator** forms the core of the pagination logic. It is responsible for 
 * [How to paginate on combination of filters](#paginate-on-combination-of-filters)
 * [Overriding site configuration](#configuration-overrides)
 * [Advanced Sorting](#advanced-sorting)
+* [Creating Pagination Trails](#creating-pagination-trails)
 * [How to detect auto-generated pages](#detecting-generated-pagination-pages)
 * [Formatting page titles](#formatting-page-titles)
 * [Common issues](#common-issues)
@@ -78,6 +79,14 @@ pagination:
   # Optional, the default locale to use, omit to disable (depends on a field 'locale' to be specified in the posts, 
   # in reality this can be any value, suggested are the Microsoft locale-codes (e.g. en_US, en_GB) or simply the ISO-639 language code )
   locale: '' 
+
+ # Optional,omit or set both before and after to zero to disable. 
+ # Controls how the pagination trail for the paginated pages look like. 
+ # this feature enables the user to display a <prev, 1, 2, 3, 4, 5, next> pagination trail on their page
+ # By default this feature produces two pages before and two pages after the current page (total of 5 pages)
+  trail: 
+    before: 2
+    after: 2
 
 ############################################################
 ```
@@ -355,6 +364,59 @@ pagination:
   sort_reverse: true
 ---
 ```
+
+## Creating Pagination Trails
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/sverrirs/jekyll-paginate-v2/master/res/pagination-trails.png" width="59" />
+</p>
+
+Creating a trail structure for your pagination as shown above can be achieved by enabling the `trail` configuration and including a little extra code in your liquid templates.
+
+``` yml
+pagination:
+  trail: 
+    before: 2 # The number of links before the current page
+    after: 2  # The number of links after the current page
+```
+
+Your layout file would then have to include code similar to the following to generate the correct HTML structure
+
+``` HTML
+{% if paginator.page_trail %}
+  {% for trail in paginator.page_trail %}
+    <li {% if page.url == trail.path %}class="selected"{% endif %}>
+        <a href="{{ trail.path | prepend: site.baseurl }}" title="{{trail.title}}">{{ trail.num }}</a>
+    </li>
+  {% endfor %}
+{% endif %}
+```
+_See [example 3](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples/03-tags) for a demo of a pagination trail_
+
+The `trail` value exposes three properties:
+* `num`: The number of the page
+* `path`: The path to the page
+* `title`: The title of the page
+
+The algorithm will always attempt to keep the same trail length for all pages (`trail length = before + after + 1`). 
+Example when on page 4 the trail for the configuration above would look like this
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/sverrirs/jekyll-paginate-v2/master/res/pagination-trails-p4.png" />
+</p>
+
+Different number of before and after trail links can be specified. Below is an example of how this yml config would look like when on the same page 4
+
+``` yml
+pagination:
+  trail: 
+    before: 1
+    after: 3
+```
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/sverrirs/jekyll-paginate-v2/master/res/pagination-trails-p4-b1a3.png" />
+</p>
 
 ## Detecting generated pagination pages
 

@@ -235,6 +235,9 @@ module Jekyll
         #### BEFORE STARTING REMOVE THE TEMPLATE PAGE FROM THE SITE LIST!
         @page_remove_lambda.call( template )
         
+        # list of all newly created pages
+        newpages = []
+
         # Now for each pagination page create it and configure the ranges for the collection
         # This .pager member is a built in thing in Jekyll and defines the paginator implementation
         # Simpy override to use mine
@@ -284,7 +287,38 @@ module Jekyll
           
           # Add the page to the site
           @page_add_lambda.call( newpage )
-        end
+
+          # Store the page in an internal list for later referencing if we need to generate a pagination number path later on
+          newpages << newpage
+        end #each.do total_pages
+
+        # Now generate the pagination number path, e.g. so that the users can have a prev 1 2 3 4 5 next structure on their page
+        # simplest is to include all of the links to the pages preceeding the current one
+        # (e.g for page 1 you get the list 2, 3, 4.... and for page 2 you get the list 3,4,5...)
+        if( config['trail'] && !config['trail'].nil? && newpages.size.to_i > 1 )
+          trail_before = [config['trail']['before'].to_i, 0].max
+          trail_after = [config['trail']['after'].to_i, 0].max
+          trail_length = trail_before + trail_after + 1
+
+          if( trail_before > 0 || trail_after > 0 )
+            newpages.select do | npage |
+              idx_start = [ npage.pager.page - trail_before - 1, 0].max # Selecting the beginning of the trail
+              idx_end = [idx_start + trail_length, newpages.size.to_i].min # Selecting the end of the trail
+
+              # Always attempt to maintain the max total of <trail_length> pages in the trail (it will look better if the trail doesn't shrink)
+              if( idx_end - idx_start < trail_length )
+                # Attempt to pad the beginning if we have enough pages
+                idx_start = [idx_start - ( trail_length - (idx_end - idx_start) ), 0].max # Never go beyond the zero index
+              end              
+
+              # Convert the newpages array into a two dimensional array that has [index, page_url] as items
+              #puts( "Trail created for page #{npage.pager.page} (idx_start:#{idx_start} idx_end:#{idx_end})")
+              npage.pager.page_trail = newpages[idx_start...idx_end].each_with_index.map {|ipage,idx| PageTrail.new(idx_start+idx+1, ipage.pager.page_path, ipage.data['title'])}
+              #puts( npage.pager.page_trail )
+            end #newpages.select
+          end #if trail_before / trail_after
+        end # if config['trail']
+
       end # function paginate
 
     end # class PaginationV2
