@@ -368,7 +368,7 @@ pagination:
 ## Creating Pagination Trails
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/sverrirs/jekyll-paginate-v2/master/res/pagination-trails.png" width="59" />
+  <img src="https://raw.githubusercontent.com/sverrirs/jekyll-paginate-v2/master/res/pagination-trails.png" />
 </p>
 
 Creating a trail structure for your pagination as shown above can be achieved by enabling the `trail` configuration and including a little extra code in your liquid templates.
@@ -393,19 +393,19 @@ Your layout file would then have to include code similar to the following to gen
 ```
 _See [example 3](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples/03-tags) for a demo of a pagination trail_
 
-The `trail` value exposes three properties:
+The `trail` object exposes three properties:
 * `num`: The number of the page
 * `path`: The path to the page
 * `title`: The title of the page
 
 The algorithm will always attempt to keep the same trail length for all pages (`trail length = before + after + 1`). 
-Example when on page 4 the trail for the configuration above would look like this
+As an example if we have only 7 pagination pages in total and the user is currently on page 6 then the trail would look like this
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/sverrirs/jekyll-paginate-v2/master/res/pagination-trails-p4.png" />
+  <img src="https://raw.githubusercontent.com/sverrirs/jekyll-paginate-v2/master/res/pagination-trails-p6.png" />
 </p>
 
-Different number of before and after trail links can be specified. Below is an example of how this yml config would look like when on the same page 4
+Different number of before and after trail links can be specified. Below is an example of how the yml config below would look like when on the same page 4
 
 ``` yml
 pagination:
