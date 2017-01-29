@@ -82,8 +82,6 @@ pagination:
 
  # Optional,omit or set both before and after to zero to disable. 
  # Controls how the pagination trail for the paginated pages look like. 
- # this feature enables the user to display a <prev, 1, 2, 3, 4, 5, next> pagination trail on their page
- # By default this feature produces two pages before and two pages after the current page (total of 5 pages)
   trail: 
     before: 2
     after: 2
