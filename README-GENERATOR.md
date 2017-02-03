@@ -446,6 +446,7 @@ The `title` field in both the site.config and the front-matter configuration sup
 Each pagination page defines an information structure `pagination_info` that is available to the liquid templates. This structure contains meta information for the pagination process, such as current pagination page and the total number of paginated pages.
 
 The following fields are available
+
 | Field | Description |
 | --- | --- |
 | curr_page | The number of the current pagination page |
