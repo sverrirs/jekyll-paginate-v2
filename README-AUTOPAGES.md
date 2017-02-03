@@ -62,6 +62,23 @@ Example of a simple autopage layout can be seen in Example 3 [examples/03-tags/_
 
 The layout does not need anything special beyond the normal pagination logic (e.g. `for post in paginator.posts` and then the next/prev arrows). You can either name the layouts by the default names (see site configuration section above) or give them a custom name and add them to the `layouts:` configuration for the relevant type of autopage.
 
+### Obtaining the original Tag or Category name
+Internally the autopage system will trim and downcase the indexing key (tag, category or collection name). To retrieve the original name of the index key you can use the `autopages.display_name` liquid variable.
+
+``` html
+<h1 class="page-heading">All pages tagged with <b>{% if page.autopages %}{{page.autopages.display_name}}{% endif %}</b></h1>
+```
+
+This variable returns the untouched key value. As an example if your site uses the tag `Science-Fiction` then
+
+```
+page.tag = "science-fiction"
+page.autopages.display_name = "Science-Fiction"
+```
+
+See [#6](https://github.com/sverrirs/jekyll-paginate-v2/issues/6) for more information.
+
+
 ## Advanced configuration
 You can customize the look an feel of the permalink structure and the title for the auto-pages. You can also add front-matter `pagination` configuration to the layout pages you're using to specify things like sorting, filtering and all the other configuration options that are available in the normal pagination generator.
 

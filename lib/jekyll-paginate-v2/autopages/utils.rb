@@ -33,7 +33,7 @@ module Jekyll
         return coll
       end
 
-      def self.index_posts_by(all_posts, index_key)
+      def self.ap_index_posts_by(all_posts, index_key)
         return nil if all_posts.nil?
         return all_posts if index_key.nil?
         index = {}
@@ -52,16 +52,16 @@ module Jekyll
           end
           
           for key in post_data
-            key = key.downcase.strip
+            key = key.strip
             # If the key is a delimetered list of values 
             # (meaning the user didn't use an array but a string with commas)
-            for k_split in key.split(/;|,/)
-              k_split = k_split.downcase.strip #Clean whitespace and junk
+            for raw_k_split in key.split(/;|,/)
+              k_split = raw_k_split.to_s.downcase.strip #Clean whitespace and junk
               if !index.has_key?(k_split)
-                index[k_split.to_s] = []
+                # Need to store the original key value here so that I can present it to the users as a page variable they can use (unmodified, e.g. tags not being 'sci-fi' but "Sci-Fi")
+                # Also, only interested in storing all the keys not the pages in this case
+                index[k_split.to_s] = [k_split.to_s, raw_k_split.to_s]
               end
-              # TODO: Need to store the original key value here so that I can present it to the users as a page variable they can use (unmodified, e.g. tags not being 'sci-fi' but "Sci-Fi")
-              index[k_split.to_s] << post
             end
           end
         end

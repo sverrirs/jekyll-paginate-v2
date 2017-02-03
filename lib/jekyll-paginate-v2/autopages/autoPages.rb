@@ -25,23 +25,23 @@ module Jekyll
 
       ###############################################
       # Generate the Tag pages if enabled
-      createtagpage_lambda = lambda do | autopage_tag_config, pagination_config, layout_name, tag |
-        site.pages << TagAutoPage.new(site, site.dest, autopage_tag_config, pagination_config, layout_name, tag)
+      createtagpage_lambda = lambda do | autopage_tag_config, pagination_config, layout_name, tag, tag_original_name |
+        site.pages << TagAutoPage.new(site, site.dest, autopage_tag_config, pagination_config, layout_name, tag, tag_original_name)
       end
       autopage_create(autopage_config, pagination_config, posts_to_use, 'tags', 'tags', createtagpage_lambda) # Call the actual function
       
 
       ###############################################
       # Generate the category pages if enabled
-      createcatpage_lambda = lambda do | autopage_cat_config, pagination_config, layout_name, category |
-        site.pages << CategoryAutoPage.new(site, site.dest, autopage_cat_config, pagination_config, layout_name, category)
+      createcatpage_lambda = lambda do | autopage_cat_config, pagination_config, layout_name, category, category_original_name |
+        site.pages << CategoryAutoPage.new(site, site.dest, autopage_cat_config, pagination_config, layout_name, category, category_original_name)
       end
       autopage_create(autopage_config, pagination_config,posts_to_use, 'categories', 'categories', createcatpage_lambda) # Call the actual function
       
       ###############################################
       # Generate the Collection pages if enabled
-      createcolpage_lambda = lambda do | autopage_col_config, pagination_config, layout_name, coll_name |
-        site.pages << CollectionAutoPage.new(site, site.dest, autopage_col_config, pagination_config, layout_name, coll_name)
+      createcolpage_lambda = lambda do | autopage_col_config, pagination_config, layout_name, coll_name, coll_original_name |
+        site.pages << CollectionAutoPage.new(site, site.dest, autopage_col_config, pagination_config, layout_name, coll_name, coll_original_name)
       end
       autopage_create(autopage_config, pagination_config,posts_to_use, 'collections', '__coll', createcolpage_lambda) # Call the actual function
     
@@ -58,13 +58,13 @@ module Jekyll
           Jekyll.logger.info "AutoPages:","Generating #{configkey_name} pages"
 
           # Roll through all documents in the posts collection and extract the tags
-          index_keys = Utils.index_posts_by(posts_to_use, indexkey_name).keys # Cannot use just the posts here, must use all things.. posts, collections...
+          index_keys = Utils.ap_index_posts_by(posts_to_use, indexkey_name) # Cannot use just the posts here, must use all things.. posts, collections...
 
-          index_keys.each do |index_key|
+          index_keys.each do |index_key, value|
             # Iterate over each layout specified in the config
             ap_sub_config ['layouts'].each do | layout_name |
               # Use site.dest here as these pages are never created in the actual source but only inside the _site folder
-              createpage_lambda.call(ap_sub_config, pagination_config, layout_name, index_key)
+              createpage_lambda.call(ap_sub_config, pagination_config, layout_name, index_key, value[-1]) # the last item in the value array will be the display name
             end
           end
         else

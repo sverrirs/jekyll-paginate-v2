@@ -2,7 +2,7 @@ module Jekyll
   module PaginateV2::AutoPages
 
     class BaseAutoPage < Jekyll::Page
-      def initialize(site, base, autopage_config, pagination_config, layout_name, set_autopage_data_lambda, get_autopage_permalink_lambda, get_autopage_title_lambda)
+      def initialize(site, base, autopage_config, pagination_config, layout_name, set_autopage_data_lambda, get_autopage_permalink_lambda, get_autopage_title_lambda, display_name)
         @site = site
         @base = base
         @name = 'index.html'
@@ -46,7 +46,7 @@ module Jekyll
 
         # Add the auto page flag in there to be able to detect the page (necessary when figuring out where to load it from)
         # TODO: Need to re-think this variable!!!
-        self.data['autopage'] = {"layout_path" => File.join( layout_dir, layout_name ) }
+        self.data['autopage'] = {"layout_path" => File.join( layout_dir, layout_name ), 'display_name' => display_name.to_s }
 
         data.default_proc = proc do |_, key|
           site.frontmatter_defaults.find(File.join(layout_dir, layout_name), type, key)

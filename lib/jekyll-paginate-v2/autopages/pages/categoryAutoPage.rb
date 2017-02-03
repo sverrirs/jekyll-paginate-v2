@@ -2,7 +2,7 @@ module Jekyll
   module PaginateV2::AutoPages
 
     class CategoryAutoPage < BaseAutoPage
-      def initialize(site, base, autopage_config, pagination_config, layout_name, category)
+      def initialize(site, base, autopage_config, pagination_config, layout_name, category, category_name)
 
         # Construc the lambda function to set the config values
         # this function received the pagination config hash and manipulates it
@@ -19,7 +19,7 @@ module Jekyll
         end
                 
         # Call the super constuctor with our custom lambda
-        super(site, base, autopage_config, pagination_config, layout_name, set_autopage_data_lambda, get_autopage_permalink_lambda, get_autopage_title_lambda)
+        super(site, base, autopage_config, pagination_config, layout_name, set_autopage_data_lambda, get_autopage_permalink_lambda, get_autopage_title_lambda, category_name)
         
       end #function initialize
 

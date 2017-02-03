@@ -22,6 +22,14 @@ module Jekyll
         self.data = Jekyll::Utils.deep_merge_hashes( page_to_copy.data, {} )
         if !page_to_copy.data['autopage']
           self.content = page_to_copy.content
+        else
+          # If the page is an auto page then migrate the necessary autopage info across into the
+          # new pagination page (so that users can get the correct keys etc)
+          if( page_to_copy.data['autopage'].has_key?('display_name') )
+            self.data['autopages'] = Jekyll::Utils.deep_merge_hashes( page_to_copy.data['autopage'], {} )
+            puts( "------ AUTOPAGE -------")
+            puts( self.data['autopages'] )
+          end
         end
 
         # Perform some validation that is also performed in Jekyll::Page
