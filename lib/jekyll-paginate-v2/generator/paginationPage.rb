@@ -27,8 +27,6 @@ module Jekyll
           # new pagination page (so that users can get the correct keys etc)
           if( page_to_copy.data['autopage'].has_key?('display_name') )
             self.data['autopages'] = Jekyll::Utils.deep_merge_hashes( page_to_copy.data['autopage'], {} )
-            puts( "------ AUTOPAGE -------")
-            puts( self.data['autopages'] )
           end
         end
 
