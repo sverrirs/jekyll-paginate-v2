@@ -9,7 +9,7 @@ layout: default
 
 <div class="home">
 
-  <h1 class="page-heading">AutoPage Category <b>{% if page.autopages %}{{page.autopage.display_name}}{% endif %}</b></h1>
+  <h1 class="page-heading">AutoPage Category <b>{% if page.autopages %}{{page.autopage.display_name}}{% endif %}</b> Page {{page.pagination_info.curr_page}} of {{page.pagination_info.total_pages}}</h1>
   
   Omg! all the categories in one paginated place
 

@@ -9,7 +9,7 @@ module Jekyll
     # This page exists purely in memory and is not read from disk
     #
     class PaginationPage < Page
-      def initialize(page_to_copy, ignored)
+      def initialize(page_to_copy, cur_page_nr, total_pages)
         @site = page_to_copy.site
         @base = ''
         @url = ''
@@ -29,6 +29,9 @@ module Jekyll
             self.data['autopages'] = Jekyll::Utils.deep_merge_hashes( page_to_copy.data['autopage'], {} )
           end
         end
+
+        # Store the current page and total page numbers in the pagination_info construct
+        self.data['pagination_info'] = {"curr_page" => cur_page_nr, 'total_pages' => total_pages }
 
         # Perform some validation that is also performed in Jekyll::Page
         validate_data! page_to_copy.path

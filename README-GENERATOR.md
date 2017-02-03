@@ -25,6 +25,7 @@ The **Generator** forms the core of the pagination logic. It is responsible for 
 * [Creating Pagination Trails](#creating-pagination-trails)
 * [How to detect auto-generated pages](#detecting-generated-pagination-pages)
 * [Formatting page titles](#formatting-page-titles)
+* [Reading pagination meta information](#reading-pagination-meta-information)
 * [Common issues](#common-issues)
     - [Dependency Error after installing](#i-keep-getting-a-dependency-error-when-running-jekyll-serve-after-installing-this-gem)
     - [Bundler error upgrading gem (Bundler::GemNotFound)](#im-getting-a-bundler-error-after-upgrading-the-gem-bundlergemnotfound)
@@ -440,6 +441,21 @@ The `title` field in both the site.config and the front-matter configuration sup
 | :title | original page title | Page with `title: "Index"` and paginate config `title: ":title - split"` becomes `<title>Index - split</title>` |
 | :num | number of the current page | Page with `title: "Index"` and paginate config `title: ":title (page :num)"` the second page becomes `<title>Index (page 2)</title>` |
 | :max | total number of pages | Page with paginate config `title: ":num of :max"` the third page of 10 will become `<title>3 of 10</title>"` |
+
+## Reading pagination meta information
+Each pagination page defines an information structure `pagination_info` that is available to the liquid templates. This structure contains meta information for the pagination process, such as current pagination page and the total number of paginated pages.
+
+The following fields are available
+| Field | Description |
+| --- | --- |
+| curr_page | The number of the current pagination page |
+| total_pages | The total number of pages in this pagination |
+
+Below is an example on how to print out a "Page x of n" in the pagination layout
+
+``` html
+<h2>Page {{page.pagination_info.curr_page}} of {{page.pagination_info.total_pages}}</h2>
+```
 
 ## Common issues
 

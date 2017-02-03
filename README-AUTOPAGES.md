@@ -10,9 +10,12 @@
 > This feature is based on [code](https://github.com/stevecrozz/lithostech.com/blob/master/_plugins/tag_indexes.rb) written and graciously donated by [Stephen Crosby](https://github.com/stevecrozz). Thanks! :)
 
 * [Site configuration](#site-configuration)
+* [Simple configuration](#simple-configuration)
+  + [Obtaining the original Tag or Category name](#obtaining-the-original-tag-or-category-name)
 * [Advanced configuration](#advanced-configuration)
 * [Specialised pages](#specialised-pages)
 * [Considerations](#considerations)
+  + [Title should not contain pagination macros](#title-should-not-contain-pagination-macros)
 * [Example Sites](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples)
 * [Common issues](#common-issues)
 
