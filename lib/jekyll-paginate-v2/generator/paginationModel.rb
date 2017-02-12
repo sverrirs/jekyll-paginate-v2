@@ -251,9 +251,9 @@ module Jekyll
           paginated_page_url = config['permalink']
           first_index_page_url = ""
           if template.data['permalink']
-            first_index_page_url = template.data['permalink']
+            first_index_page_url = template.data['permalink']+'/'
           else
-            first_index_page_url = template.dir
+            first_index_page_url = template.dir+'/'
           end
           paginated_page_url = File.join(first_index_page_url, paginated_page_url)
           
@@ -261,7 +261,13 @@ module Jekyll
           newpage.pager = Paginator.new( config['per_page'], first_index_page_url, paginated_page_url, using_posts, cur_page_nr, total_pages)
 
           # Create the url for the new page, make sure we prepend any permalinks that are defined in the template page before
-          newpage.set_url(File.join(newpage.pager.page_path, 'index.html'))
+          if newpage.pager.page_path.end_with? '/'
+            newpage.set_url(File.join(newpage.pager.page_path, 'index.html'))
+          else
+            # Support for extensionless permalinks
+            newpage.set_url(newpage.pager.page_path+'.html')
+          end
+
           if( template.data['permalink'] )
             newpage.data['permalink'] = newpage.pager.page_path
           end
