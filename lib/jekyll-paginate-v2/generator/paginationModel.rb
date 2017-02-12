@@ -251,9 +251,9 @@ module Jekyll
           paginated_page_url = config['permalink']
           first_index_page_url = ""
           if template.data['permalink']
-            first_index_page_url = template.data['permalink']+'/'
+            first_index_page_url = File.join(template.data['permalink'],"")
           else
-            first_index_page_url = template.dir+'/'
+            first_index_page_url = File.join(template.dir,"")
           end
           paginated_page_url = File.join(first_index_page_url, paginated_page_url)
           
