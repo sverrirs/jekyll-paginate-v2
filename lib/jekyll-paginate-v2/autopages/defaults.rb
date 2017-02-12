@@ -6,7 +6,7 @@ module Jekyll
       'enabled'     => false,
       'tags'        => {
         'layouts'       => ['autopage_tags.html'],
-        'title'         => 'Posts tagged with :tag`',
+        'title'         => 'Posts tagged with :tag',
         'permalink'     => '/tag/:tag',
         'enabled'       => true
 
