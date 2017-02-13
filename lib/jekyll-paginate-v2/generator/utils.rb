@@ -52,6 +52,17 @@ module Jekyll
       def self.remove_leading_slash(path)
         path[0..0] == "/" ? path[1..-1] : path
       end
+      
+      # Static: Return a String version of the input which has a trailing slash.
+      #         If the input already has a forward slash at the end, it will be
+      #         returned unchanged.
+      #
+      # path - a String path
+      #
+      # Returns the path with a trailing slash
+      def self.ensure_trailing_slash(path)
+        path[-1] == "/" ? path : "#{path}/"
+      end
 
       #
       # Sorting routine used for ordering posts by custom fields.
