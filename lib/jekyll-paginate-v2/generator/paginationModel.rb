@@ -251,9 +251,9 @@ module Jekyll
           paginated_page_url = config['permalink']
           first_index_page_url = ""
           if template.data['permalink']
-            first_index_page_url = File.join(template.data['permalink'],"")
+            first_index_page_url = Utils.ensure_trailing_slash(template.data['permalink'])
           else
-            first_index_page_url = File.join(template.dir,"")
+            first_index_page_url = Utils.ensure_trailing_slash(template.dir)
           end
           paginated_page_url = File.join(first_index_page_url, paginated_page_url)
           
@@ -263,6 +263,9 @@ module Jekyll
           # Create the url for the new page, make sure we prepend any permalinks that are defined in the template page before
           if newpage.pager.page_path.end_with? '/'
             newpage.set_url(File.join(newpage.pager.page_path, 'index.html'))
+          elsif newpage.pager.page_path.end_with? '.html'
+            # Support for direct .html files
+            newpage.set_url(newpage.pager.page_path)
           else
             # Support for extensionless permalinks
             newpage.set_url(newpage.pager.page_path+'.html')

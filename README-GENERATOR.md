@@ -57,7 +57,9 @@ pagination:
   per_page: 10
 
   # The permalink structure for the paginated pages (this can be any level deep)
-  permalink: '/page/:num/'
+  permalink: '/page/:num/' # Pages are index.html inside this folder (default)
+  #permalink: '/page/:num.html' # Pages are simple html files 
+  #permalink: '/page/:num' # Pages are html files, linked jekyll extensionless permalink style.
 
   # Optional the title format for the paginated pages (supports :title for original page title, :num for pagination page number, :max for total number of pages)
   title: ':title - page :num'
