@@ -218,7 +218,26 @@ module Jekyll
         # Apply sorting to the posts if configured, any field for the post is available for sorting
         if config['sort_field']
           sort_field = config['sort_field'].to_s
+
+          # There is an issue in Jekyll related to lazy initialized member variables that causes iterators to 
+          # break when accessing an uninitialized value during iteration. This happens for document.rb when the <=> compaison function 
+          # is called (as this function calls the 'date' field which for drafts are not initialized.)
+          # So to unblock this common issue for the date field I simply iterate once over every document and initialize the .date field explicitly
+          if @debug
+            puts "Pagination: ".rjust(20) + "Rolling through the date fields for all documents"
+          end
+          for p in using_posts
+            tmp_date = p.date
+            if( !tmp_date || tmp_date.nil? )
+              if @debug
+                puts "Pagination: ".rjust(20) + "Explicitly assigning date for doc: #{p.data['title']} | #{p.path}"
+              end
+              p.date = File.mtime(p.path)
+            end
+          end
+
           using_posts.sort!{ |a,b| Utils.sort_values(Utils.sort_get_post_data(a.data, sort_field), Utils.sort_get_post_data(b.data, sort_field)) }
+
           if config['sort_reverse']
             using_posts.reverse!
           end
