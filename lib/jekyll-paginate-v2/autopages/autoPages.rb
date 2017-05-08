@@ -52,7 +52,7 @@ module Jekyll
     #         page types to the calling code (this way all features can reuse the logic).
     #
     def self.autopage_create(autopage_config, pagination_config, posts_to_use, configkey_name, indexkey_name, createpage_lambda )
-       if !autopage_config[configkey_name].nil?
+      if !autopage_config[configkey_name].nil?
         ap_sub_config = autopage_config[configkey_name]
         if ap_sub_config ['enabled']
           Jekyll.logger.info "AutoPages:","Generating #{configkey_name} pages"
