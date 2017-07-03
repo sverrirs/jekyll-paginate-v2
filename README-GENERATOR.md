@@ -139,6 +139,27 @@ And to display pagination links, simply
 
 > All posts that have the `hidden: true` in their front matter are ignored by the pagination logic.
 
+Following fields area available on the `paginator` object
+
+| Field | Description |
+| --- | --- |
+| per_page | Maximum number of posts or documents on each pagination page. |
+| posts | The list of post objects that belong to this pagination page. |
+| total_posts | Total number of posts included in pagination. |
+| total_pages | Total number of pagination pages created. |
+| page | Number of the current pagination page. |
+| page_path | The relative Url path of the current pagination page. |
+| previous_page | Number of the previous page in the pagination. Nil if no previous page is available. |
+| previous_page_path | The relative Url of the previous page. Nil if no previous page is available. |
+| next_page | Number of the next page in the pagination. Nil if there is no next page available. |
+| next_page_path | The relative Url of the next page in the pagination. Nil if there is no next page available. |
+| first_page | Number of the first page in the pagination (usually this is `1`). |
+| first_page_path | The relative Url of the first page in the pagination. |
+| last_page | Number of the last page in the pagination (this is equal to `total_pages`). |
+| last_page_path | The relative Url of the last page in the pagination. |
+| page_trail | The [pagination trail](#creating-pagination-trails) structure |
+
+
 The code is fully backwards compatible and you will have access to all the normal paginator variables defined in the [official jekyll documentation](https://jekyllrb.com/docs/pagination/#liquid-attributes-available). 
 
 Neat! :ok_hand:
