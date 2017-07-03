@@ -6,7 +6,8 @@ module Jekyll
     #
     class Paginator
       attr_reader :page, :per_page, :posts, :total_posts, :total_pages,
-        :previous_page, :previous_page_path, :next_page, :next_page_path, :page_path, :page_trail
+        :previous_page, :previous_page_path, :next_page, :next_page_path, :page_path, :page_trail,
+        :first_page, :first_page_path, :last_page, :last_page_path
 
       def page_trail
         @page_trail
@@ -37,6 +38,11 @@ module Jekyll
         @previous_page_path = @page != 1 ? @page == 2 ? first_index_page_url : Utils.format_page_number(paginated_page_url, @previous_page, @total_pages) : nil
         @next_page = @page != @total_pages ? @page + 1 : nil
         @next_page_path = @page != @total_pages ? Utils.format_page_number(paginated_page_url, @next_page, @total_pages) : nil
+
+        @first_page = 1
+        @first_page_path = first_index_page_url
+        @last_page = @total_pages
+        @last_page_path = Utils.format_page_number(paginated_page_url, @total_pages, @total_pages)
       end
 
       # Convert this Paginator's data to a Hash suitable for use by Liquid.
@@ -54,6 +60,10 @@ module Jekyll
           'previous_page_path' => previous_page_path,
           'next_page' => next_page,
           'next_page_path' => next_page_path,
+          'first_page' => first_page,
+          'first_page_path' => first_page_path,
+          'last_page' => last_page,
+          'last_page_path' => last_page_path,
           'page_trail' => page_trail
         }
       end
@@ -74,7 +84,7 @@ module Jekyll
       def to_liquid
         {
           'num' => num,
-          'path' => path+"index.html",
+          'path' => path,
           'title' => title
         }
       end
