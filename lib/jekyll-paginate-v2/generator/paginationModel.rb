@@ -118,6 +118,9 @@ module Jekyll
           docs += @collection_by_name_lambda.call(coll_name.downcase.strip)
         end
 
+        # Hidden documents should not not be processed anywhere.
+        docs = docs.reject { |doc| doc['hidden'] }
+
         return docs
       end
 
