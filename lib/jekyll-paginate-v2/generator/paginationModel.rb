@@ -104,7 +104,7 @@ module Jekyll
 
       # Returns the combination of all documents in the collections that are specified
       # raw_collection_names can either be a list of collections separated by a ',' or ' ' or a single string
-      def get_docs_in_collections(raw_collection_names)
+      def get_docs_in_collections(raw_collection_names, offset)
         if raw_collection_names.is_a?(String)
           collection_names = raw_collection_names.split(/;|,|\s/)
         else
@@ -120,6 +120,9 @@ module Jekyll
 
         # Hidden documents should not not be processed anywhere.
         docs = docs.reject { |doc| doc['hidden'] }
+
+        # Remove the first x entries
+        docs = docs.drop(offset)
 
         return docs
       end
