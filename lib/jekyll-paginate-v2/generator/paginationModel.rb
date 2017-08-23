@@ -52,7 +52,7 @@ module Jekyll
               end
 
               # Request all documents in all collections that the user has requested 
-              all_posts = self.get_docs_in_collections(template_config['collection'], template_config['offset'])
+              all_posts = self.get_docs_in_collections(template_config['collection'])
 
               # Create the necessary indexes for the posts
               all_categories = PaginationIndexer.index_posts_by(all_posts, 'categories')
@@ -104,7 +104,7 @@ module Jekyll
 
       # Returns the combination of all documents in the collections that are specified
       # raw_collection_names can either be a list of collections separated by a ',' or ' ' or a single string
-      def get_docs_in_collections(raw_collection_names, offset)
+      def get_docs_in_collections(raw_collection_names)
         if raw_collection_names.is_a?(String)
           collection_names = raw_collection_names.split(/;|,|\s/)
         else
@@ -120,9 +120,6 @@ module Jekyll
 
         # Hidden documents should not not be processed anywhere.
         docs = docs.reject { |doc| doc['hidden'] }
-
-        # Remove the first x entries
-        docs = docs.drop(offset)
 
         return docs
       end
@@ -244,6 +241,9 @@ module Jekyll
           end
 
           using_posts.sort!{ |a,b| Utils.sort_values(Utils.sort_get_post_data(a.data, sort_field), Utils.sort_get_post_data(b.data, sort_field)) }
+          
+          # Remove the first x entries
+          using_posts.pop(config['offset'])
 
           if config['sort_reverse']
             using_posts.reverse!
