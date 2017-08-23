@@ -52,7 +52,7 @@ module Jekyll
               end
 
               # Request all documents in all collections that the user has requested 
-              all_posts = self.get_docs_in_collections(template_config['collection'])
+              all_posts = self.get_docs_in_collections(template_config['collection'], template_config['offset'])
 
               # Create the necessary indexes for the posts
               all_categories = PaginationIndexer.index_posts_by(all_posts, 'categories')
@@ -161,6 +161,7 @@ module Jekyll
           
           puts f + " Active Filters"
           puts f + "  Collection: ".ljust(r) + config['collection'].to_s
+          puts f + "  Offset: ".ljust(r) + config['offset'].to_s
           puts f + "  Category: ".ljust(r) + (config['category'].nil? || config['category'] == "posts" ? "[Not set]" : config['category'].to_s)
           puts f + "  Tag: ".ljust(r) + (config['tag'].nil? ? "[Not set]" : config['tag'].to_s)
           puts f + "  Locale: ".ljust(r) + (config['locale'].nil? ? "[Not set]" : config['locale'].to_s)
