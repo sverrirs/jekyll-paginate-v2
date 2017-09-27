@@ -3,19 +3,13 @@ cache: bundler
 sudo: false
 rvm:
  - 2.2
+before_install: 
+  - rm -rf .bundle/
+  - rm -rf vendor/cache/
+  - rm -rf Gemfile.lock
 before_script: bundle update
 #script: script/cibuild
 notifications:
   email:
     on_success: never
     on_failure: never
-#dist: trusty
-#addons:
-#  sonarqube:
-#    organization: "sverrirs-github" # the key of the org you chose at step #3
-#    token:
-        # travis encrypt abcdef0123456789
-#        secure: "nkcoP5JnKRT2GBkzloWWhBGVsaUyOWUu4woJklkVUUF0BsDnm3cwScwKDP48F6zT5mF0wfw/AWztUr/xWs6n1KJHqowyb3huxTRRyN6XygPt5UhUD1+zUWibeoh2EwtSAMvRK2cHvzKsaeNgn0vAZb5HQaM+11lTkGRz+aVCXNAks2GmOgxxE6pLbrwVttB8G2H4/Uw2672H642JXRrQTX9sl9EK75n8A4aallTQ2HXpH5qnBCcWCpNAAIGmwaQbW9VHFmiWh/OwsagpKD13wWazgVpULA5uz07BOC5e3yReBhM29TxJiZmWxDh6hrVoDyEfi/Q35QO72gOaCqVYFD+IOUvX9/BUBqFDDJIRxL2S4mm8UBtXJnRr+zD+GV6omfOVPmsKsdG7JXRDmwoAXcYE7Kkr0EZBCVA8A1K+08wJQ19tAxxiX2cbt5+2GXBriLJCQqZb0WczU2mdG46gGZvJrVKR2xL6orD3iDimh3eHGfFzF7pjW0lOXamXLugL/B7TFfew3zNr+y0Xy+INI4LzXrEozqNbLQIwVgIW2QcDoHxGy2fToLq+5t3X+J81jU98HO83Lt4htM7ZXoTJdh4k5uvrF63c3pXtF/sHABqb/bRlIbeamKzWEJjaJHnvlpOyNX8fAPmdoysqdkfic6YH925t00vXi8VXPY5eWoc="
-#script:
-  # other script steps might be done before running the actual SonarQube analysis
-#  - sonar-scanner
