@@ -13,9 +13,6 @@ module Jekyll
         @site = page_to_copy.site
         @base = ''
         @url = ''
-        @name = 'index.html'
-
-        self.process(@name) # Creates the basename and ext member values
 
         # Only need to copy the data part of the page as it already contains the layout information
         #self.data = Marshal.load(Marshal.dump(page_to_copy.data)) # Deep copying, http://stackoverflow.com/a/8206537/779521
@@ -32,6 +29,13 @@ module Jekyll
 
         # Store the current page and total page numbers in the pagination_info construct
         self.data['pagination_info'] = {"curr_page" => cur_page_nr, 'total_pages' => total_pages }
+
+        # Set the page extension
+        extension = self.data['pagination']['extension']
+        extension = extension.nil? ? '.html': '.' + extension
+        @name = 'index' + extension
+
+        self.process(@name) # Creates the basename and ext member values
 
         # Perform some validation that is also performed in Jekyll::Page
         validate_data! page_to_copy.path
