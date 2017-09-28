@@ -26,6 +26,7 @@ The **Generator** forms the core of the pagination logic. It is responsible for 
 * [How to detect auto-generated pages](#detecting-generated-pagination-pages)
 * [Formatting page titles](#formatting-page-titles)
 * [Reading pagination meta information](#reading-pagination-meta-information)
+* [How to generate a JSON API](#generating-a-json-api)
 * [Common issues](#common-issues)
     - [Dependency Error after installing](#i-keep-getting-a-dependency-error-when-running-jekyll-serve-after-installing-this-gem)
     - [Bundler error upgrading gem (Bundler::GemNotFound)](#im-getting-a-bundler-error-after-upgrading-the-gem-bundlergemnotfound)
@@ -88,6 +89,10 @@ pagination:
   trail: 
     before: 2
     after: 2
+
+  # Optional, the default file extension for generated pages (e.g html, json, xml).
+  # Internally this is set to html by default
+  extension: html
 
 ############################################################
 ```
@@ -480,6 +485,62 @@ Below is an example on how to print out a "Page x of n" in the pagination layout
 ``` html
 <h2>Page {{page.pagination_info.curr_page}} of {{page.pagination_info.total_pages}}</h2>
 ```
+
+## Generating a JSON API
+
+Delivering content via an API is useful, for a lot of the same reasons that pagination is useful. We want to delivery content, in such a way, that is:
+
+1. Easy for the user to consume.
+2. Easy for the browser to load.
+
+Paginating content meets both of these requirements, but developers are limited to presenting content statically rather than dynamically.
+
+Some example of dynamic content delivery are:
+
+- Pop up modals
+- Infinite scrolling
+- Multi-tiered pagination (e.g. Netflix UI horizontal scrolling for multiple movie categories)
+
+How do I generate a JSON API for Jekyll?
+
+First, create a new jekyll page. I'm going to call my page `siteAPI.md`.
+
+Next, we're going to use the `extension` option to output the page as a JSON file.
+
+Here's an example page:
+```
+---
+layout: null
+permalink: /api
+pagination:
+  enabled: true
+  extension: json
+---
+
+{
+  "pages": [
+  {% for post in paginator.posts %}
+    {
+      "title": "{{ post.title }}",
+      "link": "{{ post.url }}"
+    },
+  {% endfor %}
+  ]
+}
+```
+
+Next, run `jekyll build`. This will generate a set of paginated JSON files.
+
+After the build has completed the JSON files will be located in the `_site/api` directory.
+The JSON files can be accessed over HTTP.
+
+Here's an example set of routes:
+
+- http://localhost:4000/api/index.json
+- http://localhost:4000/api/page/2/index.json
+- http://localhost:4000/api/page/3/index.json
+
+These routes can be fetched via AJAX to dynamically load content into your site.
 
 ## Common issues
 
