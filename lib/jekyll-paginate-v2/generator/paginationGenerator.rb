@@ -26,9 +26,10 @@ module Jekyll
         # Compatibility Note: (REMOVE AFTER 2018-01-01)
         # If the legacy paginate logic is configured then read those values and merge with config
         if !site.config['paginate'].nil?
+          Jekyll.logger.info "Pagination:","Legacy paginate configuration settings detected and will be used."
           # You cannot run both the new code and the old code side by side
           if !site.config['pagination'].nil?
-            err_msg = "The new jekyll-paginate-v2 and the old jekyll-paginate logic cannot both be configured in the site config at the same time. Please disable the old 'paginate:' config settings."
+            err_msg = "The new jekyll-paginate-v2 and the old jekyll-paginate logic cannot both be configured in the site config at the same time. Please disable the old 'paginate:' config settings by either omitting the values or setting them to 'paginate:off'."
             Jekyll.logger.error err_msg 
             raise ArgumentError.new(err_msg)
           end

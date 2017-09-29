@@ -262,6 +262,11 @@ module Jekyll
         # list of all newly created pages
         newpages = []
 
+        # Consider the default index page name and extension
+        indexPageName = config['indexpage'].split('.')[0]
+        indexPageExt = Utils.ensure_leading_dot(config['extension'])
+        indexPageWithExt = indexPageName + indexPageExt
+
         # Now for each pagination page create it and configure the ranges for the collection
         # This .pager member is a built in thing in Jekyll and defines the paginator implementation
         # Simpy override to use mine
@@ -269,7 +274,7 @@ module Jekyll
 
           # 1. Create the in-memory page
           #    External Proc call to create the actual page for us (this is passed in when the pagination is run)
-          newpage = PaginationPage.new( template, cur_page_nr, total_pages )
+          newpage = PaginationPage.new( template, cur_page_nr, total_pages, indexPageWithExt )
 
           # 2. Create the url for the in-memory page (calc permalink etc), construct the title, set all page.data values needed
           paginated_page_url = config['permalink']
@@ -282,17 +287,17 @@ module Jekyll
           paginated_page_url = File.join(first_index_page_url, paginated_page_url)
           
           # 3. Create the pager logic for this page, pass in the prev and next page numbers, assign pager to in-memory page
-          newpage.pager = Paginator.new( config['per_page'], first_index_page_url, paginated_page_url, using_posts, cur_page_nr, total_pages)
+          newpage.pager = Paginator.new( config['per_page'], first_index_page_url, paginated_page_url, using_posts, cur_page_nr, total_pages, indexPageName, indexPageExt)
 
           # Create the url for the new page, make sure we prepend any permalinks that are defined in the template page before
           if newpage.pager.page_path.end_with? '/'
-            newpage.set_url(File.join(newpage.pager.page_path, 'index.html'))
-          elsif newpage.pager.page_path.end_with? '.html'
+            newpage.set_url(File.join(newpage.pager.page_path, indexPageWithExt))
+          elsif newpage.pager.page_path.end_with? indexPageExt
             # Support for direct .html files
             newpage.set_url(newpage.pager.page_path)
           else
             # Support for extensionless permalinks
-            newpage.set_url(newpage.pager.page_path+'.html')
+            newpage.set_url(newpage.pager.page_path+indexPageExt)
           end
 
           if( template.data['permalink'] )

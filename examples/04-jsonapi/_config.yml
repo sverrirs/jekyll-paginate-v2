@@ -13,10 +13,10 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Paginate Example - 03 Tags
+title: Paginate Example - 01 Typical Blog
 email: jekyll@sverrirs.com
 description: > # this means to ignore newlines until "baseurl:"
-  Shows how the jekyll-paginate-v2 gem can be used to paginate on tags and categories together.
+  Shows how the jekyll-paginate-v2 gem can be used on a typical blog created in Jekyll.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  sverrirs
@@ -29,49 +29,23 @@ gems:
 exclude:
   - Gemfile
   - Gemfile.lock
-  
-# Collection configurations
-collections:
-  biography:
-    output: true
-    permalink: /biography/:path/
-  fantasy:
-    output: true
-    permalink: /fantasy/:path/
-  romance: 
-    output: true
-    permalink: /romance/:path/
 
-autopages:
-  enabled: true
-  tags: 
-    layouts: 
-      - autopage_collections_tags.html
-      - autopage_tags.html
-    enabled: true
-  categories:
-    layouts:
-      - autopage_cat.html
-    enabled: true
-  collections:
-    enabled: true
-    
-  
-# This site uses the pretty permalink structure, this renders all urls with a slash / at the end and 
-# no file endings, I guess that is considered pretty :)
-permalink: pretty
+# Produces a cleaner folder structure when using categories
+permalink: /:year/:month/:title.html
 
 # Pagination Settings
 pagination:
   enabled: true
   per_page: 3
-  permalink: '/:num/'
-  title: ':title | :num of :max'
+  permalink: '/page/:num/'
+  title: ':title - page :num of :max'
   limit: 0
   sort_field: 'date'
   sort_reverse: true
- # extension: htm
- # indexpage: 'default'
-  trail: 
-    before: 2
-    after: 2
+  
+############################################################
+# Old jekyll-paginate pagination logic
+#   Uncomment thew two entries below to demonstrate how this new gem
+#   retains backwards compatibility with the old pagination logic 
+#paginate: 3
+#paginate_path: "/legacy/page:num/"

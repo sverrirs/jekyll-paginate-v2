@@ -82,7 +82,7 @@ module Jekyll
       def self.paginate(legacy_config, all_posts, page, page_add_lambda )
         pages = Utils.calculate_number_of_pages(all_posts, legacy_config['per_page'].to_i)
         (1..pages).each do |num_page|
-          pager = Paginator.new( legacy_config['per_page'], page.url, legacy_config['permalink'], all_posts, num_page, pages )
+          pager = Paginator.new( legacy_config['per_page'], page.url, legacy_config['permalink'], all_posts, num_page, pages, '', '' )
           if num_page > 1
             template_full_path = File.join(page.site.source, page.path)
             template_dir = File.dirname(page.path)

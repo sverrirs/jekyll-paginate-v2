@@ -27,6 +27,7 @@ The **Generator** forms the core of the pagination logic. It is responsible for 
 * [Formatting page titles](#formatting-page-titles)
 * [Reading pagination meta information](#reading-pagination-meta-information)
 * [How to generate a JSON API](#generating-a-json-api)
+* [Renaming pagination file names](#renaming-pagination-file-names)
 * [Common issues](#common-issues)
     - [Dependency Error after installing](#i-keep-getting-a-dependency-error-when-running-jekyll-serve-after-installing-this-gem)
     - [Bundler error upgrading gem (Bundler::GemNotFound)](#im-getting-a-bundler-error-after-upgrading-the-gem-bundlergemnotfound)
@@ -93,6 +94,10 @@ pagination:
   # Optional, the default file extension for generated pages (e.g html, json, xml).
   # Internally this is set to html by default
   extension: html
+
+  # Optional, the default name of the index file for generated pages (e.g. 'index.html')
+  # Without file extension
+  indexpage: 'index'
 
 ############################################################
 ```
@@ -493,19 +498,16 @@ Delivering content via an API is useful, for a lot of the same reasons that pagi
 1. Easy for the user to consume.
 2. Easy for the browser to load.
 
-Paginating content meets both of these requirements, but developers are limited to presenting content statically rather than dynamically.
-
-Some example of dynamic content delivery are:
-
+Paginating content meets both of these requirements, but developers are limited to presenting content statically rather than dynamically. Some example of dynamic content delivery are:
 - Pop up modals
 - Infinite scrolling
 - Multi-tiered pagination (e.g. Netflix UI horizontal scrolling for multiple movie categories)
 
-How do I generate a JSON API for Jekyll?
+### So how do I generate a JSON API for Jekyll?
 
-First, create a new jekyll page. I'm going to call my page `siteAPI.md`.
+First, create a new jekyll page and set its layout to `null` to avoid any extra html to show up.
 
-Next, we're going to use the `extension` option to output the page as a JSON file.
+Next, use the `extension` and `indexpage` option to customize the output of the page and its paginated content as JSON files.
 
 Here's an example page:
 ```
@@ -513,34 +515,82 @@ Here's an example page:
 layout: null
 permalink: /api
 pagination:
+  permalink: 'feed-:num'
   enabled: true
   extension: json
+  indexpage: 'feed-1'
 ---
 
 {
-  "pages": [
-  {% for post in paginator.posts %}
+  "pages": [{% for post in paginator.posts %}
+    {% if forloop.first != true %},{% endif %}
     {
       "title": "{{ post.title }}",
       "link": "{{ post.url }}"
-    },
-  {% endfor %}
+    }{% endfor %}
   ]
 }
 ```
+Next, run `jekyll build`. This will generate a set of paginated JSON files under the folder `/api`. These JSON files can be loaded via Javascript/AJAX to dynamically load content into your site.
 
-Next, run `jekyll build`. This will generate a set of paginated JSON files.
+Below's an example set of routes that the configuration would generate:
+- http://localhost:4000/api/feed-1.json
+- http://localhost:4000/api/feed-2.json
+- http://localhost:4000/api/feed-3.json
 
-After the build has completed the JSON files will be located in the `_site/api` directory.
-The JSON files can be accessed over HTTP.
+And here is an example of one of the feed.json files that are created given the markup above
+```
+{
+  "pages": [
+    {
+      "title": "Narcisse Snake Pits",
+      "link": "/2016/11/narcisse-snake-pits.html"
+    },{
+      "title": "Luft-Fahrzeug-Gesellschaft",
+      "link": "/2016/11/luft-fahrzeug-gesellschaft.html"
+    },{
+      "title": "Rotary engine",
+      "link": "/2016/11/rotary-engine.html"
+    }
+  ], 
+  "next": "/api/feed-11.json",
+  "prev": "/api/feed-9.json",
+  "first": "/api/feed-1.json"
+}
+```
 
-Here's an example set of routes:
+For further information see [Example 4](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples/04-jsonapi), that project can serve as a starting point for your experiments with this feature.
 
-- http://localhost:4000/api/index.json
-- http://localhost:4000/api/page/2/index.json
-- http://localhost:4000/api/page/3/index.json
+### How did you generate those 'next', 'prev' and 'first' links?
 
-These routes can be fetched via AJAX to dynamically load content into your site.
+All the normal paginator variables can be used in these JSON feed files. You can use them to achive quite powerful features such as pre-loading and detecting when there are no more feeds to load. 
+
+```
+{% if paginator.next_page %}
+  ,"next": "{{ paginator.next_page_path }}"
+  {% endif %}
+  {% if paginator.last_page %}
+  ,"prev": "{{ paginator.last_page_path }}"
+  {% endif %}
+  {% if paginator.first_page %}
+  ,"first": "{{ paginator.first_page_path }}"
+  {% endif %}
+```
+
+## Renaming pagination file names
+By default the pagination system creates all paginated pages as `index.html`. The system provides an option to override this name and file extension with the 
+
+```yml
+  indexpage: index
+  extension: html
+```
+
+If you wanted to generate all pagination files as `default.htm` then the settings should be configured as follows
+
+```yml
+  indexpage: default
+  extension: htm
+```
 
 ## Common issues
 

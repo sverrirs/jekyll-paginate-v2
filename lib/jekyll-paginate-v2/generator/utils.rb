@@ -32,6 +32,17 @@ module Jekyll
       def self.format_page_title(toFormat, title, cur_page_nr=nil, total_page_count=nil)
         return format_page_number(toFormat.sub(':title', title.to_s), cur_page_nr, total_page_count)
       end #function format_page_title
+
+      # Static: Return a String version of the input which has a leading dot.
+      #         If the input already has a dot in position zero, it will be
+      #         returned unchanged.
+      #
+      # path - a String path
+      #
+      # Returns the path with a leading slash
+      def self.ensure_leading_dot(path)
+        path[0..0] == "." ? path : ".#{path}"
+      end
       
       # Static: Return a String version of the input which has a leading slash.
       #         If the input already has a forward slash in position zero, it will be
