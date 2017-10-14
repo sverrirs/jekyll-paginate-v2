@@ -9,7 +9,7 @@ Pagination gem built specially for Jekyll 3 and newer that is fully backwards co
 [![security](https://hakiri.io/github/sverrirs/jekyll-paginate-v2/master.svg)](https://hakiri.io/github/sverrirs/jekyll-paginate-v2/master)
 [![Gem](https://img.shields.io/gem/dt/jekyll-paginate-v2.svg)](https://rubygems.org/gems/jekyll-paginate-v2)
 
-Reach me at the [project issues](https://github.com/sverrirs/jekyll-paginate-v2/issues) section or via email at [jekyll@sverrirs.com](mailto:jekyll@sverrirs.com).
+Reach me at the [project issues](https://github.com/sverrirs/jekyll-paginate-v2/issues) section or via email at [jekyll@sverrirs.com](mailto:jekyll@sverrirs.com), you can also get in touch on the project's [Glitter chat room](https://gitter.im/jekyll-paginate-v2/Lobby).
 
 > The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were sourced from discussions such as [#27](https://github.com/jekyll/jekyll-paginate/issues/27) (thanks [Günter Kits](https://github.com/gynter)).
 
