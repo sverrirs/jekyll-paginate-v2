@@ -1,5 +1,7 @@
 # Jekyll::Paginate V2
 
+[![Join the chat at https://gitter.im/jekyll-paginate-v2/Lobby](https://badges.gitter.im/jekyll-paginate-v2/Lobby.svg)](https://gitter.im/jekyll-paginate-v2/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Pagination gem built specially for Jekyll 3 and newer that is fully backwards compatable and serves as an enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate). View it on [rubygems.org](https://rubygems.org/gems/jekyll-paginate-v2).
 
 [![Gem](https://img.shields.io/gem/v/jekyll-paginate-v2.svg)](https://rubygems.org/gems/jekyll-paginate-v2)
