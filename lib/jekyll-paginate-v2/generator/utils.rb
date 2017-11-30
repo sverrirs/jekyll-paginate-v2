@@ -84,6 +84,16 @@ module Jekyll
           return a.downcase <=> b.downcase
         end
         
+        if a.nil? && !b.nil?
+          return -1
+        elsif !a.nil? && b.nil?
+          return 1
+        end
+
+        if a.respond_to?('to_datetime') && b.respond_to?('to_datetime')
+          return a.to_datetime <=> b.to_datetime
+        end
+
         # By default use the built in sorting for the data type
         return a <=> b
       end
