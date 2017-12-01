@@ -268,9 +268,7 @@ module Jekyll
         indexPageWithExt = indexPageName + indexPageExt
 
         # In case there are no (visible) posts, generate the index file anyway
-        if total_pages == 0
-          total_pages = 1
-        end
+        total_pages = 1 if total_pages.zero?
 
         # Now for each pagination page create it and configure the ranges for the collection
         # This .pager member is a built in thing in Jekyll and defines the paginator implementation
