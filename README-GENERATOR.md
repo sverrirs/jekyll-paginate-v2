@@ -75,6 +75,9 @@ pagination:
   # Optional, sorts the posts in reverse order (omit to default decending or sort_reverse: true)
   sort_reverse: true
 
+  # Optional, moves the posts tagged "sticky: true" to the start, after sorting
+  #sticky_first: true
+
   # Optional, the default category to use, omit or just leave this as 'posts' to get a backwards-compatible behavior (all posts)
   category: 'posts'
 
