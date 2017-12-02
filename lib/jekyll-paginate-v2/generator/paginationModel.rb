@@ -246,6 +246,21 @@ module Jekyll
           if config['sort_reverse']
             using_posts.reverse!
           end
+
+          # Do this here so the sticky posts still show up in the preferred order, only at the top
+          if config['sticky_first']
+            sticky_posts = []
+            using_posts.delete_if do |post|
+              if post.data['sticky']
+                if @debug
+                  puts "Sticky: ".rjust(20) + post.data['title']
+                end
+                sticky_posts << post
+                true
+              end
+            end
+            using_posts.unshift(*sticky_posts)
+          end
         end
                
         # Calculate the max number of pagination-pages based on the configured per page value
