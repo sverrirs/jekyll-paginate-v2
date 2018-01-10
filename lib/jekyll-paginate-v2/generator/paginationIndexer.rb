@@ -12,7 +12,7 @@ module Jekyll
         return nil if all_posts.nil?
         return all_posts if index_key.nil?
         index = {}
-        for post in all_posts
+        all_posts.each do |post|
           next if post.data.nil?
           next if !post.data.has_key?(index_key)
           next if post.data[index_key].nil?
@@ -26,11 +26,11 @@ module Jekyll
             post_data = post_data.split(/;|,|\s/)
           end
           
-          for key in post_data
+          post_data.each do |key|
             key = key.to_s.downcase.strip
             # If the key is a delimetered list of values 
             # (meaning the user didn't use an array but a string with commas)
-            for k_split in key.split(/;|,/)
+            key.split(/;|,/).each do |k_split|
               k_split = k_split.to_s.downcase.strip #Clean whitespace and junk
               if !index.has_key?(k_split)
                 index[k_split.to_s] = []
@@ -79,7 +79,7 @@ module Jekyll
           
         # Now for all filter values for the config key, let's remove all items from the posts that
         # aren't common for all collections that the user wants to filter on
-        for key in config_value
+        config_value.each do |key|
           key = key.to_s.downcase.strip
           posts = PaginationIndexer.intersect_arrays(posts, source_posts[key])
         end

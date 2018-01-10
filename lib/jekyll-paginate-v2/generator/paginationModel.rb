@@ -31,7 +31,7 @@ module Jekyll
         end
 
         # Now for each template page generate the paginator for it
-        for template in templates
+        templates.each do |template|
           # All pages that should be paginated need to include the pagination config element
           if template.data['pagination'].is_a?(Hash)
             template_config = Jekyll::Utils.deep_merge_hashes(default_config, template.data['pagination'] || {})
@@ -113,7 +113,7 @@ module Jekyll
 
         docs = []
         # Now for each of the collections get the docs
-        for coll_name in collection_names
+        collection_names.each do |coll_name|
           # Request all the documents for the collection in question, and join it with the total collection 
           docs += @collection_by_name_lambda.call(coll_name.downcase.strip)
         end
@@ -229,14 +229,14 @@ module Jekyll
           if @debug
             puts "Pagination: ".rjust(20) + "Rolling through the date fields for all documents"
           end
-          for p in using_posts
-            if p.respond_to?('date')
-              tmp_date = p.date
+          using_posts.each do |u_post|
+            if u_post.respond_to?('date')
+              tmp_date = u_post.date
               if( !tmp_date || tmp_date.nil? )
                 if @debug
-                  puts "Pagination: ".rjust(20) + "Explicitly assigning date for doc: #{p.data['title']} | #{p.path}"
+                  puts "Pagination: ".rjust(20) + "Explicitly assigning date for doc: #{u_post.data['title']} | #{u_post.path}"
                 end
-                p.date = File.mtime(p.path)
+                u_post.date = File.mtime(u_post.path)
               end
             end
           end

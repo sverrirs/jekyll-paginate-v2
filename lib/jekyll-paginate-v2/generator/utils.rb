@@ -107,7 +107,7 @@ module Jekyll
         sort_split = sort_field.split(":")
         sort_value = post_data
 
-        for r_key in sort_split
+        sort_split.each do |r_key|
           key = r_key.downcase.strip # Remove any erronious whitespace and convert to lower case
           if !sort_value.has_key?(key)
             return nil
