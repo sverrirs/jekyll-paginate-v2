@@ -22,7 +22,7 @@ module Jekyll
         'title'         => 'Posts in collection :coll',
         'permalink'     => '/collection/:coll',
         'enabled'       => true
-      } 
+      }
     }
 
   end # module PaginateV2::AutoPages

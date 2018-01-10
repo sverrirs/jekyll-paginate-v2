@@ -1,4 +1,4 @@
-module Jekyll 
+module Jekyll
   module PaginateV2::Generator
 
     class CompatibilityPaginationPage < Page
@@ -19,7 +19,7 @@ module Jekyll
                 else
                   site.in_source_dir(base, templ_dir, templ_file)
                 end
-        
+
         self.process(@name)
         self.read_yaml(templ_dir, templ_file)
 
@@ -31,7 +31,7 @@ module Jekyll
     end # class CompatibilityPaginationPage
 
     #
-    # Static utility functions that provide backwards compatibility with the old 
+    # Static utility functions that provide backwards compatibility with the old
     # jekyll-paginate gem that this new version superseeds (this code is here to ensure)
     # that sites still running the old gem work without problems
     # (REMOVE AFTER 2018-01-01)
@@ -79,10 +79,10 @@ module Jekyll
       # directories, e.g.: page2/index.html, page3/index.html, etc and adds more
       # site-wide data.
       #
-      def self.paginate(legacy_config, all_posts, page, page_add_lambda )
+      def self.paginate(legacy_config, all_posts, page, page_add_lambda)
         pages = Utils.calculate_number_of_pages(all_posts, legacy_config['per_page'].to_i)
         (1..pages).each do |num_page|
-          pager = Paginator.new( legacy_config['per_page'], page.url, legacy_config['permalink'], all_posts, num_page, pages, '', '' )
+          pager = Paginator.new(legacy_config['per_page'], page.url, legacy_config['permalink'], all_posts, num_page, pages, '', '')
           if num_page > 1
             template_full_path = File.join(page.site.source, page.path)
             template_dir = File.dirname(page.path)
@@ -114,7 +114,7 @@ module Jekyll
         end
 
         Utils.ensure_leading_slash(permalink_format)
-      end #function paginate_path
+      end # function paginate_path
 
     end # class CompatibilityUtils
   end # module PaginateV2

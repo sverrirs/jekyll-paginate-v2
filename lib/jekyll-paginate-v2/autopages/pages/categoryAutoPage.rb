@@ -17,12 +17,12 @@ module Jekyll
         get_autopage_title_lambda = lambda do |title_pattern|
           return Utils.format_cat_macro(title_pattern, category)
         end
-                
+
         # Call the super constuctor with our custom lambda
         super(site, base, autopage_config, pagination_config, layout_name, set_autopage_data_lambda, get_autopage_permalink_lambda, get_autopage_title_lambda, category_name)
-        
-      end #function initialize
 
-    end #class CategoryAutoPage
+      end # function initialize
+
+    end # class CategoryAutoPage
   end # module PaginateV2
 end # module Jekyll

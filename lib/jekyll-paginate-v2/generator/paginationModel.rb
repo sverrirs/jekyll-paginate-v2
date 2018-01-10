@@ -20,11 +20,10 @@ module Jekyll
         @collection_by_name_lambda = collection_by_name_lambda
       end
 
-
       def run(default_config, site_pages, site_title)
         # By default if pagination is enabled we attempt to find all index.html pages in the site
         templates = self.discover_paginate_templates(site_pages)
-        if( templates.size.to_i <= 0 )
+        if(templates.size.to_i <= 0)
           @logging_lambda.call "Is enabled, but I couldn't find any pagination page. Skipping pagination. "+
           "Pages must have 'pagination: enabled: true' in their front-matter for pagination to work.", "warn"
           return
@@ -42,21 +41,21 @@ module Jekyll
             @debug = template_config['debug'] # Is debugging enabled on the page level
 
             self._debug_print_config_info(template_config, template.path)
-            
+
             # Only paginate the template if it is explicitly enabled
-            # requiring this makes the logic simpler as I don't need to determine which index pages 
+            # requiring this makes the logic simpler as I don't need to determine which index pages
             # were generated automatically and which weren't
-            if( template_config['enabled'] )
-              if !@debug
+            if(template_config['enabled'])
+              unless @debug
                 @logging_lambda.call "found page: "+template.path, 'debug'
               end
 
-              # Request all documents in all collections that the user has requested 
+              # Request all documents in all collections that the user has requested
               all_posts = self.get_docs_in_collections(template_config['collection'])
 
               # Create the necessary indexes for the posts
               all_categories = PaginationIndexer.index_posts_by(all_posts, 'categories')
-              all_categories['posts'] = all_posts; # Populate a category for all posts (this is here for backward compatibility, do not use this as it will be decommissioned 2018-01-01) 
+              all_categories['posts'] = all_posts; # Populate a category for all posts (this is here for backward compatibility, do not use this as it will be decommissioned 2018-01-01)
                                                   # (this is a default and must not be used in the category system)
               all_tags = PaginationIndexer.index_posts_by(all_posts, 'tags')
               all_locales = PaginationIndexer.index_posts_by(all_posts, 'locale')
@@ -67,7 +66,7 @@ module Jekyll
               self.paginate(template, template_config, site_title, all_posts, all_tags, all_categories, all_locales)
             end
           end
-        end #for
+        end # for
 
         # Return the total number of templates found
         return templates.size.to_i
@@ -78,15 +77,15 @@ module Jekyll
       # no changes should be made to this function and it should be retired and deleted after 2018-01-01
       # (REMOVE AFTER 2018-01-01)
       #
-      def run_compatability(legacy_config, site_pages, site_title, all_posts)
+      def run_compatability(legacy_config, site_pages, _site_title, all_posts)
 
         # Decomissioning error
-        if( date = Date.strptime("20180101","%Y%m%d") <= Date.today )
+        if(date = Date.strptime("20180101","%Y%m%d") <= Date.today)
           raise ArgumentError.new("Legacy jekyll-paginate configuration compatibility mode has expired. Please upgrade to jekyll-paginate-v2 configuration.")
         end
 
         # Two month warning or general notification
-        if( date = Date.strptime("20171101","%Y%m%d") <= Date.today )
+        if(date = Date.strptime("20171101","%Y%m%d") <= Date.today)
           @logging_lambda.call "Legacy pagination logic will stop working on Jan 1st 2018, update your configs before that time.", "warn"
         else
           @logging_lambda.call "Detected legacy jekyll-paginate logic running. "+
@@ -114,7 +113,7 @@ module Jekyll
         docs = []
         # Now for each of the collections get the docs
         for coll_name in collection_names
-          # Request all the documents for the collection in question, and join it with the total collection 
+          # Request all the documents for the collection in question, and join it with the total collection
           docs += @collection_by_name_lambda.call(coll_name.downcase.strip)
         end
 
@@ -127,10 +126,10 @@ module Jekyll
       def _fix_deprecated_config_features(config)
         keys_to_delete = []
 
-        # As of v1.5.1 the title_suffix is deprecated and 'title' should be used 
+        # As of v1.5.1 the title_suffix is deprecated and 'title' should be used
         # but only if title has not been defined already!
-        if( !config['title_suffix'].nil? )
-          if( config['title'].nil? )
+        unless config['title_suffix'].nil?
+          if(config['title'].nil?)
             config['title'] = ":title" + config['title_suffix'].to_s # Migrate the old key to title
           end
           keys_to_delete << "title_suffix" # Always remove the depricated key if found
@@ -155,14 +154,14 @@ module Jekyll
           puts f + "  Limit: ".ljust(r) + config['limit'].to_s
           puts f + "  Sort by: ".ljust(r) + config['sort_field'].to_s
           puts f + "  Sort reverse: ".ljust(r) + config['sort_reverse'].to_s
-          
+
           puts f + " Active Filters"
           puts f + "  Collection: ".ljust(r) + config['collection'].to_s
           puts f + "  Category: ".ljust(r) + (config['category'].nil? || config['category'] == "posts" ? "[Not set]" : config['category'].to_s)
           puts f + "  Tag: ".ljust(r) + (config['tag'].nil? ? "[Not set]" : config['tag'].to_s)
           puts f + "  Locale: ".ljust(r) + (config['locale'].nil? ? "[Not set]" : config['locale'].to_s)
 
-          if config['legacy'] 
+          if config['legacy']
             puts f + " Legacy Paginate Code Enabled"
             puts f + "  Legacy Paginate: ".ljust(r) + config['per_page'].to_s
             puts f + "  Legacy Source: ".ljust(r) + config['legacy_source'].to_s
@@ -174,10 +173,10 @@ module Jekyll
       def _debug_print_filtering_info(filter_name, before_count, after_count)
         # Debug print the config
         if @debug
-          puts "Pagination: ".rjust(20) + " Filtering by: "+filter_name.to_s.ljust(9) + " " + before_count.to_s.rjust(3) + " => " + after_count.to_s  
+          puts "Pagination: ".rjust(20) + " Filtering by: "+filter_name.to_s.ljust(9) + " " + before_count.to_s.rjust(3) + " => " + after_count.to_s
         end
       end
-      
+
       #
       # Rolls through all the pages passed in and finds all pages that have pagination enabled on them.
       # These pages will be used as templates
@@ -194,7 +193,7 @@ module Jekyll
         end
         return candidates
       end # function discover_paginate_templates
-            
+
       # Paginates the blog's posts. Renders the index.html file into paginated
       # directories, e.g.: page2/index.html, page3/index.html, etc and adds more
       # site-wide data.
@@ -206,7 +205,7 @@ module Jekyll
       def paginate(template, config, site_title, all_posts, all_tags, all_categories, all_locales)
         # By default paginate on all posts in the site
         using_posts = all_posts
-        
+
         # Now start filtering out any posts that the user doesn't want included in the pagination
         before = using_posts.size.to_i
         using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'category', using_posts, all_categories)
@@ -217,13 +216,13 @@ module Jekyll
         before = using_posts.size.to_i
         using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'locale', using_posts, all_locales)
         self._debug_print_filtering_info('Locale', before, using_posts.size.to_i)
-        
+
         # Apply sorting to the posts if configured, any field for the post is available for sorting
         if config['sort_field']
           sort_field = config['sort_field'].to_s
 
-          # There is an issue in Jekyll related to lazy initialized member variables that causes iterators to 
-          # break when accessing an uninitialized value during iteration. This happens for document.rb when the <=> compaison function 
+          # There is an issue in Jekyll related to lazy initialized member variables that causes iterators to
+          # break when accessing an uninitialized value during iteration. This happens for document.rb when the <=> compaison function
           # is called (as this function calls the 'date' field which for drafts are not initialized.)
           # So to unblock this common issue for the date field I simply iterate once over every document and initialize the .date field explicitly
           if @debug
@@ -232,7 +231,7 @@ module Jekyll
           for p in using_posts
             if p.respond_to?('date')
               tmp_date = p.date
-              if( !tmp_date || tmp_date.nil? )
+              if(!tmp_date || tmp_date.nil?)
                 if @debug
                   puts "Pagination: ".rjust(20) + "Explicitly assigning date for doc: #{p.data['title']} | #{p.path}"
                 end
@@ -243,22 +242,20 @@ module Jekyll
 
           using_posts.sort!{ |a,b| Utils.sort_values(Utils.sort_get_post_data(a.data, sort_field), Utils.sort_get_post_data(b.data, sort_field)) }
 
-          if config['sort_reverse']
-            using_posts.reverse!
-          end
+          using_posts.reverse! if config['sort_reverse']
         end
-               
+
         # Calculate the max number of pagination-pages based on the configured per page value
         total_pages = Utils.calculate_number_of_pages(using_posts, config['per_page'])
-        
+
         # If a upper limit is set on the number of total pagination pages then impose that now
         if config['limit'] && config['limit'].to_i > 0 && config['limit'].to_i < total_pages
           total_pages = config['limit'].to_i
         end
 
         #### BEFORE STARTING REMOVE THE TEMPLATE PAGE FROM THE SITE LIST!
-        @page_remove_lambda.call( template )
-        
+        @page_remove_lambda.call(template)
+
         # list of all newly created pages
         newpages = []
 
@@ -277,7 +274,7 @@ module Jekyll
 
           # 1. Create the in-memory page
           #    External Proc call to create the actual page for us (this is passed in when the pagination is run)
-          newpage = PaginationPage.new( template, cur_page_nr, total_pages, indexPageWithExt )
+          newpage = PaginationPage.new(template, cur_page_nr, total_pages, indexPageWithExt)
 
           # 2. Create the url for the in-memory page (calc permalink etc), construct the title, set all page.data values needed
           paginated_page_url = config['permalink']
@@ -288,9 +285,9 @@ module Jekyll
             first_index_page_url = Utils.ensure_trailing_slash(template.dir)
           end
           paginated_page_url = File.join(first_index_page_url, paginated_page_url)
-          
+
           # 3. Create the pager logic for this page, pass in the prev and next page numbers, assign pager to in-memory page
-          newpage.pager = Paginator.new( config['per_page'], first_index_page_url, paginated_page_url, using_posts, cur_page_nr, total_pages, indexPageName, indexPageExt)
+          newpage.pager = Paginator.new(config['per_page'], first_index_page_url, paginated_page_url, using_posts, cur_page_nr, total_pages, indexPageName, indexPageExt)
 
           # Create the url for the new page, make sure we prepend any permalinks that are defined in the template page before
           if newpage.pager.page_path.end_with? '/'
@@ -303,61 +300,59 @@ module Jekyll
             newpage.set_url(newpage.pager.page_path+indexPageExt)
           end
 
-          if( template.data['permalink'] )
+          if(template.data['permalink'])
             newpage.data['permalink'] = newpage.pager.page_path
           end
 
           # Transfer the title across to the new page
-          if( !template.data['title'] )
+          if(!template.data['title'])
             tmp_title = site_title
           else
             tmp_title = template.data['title']
           end
           # If the user specified a title suffix to be added then let's add that to all the pages except the first
-          if( cur_page_nr > 1 && config.has_key?('title') )
-            newpage.data['title'] = "#{Utils.format_page_title(config['title'], tmp_title, cur_page_nr, total_pages)}"
+          if(cur_page_nr > 1 && config.has_key?('title'))
+            newpage.data['title'] = Utils.format_page_title(config['title'], tmp_title, cur_page_nr, total_pages).to_s
           else
             newpage.data['title'] = tmp_title
           end
 
           # Signals that this page is automatically generated by the pagination logic
           # (we don't do this for the first page as it is there to mask the one we removed)
-          if cur_page_nr > 1
-            newpage.data['autogen'] = "jekyll-paginate-v2"
-          end
-          
+          newpage.data['autogen'] = "jekyll-paginate-v2" if cur_page_nr > 1
+
           # Add the page to the site
-          @page_add_lambda.call( newpage )
+          @page_add_lambda.call(newpage)
 
           # Store the page in an internal list for later referencing if we need to generate a pagination number path later on
           newpages << newpage
-        end #each.do total_pages
+        end # each.do total_pages
 
         # Now generate the pagination number path, e.g. so that the users can have a prev 1 2 3 4 5 next structure on their page
         # simplest is to include all of the links to the pages preceeding the current one
         # (e.g for page 1 you get the list 2, 3, 4.... and for page 2 you get the list 3,4,5...)
-        if( config['trail'] && !config['trail'].nil? && newpages.size.to_i > 1 )
+        if(config['trail'] && !config['trail'].nil? && newpages.size.to_i > 1)
           trail_before = [config['trail']['before'].to_i, 0].max
           trail_after = [config['trail']['after'].to_i, 0].max
           trail_length = trail_before + trail_after + 1
 
-          if( trail_before > 0 || trail_after > 0 )
+          if(trail_before > 0 || trail_after > 0)
             newpages.select do | npage |
               idx_start = [ npage.pager.page - trail_before - 1, 0].max # Selecting the beginning of the trail
               idx_end = [idx_start + trail_length, newpages.size.to_i].min # Selecting the end of the trail
 
               # Always attempt to maintain the max total of <trail_length> pages in the trail (it will look better if the trail doesn't shrink)
-              if( idx_end - idx_start < trail_length )
+              if(idx_end - idx_start < trail_length)
                 # Attempt to pad the beginning if we have enough pages
-                idx_start = [idx_start - ( trail_length - (idx_end - idx_start) ), 0].max # Never go beyond the zero index
-              end              
+                idx_start = [idx_start - (trail_length - (idx_end - idx_start)), 0].max # Never go beyond the zero index
+              end
 
               # Convert the newpages array into a two dimensional array that has [index, page_url] as items
-              #puts( "Trail created for page #{npage.pager.page} (idx_start:#{idx_start} idx_end:#{idx_end})")
+              # puts( "Trail created for page #{npage.pager.page} (idx_start:#{idx_start} idx_end:#{idx_end})")
               npage.pager.page_trail = newpages[idx_start...idx_end].each_with_index.map {|ipage,idx| PageTrail.new(idx_start+idx+1, ipage.pager.page_path, ipage.data['title'])}
-              #puts( npage.pager.page_trail )
-            end #newpages.select
-          end #if trail_before / trail_after
+              # puts( npage.pager.page_trail )
+            end # newpages.select
+          end # if trail_before / trail_after
         end # if config['trail']
 
       end # function paginate
