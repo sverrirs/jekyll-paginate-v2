@@ -25,7 +25,7 @@ module Jekyll
       # excludes all pagination pages though
       def self.collect_all_docs(site_collections)
         coll = []
-        for coll_name, coll_data in site_collections
+        site_collections.each do |coll_name, coll_data|
           if !coll_data.nil? 
             coll += coll_data.docs.select { |doc| !doc.data.has_key?('pagination') }.each{ |doc| doc.data['__coll'] = coll_name } # Exclude all pagination pages and then for every page store it's collection name
           end
@@ -37,7 +37,7 @@ module Jekyll
         return nil if all_posts.nil?
         return all_posts if index_key.nil?
         index = {}
-        for post in all_posts
+        all_posts.each do |post|
           next if post.data.nil?
           next if !post.data.has_key?(index_key)
           next if post.data[index_key].nil?
@@ -51,11 +51,11 @@ module Jekyll
             post_data = post_data.split(/;|,|\s/)
           end
           
-          for key in post_data
+          post_data.each do |key|
             key = key.strip
             # If the key is a delimetered list of values 
             # (meaning the user didn't use an array but a string with commas)
-            for raw_k_split in key.split(/;|,/)
+            key.split(/;|,/).each do |raw_k_split|
               k_split = raw_k_split.to_s.downcase.strip #Clean whitespace and junk
               if !index.has_key?(k_split)
                 # Need to store the original key value here so that I can present it to the users as a page variable they can use (unmodified, e.g. tags not being 'sci-fi' but "Sci-Fi")

@@ -74,7 +74,7 @@ module Jekyll
           if collection_name == "all"
             # the 'all' collection_name is a special case and includes all collections in the site (except posts!!)
             # this is useful when you want to list items across multiple collections
-            for coll_name, coll_data in site.collections
+            site.collections.each do |coll_name, coll_data|
               if( !coll_data.nil? && coll_name != 'posts')
                 coll += coll_data.docs.select { |doc| !doc.data.has_key?('pagination') } # Exclude all pagination pages
               end
