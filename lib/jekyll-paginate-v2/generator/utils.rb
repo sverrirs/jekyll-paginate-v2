@@ -1,8 +1,8 @@
-module Jekyll 
+module Jekyll
   module PaginateV2::Generator
 
     #
-    # Static utility functions that are used in the code and 
+    # Static utility functions that are used in the code and
     # don't belong in once place in particular
     #
     class Utils
@@ -21,17 +21,15 @@ module Jekyll
       #
       def self.format_page_number(toFormat, cur_page_nr, total_page_count=nil)
         s = toFormat.sub(':num', cur_page_nr.to_s)
-        if !total_page_count.nil?
-          s = s.sub(':max', total_page_count.to_s)
-        end
+        s = s.sub(':max', total_page_count.to_s) unless total_page_count.nil?
         return s
-      end #function format_page_number
+      end # function format_page_number
 
       # Static: returns a fully formatted string with the :title variable and the current (:num) page number and maximum (:max) page count replaced
       #
       def self.format_page_title(toFormat, title, cur_page_nr=nil, total_page_count=nil)
         return format_page_number(toFormat.sub(':title', title.to_s), cur_page_nr, total_page_count)
-      end #function format_page_title
+      end # function format_page_title
 
       # Static: Return a String version of the input which has a leading dot.
       #         If the input already has a dot in position zero, it will be
@@ -43,7 +41,7 @@ module Jekyll
       def self.ensure_leading_dot(path)
         path[0..0] == "." ? path : ".#{path}"
       end
-      
+
       # Static: Return a String version of the input which has a leading slash.
       #         If the input already has a forward slash in position zero, it will be
       #         returned unchanged.
@@ -63,7 +61,7 @@ module Jekyll
       def self.remove_leading_slash(path)
         path[0..0] == "/" ? path[1..-1] : path
       end
-      
+
       # Static: Return a String version of the input which has a trailing slash.
       #         If the input already has a forward slash at the end, it will be
       #         returned unchanged.
@@ -80,10 +78,8 @@ module Jekyll
       # Handles Strings separately as we want a case-insenstive sorting
       #
       def self.sort_values(a, b)
-        if a.is_a?(String)
-          return a.downcase <=> b.downcase
-        end
-        
+        return a.downcase <=> b.downcase if a.is_a?(String)
+
         if a.nil? && !b.nil?
           return -1
         elsif !a.nil? && b.nil?
@@ -100,24 +96,21 @@ module Jekyll
 
       # Retrieves the given sort field from the given post
       # the sort_field variable can be a hierarchical value on the form "parent_field:child_field" repeated as many times as needed
-      # only the leaf child_field will be retrieved  
+      # only the leaf child_field will be retrieved
       def self.sort_get_post_data(post_data, sort_field)
-        
         # Begin by splitting up the sort_field by (;,:.)
         sort_split = sort_field.split(":")
         sort_value = post_data
 
         for r_key in sort_split
           key = r_key.downcase.strip # Remove any erronious whitespace and convert to lower case
-          if !sort_value.has_key?(key)
-            return nil
-          end
+          return nil unless sort_value.has_key?(key)
           # Work my way through the hash
           sort_value = sort_value[key]
         end
 
         # If the sort value is a hash then return nil else return the value
-        if( sort_value.is_a?(Hash) )
+        if(sort_value.is_a?(Hash))
           return nil
         else
           return sort_value

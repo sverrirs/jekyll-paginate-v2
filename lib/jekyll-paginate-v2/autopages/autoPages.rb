@@ -19,7 +19,7 @@ module Jekyll
       # TODO: Should I detect here and disable if we're running the legacy paginate code???!
 
       # Simply gather all documents across all pages/posts/collections that we have
-      # we could be generating quite a few empty pages but the logic is just vastly simpler than trying to 
+      # we could be generating quite a few empty pages but the logic is just vastly simpler than trying to
       # figure out what tag/category belong to which collection.
       posts_to_use = Utils.collect_all_docs(site.collections)
 
@@ -29,7 +29,7 @@ module Jekyll
         site.pages << TagAutoPage.new(site, site.dest, autopage_tag_config, pagination_config, layout_name, tag, tag_original_name)
       end
       autopage_create(autopage_config, pagination_config, posts_to_use, 'tags', 'tags', createtagpage_lambda) # Call the actual function
-      
+
 
       ###############################################
       # Generate the category pages if enabled
@@ -37,22 +37,22 @@ module Jekyll
         site.pages << CategoryAutoPage.new(site, site.dest, autopage_cat_config, pagination_config, layout_name, category, category_original_name)
       end
       autopage_create(autopage_config, pagination_config,posts_to_use, 'categories', 'categories', createcatpage_lambda) # Call the actual function
-      
+
       ###############################################
       # Generate the Collection pages if enabled
       createcolpage_lambda = lambda do | autopage_col_config, pagination_config, layout_name, coll_name, coll_original_name |
         site.pages << CollectionAutoPage.new(site, site.dest, autopage_col_config, pagination_config, layout_name, coll_name, coll_original_name)
       end
       autopage_create(autopage_config, pagination_config,posts_to_use, 'collections', '__coll', createcolpage_lambda) # Call the actual function
-    
+
     end # Jekyll::Hooks
 
 
     # STATIC: this function actually performs the steps to generate the autopages. It uses a lambda function to delegate the creation of the individual
     #         page types to the calling code (this way all features can reuse the logic).
     #
-    def self.autopage_create(autopage_config, pagination_config, posts_to_use, configkey_name, indexkey_name, createpage_lambda )
-      if !autopage_config[configkey_name].nil?
+    def self.autopage_create(autopage_config, pagination_config, posts_to_use, configkey_name, indexkey_name, createpage_lambda)
+      unless autopage_config[configkey_name].nil?
         ap_sub_config = autopage_config[configkey_name]
         if ap_sub_config ['enabled']
           Jekyll.logger.info "AutoPages:","Generating #{configkey_name} pages"

@@ -1,8 +1,8 @@
 require 'rake'
 require 'rake/testtask'
 
-#$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), *%w[lib]))
-#require 'lib/jekyll-paginate-v2/version'
+# $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), *%w[lib]))
+# require 'lib/jekyll-paginate-v2/version'
 
 Rake::TestTask.new do |t|
   t.libs.push 'lib'

@@ -1,6 +1,6 @@
 module Jekyll
   module PaginateV2::Generator
-    
+
     #
     # Handles the preparation of all the posts based on the current page index
     #
@@ -16,7 +16,7 @@ module Jekyll
       def page_trail=(page_array)
         @page_trail = page_array
       end
-      
+
       # Initialize a new Paginator.
       #
       def initialize(config_per_page, first_index_page_url, paginated_page_url, posts, cur_page_nr, num_pages, default_indexpage, default_ext)
@@ -32,7 +32,7 @@ module Jekyll
         offset = (init + @per_page - 1) >= posts.size ? posts.size : (init + @per_page - 1)
 
         # Adjust the first index page url
-        if( first_index_page_url.end_with?('/'))
+        if(first_index_page_url.end_with?('/'))
           first_index_page_url = first_index_page_url + default_indexpage + default_ext
           puts "Appending default index+ext: #{first_index_page_url}"
         elsif !first_index_page_url.include?('.')
@@ -41,7 +41,7 @@ module Jekyll
         end
 
         # Adjust the paginated pages as well
-        if( paginated_page_url.end_with?('/'))
+        if(paginated_page_url.end_with?('/'))
           paginated_page_url = paginated_page_url + default_indexpage + default_ext
           puts "Appending default paginated index+ext: #{paginated_page_url}"
         elsif !paginated_page_url.include?('.')
@@ -85,19 +85,18 @@ module Jekyll
           'page_trail' => page_trail
         }
       end
-      
     end # class Paginator
 
-    # Small utility class that handles individual pagination trails 
+    # Small utility class that handles individual pagination trails
     # and makes them easier to work with in Liquid
     class PageTrail
       attr_reader :num, :path, :title
 
-      def initialize( num, path, title )
+      def initialize(num, path, title)
         @num = num
         @path = path
         @title = title
-      end #func initialize
+      end # func initialize
 
       def to_liquid
         {
@@ -106,7 +105,7 @@ module Jekyll
           'title' => title
         }
       end
-    end #class PageTrail
+    end # class PageTrail
 
   end # module PaginateV2
 end # module Jekyll

@@ -18,7 +18,7 @@ module Jekyll::PaginateV2::Generator
       val = pager.previous_page_path
       val = pager.next_page
       val = pager.next_page_path
-      
+
     end
 
     it "must throw an error if the current page number is greater than the total pages" do
