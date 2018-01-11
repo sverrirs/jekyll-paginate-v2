@@ -135,7 +135,7 @@ module Jekyll::PaginateV2::Generator
       # Initialize a pager with
       #   5 posts per page
       #   at page 2 out of 5 pages
-      pager = Paginator.new(5, "/", "/feed:num", posts, 2, 5, 'feed', '.json')
+      pager = Paginator.new(5, "/", "/", posts, 2, 5, 'feed:num', '.json')
 
       pager.page.must_equal 2
       pager.per_page.must_equal 5
@@ -148,7 +148,7 @@ module Jekyll::PaginateV2::Generator
       pager.posts[4].must_equal '10'
 
       pager.previous_page.must_equal 1
-      pager.previous_page_path.must_equal '/feed.json'
+      pager.previous_page_path.must_equal '/feed1.json'
       pager.next_page.must_equal 3
       pager.next_page_path.must_equal '/feed3.json'
     end

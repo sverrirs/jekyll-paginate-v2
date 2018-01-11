@@ -263,8 +263,8 @@ module Jekyll
         newpages = []
 
         # Consider the default index page name and extension
-        indexPageName = config['indexpage'].split('.')[0]
-        indexPageExt = Utils.ensure_leading_dot(config['extension'])
+        indexPageName = config['indexpage'].nil? ? '' : config['indexpage'].split('.')[0]
+        indexPageExt =  config['extension'].nil? ? '' : Utils.ensure_leading_dot(config['extension'])
         indexPageWithExt = indexPageName + indexPageExt
 
         # In case there are no (visible) posts, generate the index file anyway

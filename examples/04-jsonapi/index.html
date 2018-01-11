@@ -2,10 +2,10 @@
 layout: null
 permalink: /api
 pagination:
-  permalink: 'feed-:num'
+  permalink: ''
   enabled: true
-  extension: json
-  indexpage: 'feed-1'
+  extension: .json
+  indexpage: 'feed-:num'
 ---
 
 {
@@ -15,7 +15,7 @@ pagination:
       "title": "{{ post.title }}",
       "link": "{{ post.url }}"
     }{% endfor %}
-  ], 
+  ] 
   {% if paginator.next_page %}
   ,"next": "{{ paginator.next_page_path }}"
   {% endif %}

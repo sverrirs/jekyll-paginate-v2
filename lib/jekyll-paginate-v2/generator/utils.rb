@@ -124,6 +124,17 @@ module Jekyll
         end
       end
 
+      # Ensures that the passed in url has a index and extension applied
+      def self.ensure_full_path(url, default_index, default_ext)
+        if( url.end_with?('/'))
+          return url + default_index + default_ext
+        elsif !url.include?('.')
+          return url + default_index
+        end
+        # Default
+        return url
+      end
+
     end
 
   end # module PaginateV2
