@@ -508,6 +508,7 @@ Paginating content meets both of these requirements, but developers are limited 
 First, create a new jekyll page and set its layout to `null` to avoid any extra html to show up.
 
 Next, use the `extension` and `indexpage` option to customize the output of the page and its paginated content as JSON files.
+> Note that the `indexpage` field also supports the same macros as the permalink field
 
 Here's an example page:
 ```
@@ -515,10 +516,10 @@ Here's an example page:
 layout: null
 permalink: /api
 pagination:
-  permalink: 'feed-:num'
+  permalink: ''
   enabled: true
-  extension: json
-  indexpage: 'feed-1'
+  extension: .json
+  indexpage: 'feed-:num'
 ---
 
 {
