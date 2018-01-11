@@ -38,7 +38,7 @@ paginate: nil
 paginate_path: nil
 
 # Pagination Settings
-pagination:
+offpagination:
   enabled: true
   per_page: 3
   permalink: '/page/:num/'
@@ -51,5 +51,5 @@ pagination:
 # Old jekyll-paginate pagination logic
 #   Uncomment thew two entries below to demonstrate how this new gem
 #   retains backwards compatibility with the old pagination logic 
-#paginate: 3
-#paginate_path: "/legacy/page:num/"
+paginate: 3
+paginate_path: "/legacy/page:num/"
