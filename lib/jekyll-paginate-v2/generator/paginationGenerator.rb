@@ -21,7 +21,7 @@ module Jekyll
       def generate(site)
       #begin
         # Generate the AutoPages first
-        Jekyll::PaginateV2::AutoPages.create_autopages(site)
+        PaginateV2::AutoPages.create_autopages(site)
 
         # Retrieve and merge the pagination configuration from the site yml file
         default_config = Jekyll::Utils.deep_merge_hashes(DEFAULT, site.config['pagination'] || {})
