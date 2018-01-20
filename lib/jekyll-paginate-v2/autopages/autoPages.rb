@@ -2,9 +2,9 @@ module Jekyll
   module PaginateV2::AutoPages
 
     #
-    # When the site has been read then go a head an generate the necessary extra pages
+    # This function is called right after the main generator is triggered by Jekyll
     # This code is adapted from Stephen Crosby's code https://github.com/stevecrozz
-    Jekyll::Hooks.register :site, :post_read do |site|
+    def self.create_autopages(site)
 
       # Get the configuration for the auto pages
       autopage_config = Jekyll::Utils.deep_merge_hashes(DEFAULT, site.config['autopages'] || {})
@@ -13,7 +13,7 @@ module Jekyll
       # If disabled then don't do anything
       if !autopage_config['enabled'] || autopage_config['enabled'].nil?
         Jekyll.logger.info "AutoPages:","Disabled/Not configured in site.config."
-        next ## Break the loop, could be an issue if the hook is called again though??
+        return
       end
 
       # TODO: Should I detect here and disable if we're running the legacy paginate code???!
@@ -45,7 +45,7 @@ module Jekyll
       end
       autopage_create(autopage_config, pagination_config,posts_to_use, 'collections', '__coll', createcolpage_lambda) # Call the actual function
     
-    end # Jekyll::Hooks
+    end # create_autopages
 
 
     # STATIC: this function actually performs the steps to generate the autopages. It uses a lambda function to delegate the creation of the individual
