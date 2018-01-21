@@ -248,6 +248,12 @@ module Jekyll
           end
         end
                
+        intro = nil
+        if intro_file = config['intro']
+          using_posts.delete_if { |post| post.basename =~ /(^|-)#{intro_file}$/ && intro = post }
+          intro.data['layout'] = 'none' if !intro.nil?
+        end
+
         # Calculate the max number of pagination-pages based on the configured per page value
         total_pages = Utils.calculate_number_of_pages(using_posts, config['per_page'])
         
@@ -289,8 +295,10 @@ module Jekyll
           end
           paginated_page_url = File.join(first_index_page_url, paginated_page_url)
           
+          pager_intro = cur_page_nr == 1 ? intro : nil
+
           # 3. Create the pager logic for this page, pass in the prev and next page numbers, assign pager to in-memory page
-          newpage.pager = Paginator.new( config['per_page'], first_index_page_url, paginated_page_url, using_posts, cur_page_nr, total_pages, indexPageName, indexPageExt)
+          newpage.pager = Paginator.new( config['per_page'], first_index_page_url, paginated_page_url, using_posts, cur_page_nr, total_pages, indexPageName, indexPageExt, pager_intro)
 
           # Create the url for the new page, make sure we prepend any permalinks that are defined in the template page before
           if newpage.pager.page_path.end_with? '/'
