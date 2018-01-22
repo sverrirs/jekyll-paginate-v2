@@ -252,7 +252,7 @@ module Jekyll
         if intro_file = config['intro']
           using_posts.delete_if { |post| post.basename =~ /(^|-)#{intro_file}$/ && intro = post }
           # Override inherited defaults
-          intro.data['layout'] = 'none' if !intro.data.has_key?('layout')
+          intro.data['layout'] = 'none' if !intro.nil? && !intro.data.has_key?('layout')
         end
 
         # Calculate the max number of pagination-pages based on the configured per page value
