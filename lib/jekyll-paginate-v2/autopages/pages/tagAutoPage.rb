@@ -11,11 +11,11 @@ module Jekyll
         end
 
         get_autopage_permalink_lambda = lambda do |permalink_pattern|
-          return Utils.format_tag_macro(permalink_pattern, tag)
+          return Utils.format_tag_macro(permalink_pattern, tag, autopage_config['special_characters'])
         end
 
         get_autopage_title_lambda = lambda do |title_pattern|
-          return Utils.format_tag_macro(title_pattern, tag)
+          return Utils.format_tag_macro(title_pattern, tag, autopage_config['special_characters'])
         end
                 
         # Call the super constuctor with our custom lambda
