@@ -14,7 +14,7 @@ book:
 price: 
   usd: 22.19
   eur: 20.97
-tags: Fantasy, Humor
+tags: Fantasy, Humor, B+W
 ---
 
 Sir Terry Pratchett left us, far too early, in March 2015. To celebrate his life and works, we've given over the 2017 Discworld Diary - which will be a perennial diary - to remembrances and tributes from some of those who knew and loved him and his extraordinary body of work. 
