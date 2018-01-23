@@ -25,10 +25,6 @@ Reach me at the [project issues](https://github.com/sverrirs/jekyll-paginate-v2/
 
 :heart:
 
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/zzB7QVjdsbLjtaFcQie3TDxC/sverrirs/jekyll-paginate-v2'>
-  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/zzB7QVjdsbLjtaFcQie3TDxC/sverrirs/jekyll-paginate-v2.svg' />
-</a>
-
 ## Installation
 
 ```
