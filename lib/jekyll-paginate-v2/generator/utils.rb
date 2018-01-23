@@ -80,14 +80,14 @@ module Jekyll
       # Handles Strings separately as we want a case-insenstive sorting
       #
       def self.sort_values(a, b)
-        if a.is_a?(String)
-          return a.downcase <=> b.downcase
-        end
-        
         if a.nil? && !b.nil?
           return -1
         elsif !a.nil? && b.nil?
           return 1
+        end
+
+        if a.is_a?(String)
+          return a.downcase <=> b.downcase
         end
 
         if a.respond_to?('to_datetime') && b.respond_to?('to_datetime')
