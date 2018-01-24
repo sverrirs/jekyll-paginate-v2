@@ -80,7 +80,7 @@ module Jekyll
         filter_key = "#{config_key}_filter"
         filter_value = config[filter_key] || config['filter'] || "all"
 
-        if filter_value.to_s.downcase == "all"
+        if filter_value.to_s.downcase.strip == "all"
           # Now for all filter values for the config key, let's remove all items from the posts that
           # aren't common for all collections that the user wants to filter on
           config_value.each do |key|
