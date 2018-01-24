@@ -2,7 +2,11 @@
 layout: post
 title:  Mercedes-Benz CLK GTR
 date:   2016-10-24 19:16:49 +0100
-categories: cars, prototype, sports car, mercedes
+categories:
+  - cars
+  - prototype
+  - sports car
+  - mercedes
 ---
 _From Wikipedia, the free encyclopedia_
 

@@ -2,7 +2,11 @@
 layout: post
 title:  Toyota GT-One
 date:   2016-10-24 19:16:49 +0100
-categories: cars, prototype, sports car, toyota
+categories:
+  - cars
+  - prototype
+  - sports car
+  - toyota
 ---
 _From Wikipedia, the free encyclopedia_
 
