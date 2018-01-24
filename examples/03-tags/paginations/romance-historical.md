@@ -1,7 +1,7 @@
 ---
 layout: home
 title: Historical Romance
-permalink: /romance/historical
+permalink: /romance/historical+romance
 pagination: 
   enabled: true
   collection: romance
