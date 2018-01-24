@@ -14,7 +14,7 @@ book:
 price: 
   usd: 26.25
   eur: 24.79
-tags: Autobiography, Historical, Military, Memoirs'
+tags: Autobiography, Historical, Military, Memoirs
 ---
 
 In Forty Autumns, Nina Willner recounts the history of three generations of her family - mothers, sisters, daughters and cousins - separated by forty years of Soviet rule, and reunited after the fall of the Berlin Wall. Shortly after the end of the Second World War, as the Soviets took control of the eastern part of Germany, Hanna, a schoolteacher's daughter, escaped with nothing more than a small suitcase and the clothes on her back. 

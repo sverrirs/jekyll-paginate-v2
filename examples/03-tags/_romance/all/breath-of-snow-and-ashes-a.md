@@ -14,7 +14,11 @@ book:
 price: 
   usd: 10.35
   eur: 9.78
-tags: Historical,Fantasy, Romance, Science, Fiction
+tags:
+  - Historical
+  - Fantasy
+  - Romance
+  - Science Fiction
 ---
 
 Eagerly anticipated by her legions of fans, this sixth novel in Diana Gabaldon s bestselling Outlander saga is a masterpiece of historical fiction from one of the most popular authors of our time. 

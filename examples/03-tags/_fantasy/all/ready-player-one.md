@@ -14,7 +14,12 @@ book:
 price: 
   usd: 8.12
   eur: 7.67
-tags: Contemporary,Fiction,Thrillers,Adventure,Science Fiction
+tags:
+  - Contemporary
+  - Fiction
+  - Thrillers
+  - Adventure
+  - Science Fiction
 ---
 
 It's the year 2044, and the real world has become an ugly place. We're out of oil. We've wrecked the climate. Famine, poverty, and disease are widespread. 
