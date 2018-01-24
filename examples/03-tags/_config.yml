@@ -24,7 +24,7 @@ github_username:  sverrirs
 # Build settings
 markdown: kramdown
 theme: minima
-gems:
+plugins:
   - jekyll-paginate-v2
 exclude:
   - Gemfile
