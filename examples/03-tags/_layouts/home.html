@@ -33,9 +33,6 @@ layout: default
     Showing buttons to move to the next and to the previous list of posts (pager buttons).
   -->
   {% if paginator.total_pages > 1 %}
-  {{page.url}}<br>
-  {{page.path}}<br>
-
   <ul class="pager">
       {% if paginator.first_page %}
       <li class="previous">

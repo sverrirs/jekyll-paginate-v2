@@ -47,7 +47,7 @@ autopages:
   tags: 
     layouts: 
       - autopage_collections_tags.html
-      - autopage_tags.html
+     # - autopage_tags.html
     enabled: true
   categories:
     layouts:
@@ -55,6 +55,9 @@ autopages:
     enabled: true
   collections:
     enabled: true
+    slugify:
+      mode: 'ascii'
+      cased: true  # Causes B+W tag to show up as it is written on the terry-pratchet-diary-2017.md page and not lowercase
     
   
 # This site uses the pretty permalink structure, this renders all urls with a slash / at the end and 

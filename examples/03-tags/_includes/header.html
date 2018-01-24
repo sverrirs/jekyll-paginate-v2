@@ -14,15 +14,24 @@
       </span>
 
       <div class="trigger">
-        {% for my_page in site.pages %}
-          <!--
+        <!--
             my_page.autogen is populated by the pagination logic for all pages
                             that are automatically created by the gem. Check for non-existence to exclude pagination pages from site.pages iterators
-          -->
-          {% if my_page.title and my_page.autogen == nil %}
+          -->   
+        <p><b>Manual Pagination:</b><br>
+          {% for my_page in site.pages %}  
+            {% if my_page.title and my_page.autogen == nil and my_page.autopage == nil %}
+            <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
+            {% endif %}
+          {% endfor %}
+        </p>
+        <p><b>Autopage Created:</b><br>
+        {% for my_page in site.pages %}  
+          {% if my_page.title and my_page.autogen == nil and my_page.autopage != nil %}
           <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
           {% endif %}
         {% endfor %}
+        </p>
       </div>
     </nav>
 
