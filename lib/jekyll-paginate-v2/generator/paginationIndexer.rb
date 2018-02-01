@@ -67,32 +67,45 @@ module Jekyll
         return nil if source_posts.nil? # If the source is empty then simply don't do anything
         return posts if config.nil?
 
-        plural_key = Utils.plural(config_key)
-        return posts if !config.has_key?(config_key) && !config.has_key?(plural_key)
-        return posts if config[config_key].nil? && config[plural_key].nil?
+        config_key = config.has_key?(config_key) ? config_key : Utils.plural(config_key)
+
+        return posts if !config.has_key?(config_key)
+        return posts if config[config_key].nil?
         
         # Get the filter values from the config (this is the cat/tag/locale values that should be filtered on)
         
-        # Get e.g. category and categories into a single array
-        config_value = Utils.config_values(config, config_key)
+        if config[config_key].is_a?(Hash)
+          # { values: [..], matching: any|all }
+          config_hash = config[config_key]
+          hash_key = config_hash.has_key?('values') ? 'values' : 'value'
+          config_value = Utils.config_values(config_hash, hash_key)
+          matching = config_hash['matching'] || 'all'
+        else
+          # Default array syntax
+          config_value = Utils.config_values(config, config_key)
+          matching = 'all'
+        end
           
-        # Determine whether to use an "and" (default) or an "or" filter from e.g. category_filter
-        filter_key = "#{config_key}_filter"
-        filter_value = config[filter_key] || config['filter'] || "all"
+        matching = matching.to_s.downcase.strip
 
-        if filter_value.to_s.downcase.strip == "all"
+        # Filter on any/all specified categories, etc.
+
+        if matching == "all"
           # Now for all filter values for the config key, let's remove all items from the posts that
           # aren't common for all collections that the user wants to filter on
           config_value.each do |key|
             key = key.to_s.downcase.strip
             posts = PaginationIndexer.intersect_arrays(posts, source_posts[key])
           end
-        else
+
+        elsif matching == "any"
           # "or" filter: Remove posts that don't have at least one required key
           posts.delete_if { |post|
             post_config = Utils.config_values(post.data, config_key)
             (config_value & post_config).empty?
           }
+
+        # else no filter
         end
 
         # The fully filtered final post list
