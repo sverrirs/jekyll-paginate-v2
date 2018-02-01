@@ -13,7 +13,11 @@ module Jekyll
         @site = page_to_copy.site
         @base = ''
         @url = ''
-        @name = index_pageandext.nil? ? 'index.html' : index_pageandext
+        if cur_page_nr == 1
+          @name = page_to_copy.relative_path
+        else
+          @name = index_pageandext.nil? ? 'index.html' : index_pageandext
+        end
 
         self.process(@name) # Creates the basename and ext member values
 
