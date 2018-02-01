@@ -107,5 +107,35 @@ If you have category or tag names with spaces, make sure you use either
 
 See [Filtering categories](https://github.com/sverrirs/jekyll-paginate-v2/blob/master/README-GENERATOR.md#filtering-categories) for more information.
 
+### Special characters
+
+As of v1.9.4, special characters are supported in category, tag, and collection names by default:
+
+``` yml
+  category: sports car, b+w
+```
+
+If you need to support the previous behavior where special characters are replaced with hyphens in URLs, use the new `slugify` option:
+
+``` yml
+autopages:
+  categories:
+    enabled: true
+    slugify:
+      mode: nil
+      cased: true
+```
+
+The following modes are available:
+
+| Value| Description |
+| --- | --- |
+| `none` | No conversion (default) |
+| `raw` | Replace sequences of spaces with a hyphen |
+| `nil` | Replace non-alphabetic characters with a hyphen |
+| `pretty` | Keep some non-alphabetic characters (._~!$&'()+,;=@) |
+
+If `cased` is set to `true`, all uppercase letters are replaced with their lowercase counterparts.
+
 ## Common issues
 _None reported so far_
