@@ -77,8 +77,7 @@ module Jekyll
         if config[config_key].is_a?(Hash)
           # { values: [..], matching: any|all }
           config_hash = config[config_key]
-          hash_key = config_hash.has_key?('values') ? 'values' : 'value'
-          config_value = Utils.config_values(config_hash, hash_key)
+          config_value = Utils.config_values(config_hash, 'value')
           matching = config_hash['matching'] || 'all'
         else
           # Default array syntax
