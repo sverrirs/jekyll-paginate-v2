@@ -5,7 +5,8 @@ permalink: /porsche+mercedes
 pagination: 
   enabled: true
   categories:
-    - porsche
-    - mercedes
-  filter: any
+    values:
+      - porsche
+      - mercedes
+    matching: any
 ---
