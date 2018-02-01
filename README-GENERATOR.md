@@ -321,7 +321,7 @@ pagination:
   tag: cool, life
 ```
 
-As with categories, you may also use the following symtax:
+As with categories, you may also use the following syntax:
 
 ``` yml
 pagination:
