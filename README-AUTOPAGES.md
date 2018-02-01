@@ -100,5 +100,12 @@ An example of this can be found in [examples/03-tags/_layouts/autopage_collectio
 ### Title should not contain pagination macros
 There is no need to include the pagination title macros `:num`, `:max` or `:title` in the title configuration. The autopages will use the title configuration from the pagination configuration itself.
 
+### Categories and tags with spaces
+If you have category or tag names with spaces, make sure you use either
+1. the singular forms (`tag`, `category`), or
+2. the plural forms (`tags`, `categories`) using the YAML array syntax.
+
+See [Filtering categories](https://github.com/sverrirs/jekyll-paginate-v2/blob/master/README-GENERATOR.md#filtering-categories) for more information.
+
 ## Common issues
 _None reported so far_

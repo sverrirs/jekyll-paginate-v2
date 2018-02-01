@@ -271,6 +271,36 @@ pagination:
   category: software, ruby
 ```
 
+You may use also use `categories` instead:
+
+``` yml
+pagination:
+  enabled: true
+  categories:
+    - software
+    - ruby
+```
+
+**Note:** Do *not* use `categories` as follows:
+
+``` yml
+  categories: programming language, ruby
+```
+
+i.e. with category names that have spaces in them. Jekyll will split the above using spaces as the delimiter, resulting in `programming`, `language,`, and `ruby` as categories. Instead, use
+
+``` yml
+  category: programming language, ruby
+```
+
+or
+
+``` yml
+  categories:
+    - programming language
+    - ruby
+```
+
 > To define categories you can either specify them in the front-matter or through the [directory structure](http://jekyllrb.com/docs/variables/#page-variables) of your jekyll site (Categories are derived from the directory structure above the \_posts directory). You can actually use both approaches to assign your pages to multiple categories.
 
 ### Filtering tags
@@ -289,6 +319,16 @@ Filter on multiple tags
 pagination: 
   enabled: true
   tag: cool, life
+```
+
+As with categories, you may also use the following symtax:
+
+``` yml
+pagination:
+  enabled: true
+  tags:
+    - cool
+    - life
 ```
 
 > When specifying tags in your posts make sure that the values are not enclosed in single quotes (double quotes are fine). If they are you will get a cryptic error when generating your site that looks like _"Error: could not read file <FILE>: did not find expected key while parsing a block mapping at line 2 column 1"_
