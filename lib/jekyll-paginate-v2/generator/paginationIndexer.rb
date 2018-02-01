@@ -62,12 +62,12 @@ module Jekyll
       # Filters posts based on a keyed source_posts hash of indexed posts and performs a intersection of 
       # the two sets. Returns only posts that are common between all collections 
       #
-      def self.read_config_value_and_filter_posts(config, config_key, posts, source_posts)
+      def self.read_config_value_and_filter_posts(config, conf_key, posts, source_posts)
         return nil if posts.nil?
         return nil if source_posts.nil? # If the source is empty then simply don't do anything
         return posts if config.nil?
 
-        config_key = config.has_key?(config_key) ? config_key : Utils.plural(config_key)
+        config_key = config.has_key?(conf_key) ? conf_key : Utils.plural(conf_key)
 
         return posts if !config.has_key?(config_key)
         return posts if config[config_key].nil?
