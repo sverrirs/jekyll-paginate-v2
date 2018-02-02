@@ -23,7 +23,7 @@ module Jekyll
         self.process(@name) # Creates the basename and ext member values
 
         # Copy page data over site defaults
-        defaults = site.frontmatter_defaults.all(page_to_copy.relative_path, type)
+        defaults = @site.frontmatter_defaults.all(page_to_copy.relative_path, type)
         self.data = Jekyll::Utils.deep_merge_hashes(defaults, page_to_copy.data)
 
         if defaults.has_key?('permalink')
