@@ -14,7 +14,8 @@ module Jekyll
         @base = ''
         @url = ''
         if cur_page_nr == 1
-          @name = page_to_copy.relative_path
+          @dir = File.dirname(page_to_copy.dir)
+          @name = page_to_copy.name
         else
           @name = index_pageandext.nil? ? 'index.html' : index_pageandext
         end
