@@ -13,12 +13,24 @@ module Jekyll
         @site = page_to_copy.site
         @base = ''
         @url = ''
-        @name = index_pageandext.nil? ? 'index.html' : index_pageandext
+        if cur_page_nr == 1
+          @dir = File.dirname(page_to_copy.dir)
+          @name = page_to_copy.name
+        else
+          @name = index_pageandext.nil? ? 'index.html' : index_pageandext
+        end
 
         self.process(@name) # Creates the basename and ext member values
 
-        # Only need to copy the data part of the page as it already contains the layout information
-        self.data = Jekyll::Utils.deep_merge_hashes( page_to_copy.data, {} )
+        # Copy page data over site defaults
+        defaults = site.frontmatter_defaults.all(page_to_copy.relative_path, type)
+        self.data = Jekyll::Utils.deep_merge_hashes(defaults, page_to_copy.data)
+
+        if defaults.has_key?('permalink')
+          self.data['permalink'] = Jekyll::URL.new(:template => defaults['permalink'], :placeholders => self.url_placeholders).to_s
+          @use_permalink_for_url = true
+        end
+
         if !page_to_copy.data['autopage']
           self.content = page_to_copy.content
         else
@@ -41,7 +53,7 @@ module Jekyll
       end
 
       def set_url(url_value)
-        @url = url_value
+        @url = @use_permalink_for_url ? self.data['permalink'] : url_value
       end
     end # class PaginationPage
 
