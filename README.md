@@ -39,6 +39,8 @@ Now you're ready to run `jekyll serve` and your paginated files should be genera
 
 Please see the [Examples](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples) for tips and tricks on how to configure the pagination logic.
 
+> :warning: Please note that this plugin is currently NOT supported by GitHub pages. Here is a [list of all plugins supported](https://pages.github.com/versions/). There is work underway to try to get it added it but until then please follow [this GitHub guide](https://help.github.com/articles/adding-jekyll-plugins-to-a-github-pages-site/) to enable it or use [Travis CI](https://ayastreb.me/deploy-jekyll-to-github-pages-with-travis-ci/). 
+
 
 ## Pagination Generator
 
