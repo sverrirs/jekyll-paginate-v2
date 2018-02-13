@@ -1,6 +1,6 @@
 # Jekyll::Paginate V2
 
-Pagination gem built specially for Jekyll 3 and newer that is fully backwards compatable and serves as an enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate). View it on [rubygems.org](https://rubygems.org/gems/jekyll-paginate-v2).
+Pagination gem built specially for Jekyll 3 and newer serves as an enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate). View it on [rubygems.org](https://rubygems.org/gems/jekyll-paginate-v2).
 
 [![Gem](https://img.shields.io/gem/v/jekyll-paginate-v2.svg)](https://rubygems.org/gems/jekyll-paginate-v2)
 [![Join the chat at https://gitter.im/jekyll-paginate-v2/Lobby](https://badges.gitter.im/jekyll-paginate-v2/Lobby.svg)](https://gitter.im/jekyll-paginate-v2/Lobby)
@@ -32,8 +32,6 @@ gem install jekyll-paginate-v2
 ```
 
 Update your [_config.yml](README-GENERATOR.md#site-configuration) and [pages](README-GENERATOR.md#page-configuration).
-
-> Although fully backwards compatible, to enable the new features this gem needs slightly extended [site yml](README-GENERATOR.md#site-configuration) configuration and miniscule additional new front-matter for the [pages to paginate on](README-GENERATOR.md#page-configuration).
 
 Now you're ready to run `jekyll serve` and your paginated files should be generated.
 

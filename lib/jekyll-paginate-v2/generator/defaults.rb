@@ -19,7 +19,6 @@ module Jekyll
       'indexpage'    => nil, # The default name of the index pages
       'extension'    => 'html', # The default extension for the output pages (ignored if indexpage is nil)
       'debug'        => false, # Turns on debug output for the gem
-      'legacy'       => false # Internal value, do not use (will be removed after 2018-01-01)
     }
 
   end # module PaginateV2

@@ -75,17 +75,4 @@ That is it, no further configuration is needed!
 
 Try building the site yourself using `jekyll build` or `jekyll serve`.
 
-## Testing backwards compatability
-
-In the `_config.yml` file remove or comment out the new `pagination:` configuration and paste/uncomment the following configuration instead. 
-
-``` yml
-# Old jekyll-paginate pagination logic
-paginate: 3
-paginate_path: "/legacy/page:num/"
-```
-Now run `jekyll serve` again and the gem will generate the pagination according to the old jekyll-paginate rules and behavior.
-
-> You must disable the new pagination configuration for the old one to work. You cannot run both configurations at the same time.
-
 Cheers :heart:

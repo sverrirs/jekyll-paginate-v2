@@ -36,9 +36,6 @@ module Jekyll
           if template.data['pagination'].is_a?(Hash)
             template_config = Jekyll::Utils.deep_merge_hashes(default_config, template.data['pagination'] || {})
 
-            # Handling deprecation of configuration values
-            self._fix_deprecated_config_features(template_config)
-
             @debug = template_config['debug'] # Is debugging enabled on the page level
 
             self._debug_print_config_info(template_config, template.path)
@@ -56,8 +53,6 @@ module Jekyll
 
               # Create the necessary indexes for the posts
               all_categories = PaginationIndexer.index_posts_by(all_posts, 'categories')
-              all_categories['posts'] = all_posts; # Populate a category for all posts (this is here for backward compatibility, do not use this as it will be decommissioned 2018-01-01) 
-                                                  # (this is a default and must not be used in the category system)
               all_tags = PaginationIndexer.index_posts_by(all_posts, 'tags')
               all_locales = PaginationIndexer.index_posts_by(all_posts, 'locale')
 
@@ -72,35 +67,6 @@ module Jekyll
         # Return the total number of templates found
         return templates.size.to_i
       end # function run
-
-      #
-      # This function is here to retain the old compatability logic with the jekyll-paginate gem
-      # no changes should be made to this function and it should be retired and deleted after 2018-01-01
-      # (REMOVE AFTER 2018-01-01)
-      #
-      def run_compatability(legacy_config, site_pages, site_title, all_posts)
-
-        # Decomissioning error
-        if( date = Date.strptime("20180101","%Y%m%d") <= Date.today )
-          raise ArgumentError.new("Legacy jekyll-paginate configuration compatibility mode has expired. Please upgrade to jekyll-paginate-v2 configuration.")
-        end
-
-        # Two month warning or general notification
-        if( date = Date.strptime("20171101","%Y%m%d") <= Date.today )
-          @logging_lambda.call "Legacy pagination logic will stop working on Jan 1st 2018, update your configs before that time.", "warn"
-        else
-          @logging_lambda.call "Detected legacy jekyll-paginate logic running. "+
-          "Please update your configs to use the jekyll-paginate-v2 logic. This compatibility function "+
-          "will stop working after Jan 1st 2018 and your site build will throw an error.", "warn"
-        end
-
-        if template = CompatibilityUtils.template_page(site_pages, legacy_config['legacy_source'], legacy_config['permalink'])
-          CompatibilityUtils.paginate(legacy_config, all_posts, template, @page_add_lambda)
-        else
-          @logging_lambda.call "Legacy pagination is enabled, but I couldn't find " +
-          "an index.html page to use as the pagination page. Skipping pagination.", "warn"
-        end
-      end # function run_compatability (REMOVE AFTER 2018-01-01)
 
       # Returns the combination of all documents in the collections that are specified
       # raw_collection_names can either be a list of collections separated by a ',' or ' ' or a single string
@@ -124,22 +90,6 @@ module Jekyll
         return docs
       end
 
-      def _fix_deprecated_config_features(config)
-        keys_to_delete = []
-
-        # As of v1.5.1 the title_suffix is deprecated and 'title' should be used 
-        # but only if title has not been defined already!
-        if( !config['title_suffix'].nil? )
-          if( config['title'].nil? )
-            config['title'] = ":title" + config['title_suffix'].to_s # Migrate the old key to title
-          end
-          keys_to_delete << "title_suffix" # Always remove the depricated key if found
-        end
-
-        # Delete the depricated keys
-        config.delete_if{ |k,| keys_to_delete.include? k }
-      end
-
       def _debug_print_config_info(config, page_path)
         r = 20
         f = "Pagination: ".rjust(20)
@@ -161,13 +111,6 @@ module Jekyll
           puts f + "  Category: ".ljust(r) + (config['category'].nil? || config['category'] == "posts" ? "[Not set]" : config['category'].to_s)
           puts f + "  Tag: ".ljust(r) + (config['tag'].nil? ? "[Not set]" : config['tag'].to_s)
           puts f + "  Locale: ".ljust(r) + (config['locale'].nil? ? "[Not set]" : config['locale'].to_s)
-
-          if config['legacy'] 
-            puts f + " Legacy Paginate Code Enabled"
-            puts f + "  Legacy Paginate: ".ljust(r) + config['per_page'].to_s
-            puts f + "  Legacy Source: ".ljust(r) + config['legacy_source'].to_s
-            puts f + "  Legacy Path: ".ljust(r) + config['paginate_path'].to_s
-          end
         end
       end
 

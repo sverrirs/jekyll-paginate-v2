@@ -16,8 +16,6 @@ module Jekyll
         return
       end
 
-      # TODO: Should I detect here and disable if we're running the legacy paginate code???!
-
       # Simply gather all documents across all pages/posts/collections that we have
       # we could be generating quite a few empty pages but the logic is just vastly simpler than trying to 
       # figure out what tag/category belong to which collection.

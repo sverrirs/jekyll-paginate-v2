@@ -6,12 +6,6 @@ tags: welcome, jekyll, blog, fun
 ---
 You’ll find this post in your `_posts` directory. This post along with all of the other example posts is paginated by the new [jekyll-paginate-v2 gem](https://github.com/sverrirs/jekyll-paginate-v2).
 
-This pagination gem is built specially for Jekyll 3 and newer and is intended to replace the now discontinuted jekyll-paginate gem. 
-
-This v2 of the gem offers full backwards compatibility with the old gem and its site configuration. You can simply replace the old jekyll-paginate gem with this one and your sites will still work without any changes.
-
-However to access the new enhanced features of this gem, like pagination on categories, tags and locales, then you need to remove the old jekyll-paginate configuration and activate the new `pagination:` [site configuration](https://github.com/sverrirs/jekyll-paginate-v2#site-configuration). 
-
 The [source code](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples) for this example project will show you all the necessary steps.
 
 ## Installing

@@ -9,7 +9,6 @@ The **Generator** forms the core of the pagination logic. It is responsible for 
 
 * [Site configuration](#site-configuration)
 * [Page configuration](#page-configuration)
-* [Backwards compatibility](#backwards-compatibility-with-jekyll-paginate)
 * [Example Sites](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples)
 * [Paginating collections](#paginating-collections)
   + [Single collection](#paginating-a-single-collection)
@@ -75,7 +74,7 @@ pagination:
   # Optional, sorts the posts in reverse order (omit to default decending or sort_reverse: true)
   sort_reverse: true
 
-  # Optional, the default category to use, omit or just leave this as 'posts' to get a backwards-compatible behavior (all posts)
+  # Optional, the default category to use
   category: 'posts'
 
   # Optional, the default tag to use, omit to disable
@@ -169,28 +168,9 @@ Following fields area available on the `paginator` object
 | last_page_path | The relative Url of the last page in the pagination. |
 | page_trail | The [pagination trail](#creating-pagination-trails) structure |
 
-
-The code is fully backwards compatible and you will have access to all the normal paginator variables defined in the [official jekyll documentation](https://jekyllrb.com/docs/pagination/#liquid-attributes-available). 
-
 Neat! :ok_hand:
 
 Don't delay, go see the [Examples](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples), they're way more useful than read-me docs at this point :)
-
-## Backwards compatibility with jekyll-paginate
-This gem is fully backwards compatible with the old [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) gem and can be used as a zero-configuration replacement for it. If the old site config is detected then the gem will fall back to the old logic of pagination. 
-
-> You cannot run both the new pagination logic and the old one at the same time
-
-The following `_config.yml` settings are honored when running this gem in compatability mode
-
-``` yml
-paginate: 8
-paginate_path: "/legacy/page:num/"
-```
-
-See more about the old style of pagination at the [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) page.
-
-> :bangbang: **Warning** Backwards compatibility with the old jekyll-paginate gem is currently scheduled to be removed after **1st January 2018**. Users will start receiving warning log messages when running jekyll two months before this date.
 
 ## Paginating collections
 By default the pagination system only paginates `posts`. If you only have `posts` and `pages` in your site you don't need to worry about a thing, everything will work as intended without you configuring anything. 

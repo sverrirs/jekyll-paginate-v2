@@ -12,7 +12,6 @@
 require "jekyll-paginate-v2/version"
 # Files needed for the pagination generator
 require "jekyll-paginate-v2/generator/defaults"
-require "jekyll-paginate-v2/generator/compatibilityUtils"
 require "jekyll-paginate-v2/generator/utils"
 require "jekyll-paginate-v2/generator/paginationIndexer"
 require "jekyll-paginate-v2/generator/paginator"
