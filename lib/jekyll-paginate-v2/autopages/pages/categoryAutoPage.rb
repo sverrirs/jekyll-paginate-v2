@@ -11,6 +11,7 @@ module Jekyll
         # this function received the pagination config hash and manipulates it
         set_autopage_data_lambda = lambda do | in_config |
           in_config['category'] = category
+          in_config['collection'] = site.collections.keys
         end
 
         get_autopage_permalink_lambda = lambda do |permalink_pattern|
