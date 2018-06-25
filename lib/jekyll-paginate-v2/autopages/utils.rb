@@ -39,7 +39,7 @@ module Jekyll
         return coll
       end
 
-      def self.ap_index_posts_by(all_posts, index_key, no_delimiter=false)
+      def self.ap_index_posts_by(all_posts, index_key)
         return nil if all_posts.nil?
         return all_posts if index_key.nil?
         index = {}
