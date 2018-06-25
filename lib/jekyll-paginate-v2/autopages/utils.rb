@@ -58,21 +58,12 @@ module Jekyll
           end
 
           post_data.each do |key|
-            key = key.strip
-            all_keys = unless no_delimiter
-              # If the key is a delimitered list of values
-              # (meaning the user didn't use an array but a string with commas)
-              key.split(/;|,/)
-            else
-              [key]
-            end
-            all_keys.each do |raw_k_split|
-              k_split = raw_k_split.to_s.downcase.strip #Clean whitespace and junk
-              if !index.has_key?(k_split)
-                # Need to store the original key value here so that I can present it to the users as a page variable they can use (unmodified, e.g. tags not being 'sci-fi' but "Sci-Fi")
-                # Also, only interested in storing all the keys not the pages in this case
-                index[k_split.to_s] = [k_split.to_s, raw_k_split.to_s]
-              end
+            key = key.to_s.strip
+            processed_key = key.downcase #Clean whitespace and junk
+            if !index.has_key?(processed_key)
+              # Need to store the original key value here so that I can present it to the users as a page variable they can use (unmodified, e.g. tags not being 'sci-fi' but "Sci-Fi")
+              # Also, only interested in storing all the keys not the pages in this case
+              index[processed_key] = [processed_key, key]
             end
           end
         end
