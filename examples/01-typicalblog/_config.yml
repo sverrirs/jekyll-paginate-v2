@@ -21,10 +21,12 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  sverrirs
 
+gems: [jekyll-paginate-v2]
+
 # Build settings
 markdown: kramdown
 theme: minima
-plugins:
+plugins_dir:
   - jekyll-paginate-v2
 exclude:
   - Gemfile
@@ -41,6 +43,7 @@ permalink: /:year/:month/:title.html
 pagination:
   enabled: true
   per_page: 3
+  offset: 2
   permalink: '/page/:num/'
   title: ':title - page :num of :max'
   limit: 0

@@ -158,6 +158,7 @@ module Jekyll
           
           puts f + " Active Filters"
           puts f + "  Collection: ".ljust(r) + config['collection'].to_s
+          puts f + "  Offset: ".ljust(r) + config['offset'].to_s
           puts f + "  Category: ".ljust(r) + (config['category'].nil? || config['category'] == "posts" ? "[Not set]" : config['category'].to_s)
           puts f + "  Tag: ".ljust(r) + (config['tag'].nil? ? "[Not set]" : config['tag'].to_s)
           puts f + "  Locale: ".ljust(r) + (config['locale'].nil? ? "[Not set]" : config['locale'].to_s)
@@ -242,6 +243,10 @@ module Jekyll
           end
 
           using_posts.sort!{ |a,b| Utils.sort_values(Utils.sort_get_post_data(a.data, sort_field), Utils.sort_get_post_data(b.data, sort_field)) }
+
+          # Remove the first x entries
+          offset_post_count = [0, config['offset'].to_i].max
+          using_posts.pop(offset_post_count)
 
           if config['sort_reverse']
             using_posts.reverse!
