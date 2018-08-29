@@ -5,6 +5,7 @@ module Jekyll
     DEFAULT = {
       'enabled'      => false,
       'collection'   => 'posts',
+      'offset'       => 0,
       'per_page'     => 10,
       'permalink'    => '/page:num/', # Supports :num as customizable elements
       'title'        => ':title - page :num', # Supports :num as customizable elements
