@@ -21,6 +21,7 @@ The **Generator** forms the core of the pagination logic. It is responsible for 
   + [Filtering locales](#filtering-locales)
 * [How to paginate on combination of filters](#paginate-on-combination-of-filters)
 * [Overriding site configuration](#configuration-overrides)
+* [Offsetting posts (how to skip newest posts)](#offsetting-posts)
 * [Advanced Sorting](#advanced-sorting)
 * [Creating Pagination Trails](#creating-pagination-trails)
 * [How to detect auto-generated pages](#detecting-generated-pagination-pages)
@@ -393,6 +394,20 @@ pagination:
   sort_field: 'title'
   sort_reverse: false
 ```
+
+## Offsetting posts
+The paging logic can be instructed to exclude the first _N_ number of newest posts from the pagination.
+This can be useful in situations where your site treats the first N posts differently from the rest (e.g. a featured post that is always present).
+
+The number of pages to skip is configured using the `offset` setting like so
+
+``` yml
+pagination: 
+  enabled: true
+  offset: 3
+```
+
+This example skips the 3 newest posts from the pagination logic.
 
 ## Advanced Sorting
 Sorting can be done by any field that is available in the post front-matter. You can even sort by nested fields.
