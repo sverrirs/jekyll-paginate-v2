@@ -100,6 +100,10 @@ pagination:
   # Without file extension
   indexpage: 'index'
 
+  # Optional, the default page values of the generated pages (e.g. 'sitemap: false')
+  # Without file extension
+  default_values: nul
+
 ############################################################
 ```
 

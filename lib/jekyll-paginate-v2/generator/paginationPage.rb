@@ -46,7 +46,17 @@ module Jekyll
         end
 
         # Store the current page and total page numbers in the pagination_info construct
-        self.data['pagination_info'] = {"curr_page" => cur_page_nr, 'total_pages' => total_pages }       
+        self.data['pagination_info'] = {"curr_page" => cur_page_nr, 'total_pages' => total_pages }
+
+        # Retrieve and merge the pagination configuration from the site yml file
+        default_config = Jekyll::Utils.deep_merge_hashes(DEFAULT, site.config['pagination'] || {})
+
+        # Set the pagination pages default values
+        if( default_config.has_key?('default_values') )
+          default_config['default_values'].each do |key, value|
+            self.data[key] = value;
+          end
+        end
 
         # Perform some validation that is also performed in Jekyll::Page
         validate_data! page_to_copy.path
