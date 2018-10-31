@@ -9,10 +9,6 @@ module Jekyll
         :previous_page, :previous_page_path, :next_page, :next_page_path, :page_path, :page_trail,
         :first_page, :first_page_path, :last_page, :last_page_path
 
-      def page_trail
-        @page_trail
-      end
-
       def page_trail=(page_array)
         @page_trail = page_array
       end
