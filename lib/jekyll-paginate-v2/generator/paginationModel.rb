@@ -140,43 +140,56 @@ module Jekyll
         config.delete_if{ |k,| keys_to_delete.include? k }
       end
 
-      def _debug_print_config_info(config, page_path)
-        r = 20
-        f = "Pagination: ".rjust(20)
-        # Debug print the config
-        if @debug
-          puts f + "----------------------------"
-          puts f + "Page: "+page_path.to_s
-          puts f + " Active configuration"
-          puts f + "  Enabled: ".ljust(r) + config['enabled'].to_s
-          puts f + "  Items per page: ".ljust(r) + config['per_page'].to_s
-          puts f + "  Permalink: ".ljust(r) + config['permalink'].to_s
-          puts f + "  Title: ".ljust(r) + config['title'].to_s
-          puts f + "  Limit: ".ljust(r) + config['limit'].to_s
-          puts f + "  Sort by: ".ljust(r) + config['sort_field'].to_s
-          puts f + "  Sort reverse: ".ljust(r) + config['sort_reverse'].to_s
-          
-          puts f + " Active Filters"
-          puts f + "  Collection: ".ljust(r) + config['collection'].to_s
-          puts f + "  Offset: ".ljust(r) + config['offset'].to_s
-          puts f + "  Category: ".ljust(r) + (config['category'].nil? || config['category'] == "posts" ? "[Not set]" : config['category'].to_s)
-          puts f + "  Tag: ".ljust(r) + (config['tag'].nil? ? "[Not set]" : config['tag'].to_s)
-          puts f + "  Locale: ".ljust(r) + (config['locale'].nil? ? "[Not set]" : config['locale'].to_s)
+      LOG_KEY = 'Pagination: '.rjust(20).freeze
+      DIVIDER = ('-' * 80).freeze
+      NOT_SET = '[Not set]'.freeze
 
-          if config['legacy'] 
-            puts f + " Legacy Paginate Code Enabled"
-            puts f + "  Legacy Paginate: ".ljust(r) + config['per_page'].to_s
-            puts f + "  Legacy Source: ".ljust(r) + config['legacy_source'].to_s
-            puts f + "  Legacy Path: ".ljust(r) + config['paginate_path'].to_s
-          end
-        end
+      # Debug print the config
+      def _debug_log(topic, message = nil)
+        return unless @debug
+
+        message = message.to_s
+        topic   = "#{topic.ljust(24)}: " unless message.empty?
+        puts LOG_KEY + topic + message
       end
 
+      # Debug print the config
+      def _debug_print_config_info(config, page_path)
+        return unless @debug
+
+        puts ''
+        puts LOG_KEY + "Page: #{page_path}"
+        puts LOG_KEY + DIVIDER
+        _debug_log '  Active configuration'
+        _debug_log '    Enabled',        config['enabled']
+        _debug_log '    Items per page', config['per_page']
+        _debug_log '    Permalink',      config['permalink']
+        _debug_log '    Title',          config['title']
+        _debug_log '    Limit',          config['limit']
+        _debug_log '    Sort by',        config['sort_field']
+        _debug_log '    Sort reverse',   config['sort_reverse']
+        _debug_log '  Active Filters'
+        _debug_log '    Collection',     config['collection']
+        _debug_log '    Offset',         config['offset']
+        _debug_log '    Category',       (config['category'].nil? || config['category'] == 'posts' ? NOT_SET : config['category'])
+        _debug_log '    Tag',            config['tag']    || NOT_SET
+        _debug_log '    Locale',         config['locale'] || NOT_SET
+
+        return unless config['legacy']
+
+        _debug_log '  Legacy Paginate Code Enabled'
+        _debug_log '    Legacy Paginate', config['per_page']
+        _debug_log '    Legacy Source',   config['legacy_source']
+        _debug_log '    Legacy Path',     config['paginate_path']
+      end
+
+      # Debug print the config
       def _debug_print_filtering_info(filter_name, before_count, after_count)
-        # Debug print the config
-        if @debug
-          puts "Pagination: ".rjust(20) + " Filtering by: "+filter_name.to_s.ljust(9) + " " + before_count.to_s.rjust(3) + " => " + after_count.to_s  
-        end
+        return unless @debug
+
+        filter_name  = filter_name.to_s.ljust(9)
+        before_count = before_count.to_s.rjust(3)
+        _debug_log "  Filtering by #{filter_name}", "#{before_count} => #{after_count}"
       end
       
       #
