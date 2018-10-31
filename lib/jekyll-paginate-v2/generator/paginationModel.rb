@@ -24,7 +24,7 @@ module Jekyll
       def run(default_config, site_pages, site_title)
         # By default if pagination is enabled we attempt to find all index.html pages in the site
         templates = self.discover_paginate_templates(site_pages)
-        if( templates.size.to_i <= 0 )
+        if templates.size <= 0
           @logging_lambda.call "Is enabled, but I couldn't find any pagination page. Skipping pagination. "+
           "Pages must have 'pagination: enabled: true' in their front-matter for pagination to work.", "warn"
           return
@@ -70,7 +70,7 @@ module Jekyll
         end #for
 
         # Return the total number of templates found
-        return templates.size.to_i
+        return templates.size
       end # function run
 
       #
@@ -222,15 +222,15 @@ module Jekyll
         using_posts = all_posts
         
         # Now start filtering out any posts that the user doesn't want included in the pagination
-        before = using_posts.size.to_i
+        before = using_posts.size
         using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'category', using_posts, all_categories)
-        self._debug_print_filtering_info('Category', before, using_posts.size.to_i)
-        before = using_posts.size.to_i
+        self._debug_print_filtering_info('Category', before, using_posts.size)
+        before = using_posts.size
         using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'tag', using_posts, all_tags)
-        self._debug_print_filtering_info('Tag', before, using_posts.size.to_i)
-        before = using_posts.size.to_i
+        self._debug_print_filtering_info('Tag', before, using_posts.size)
+        before = using_posts.size
         using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'locale', using_posts, all_locales)
-        self._debug_print_filtering_info('Locale', before, using_posts.size.to_i)
+        self._debug_print_filtering_info('Locale', before, using_posts.size)
         
         # Apply sorting to the posts if configured, any field for the post is available for sorting
         if config['sort_field']
@@ -354,7 +354,7 @@ module Jekyll
         # Now generate the pagination number path, e.g. so that the users can have a prev 1 2 3 4 5 next structure on their page
         # simplest is to include all of the links to the pages preceeding the current one
         # (e.g for page 1 you get the list 2, 3, 4.... and for page 2 you get the list 3,4,5...)
-        if( config['trail'] && !config['trail'].nil? && newpages.size.to_i > 1 )
+        if config['trail'] && newpages.size > 1
           trail_before = [config['trail']['before'].to_i, 0].max
           trail_after = [config['trail']['after'].to_i, 0].max
           trail_length = trail_before + trail_after + 1
@@ -362,7 +362,7 @@ module Jekyll
           if( trail_before > 0 || trail_after > 0 )
             newpages.select do | npage |
               idx_start = [ npage.pager.page - trail_before - 1, 0].max # Selecting the beginning of the trail
-              idx_end = [idx_start + trail_length, newpages.size.to_i].min # Selecting the end of the trail
+              idx_end = [idx_start + trail_length, newpages.size].min # Selecting the end of the trail
 
               # Always attempt to maintain the max total of <trail_length> pages in the trail (it will look better if the trail doesn't shrink)
               if( idx_end - idx_start < trail_length )
