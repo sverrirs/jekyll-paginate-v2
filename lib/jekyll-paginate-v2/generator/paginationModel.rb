@@ -44,9 +44,9 @@ module Jekyll
             self._debug_print_config_info(template_config, template.path)
             
             # Only paginate the template if it is explicitly enabled
-            # requiring this makes the logic simpler as I don't need to determine which index pages 
+            # This makes the logic simpler by avoiding the need to determine which index pages
             # were generated automatically and which weren't
-            if( template_config['enabled'] )
+            if template_config['enabled'].to_s == 'true'
               if !@debug
                 @logging_lambda.call "found page: "+template.path, 'debug'
               end
