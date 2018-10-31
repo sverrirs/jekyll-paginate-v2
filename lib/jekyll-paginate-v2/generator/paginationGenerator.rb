@@ -131,6 +131,7 @@ module Jekyll
           model.run_compatability(default_config, all_pages, site_title, all_posts) #(REMOVE AFTER 2018-01-01)
         else
           count = model.run(default_config, all_pages, site_title)
+          Jekyll.logger.info ""
           Jekyll.logger.info "Pagination:", "Complete, processed #{count} pagination page(s)"
         end
 
