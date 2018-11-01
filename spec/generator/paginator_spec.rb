@@ -30,7 +30,15 @@ module Jekyll::PaginateV2::Generator
 
     it "must trim the list of posts correctly based on the cur_page_nr and per_page" do
       # Create a dummy list of posts that is easy to track
-      posts = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35']
+      posts = [
+        '1','2','3','4','5',
+        '6','7','8','9','10',
+        '11','12','13','14','15',
+        '16','17','18','19','20',
+        '21','22','23','24','25',
+        '26','27','28','29','30',
+        '31','32','33','34','35'
+      ]
 
       # Initialize a pager with
       #   5 posts per page
@@ -55,11 +63,19 @@ module Jekyll::PaginateV2::Generator
 
     it "must not create a previous page if we're at first page" do
       # Create a dummy list of posts that is easy to track
-      posts = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35']
+      posts = [
+        '1','2','3','4','5',
+        '6','7','8','9','10',
+        '11','12','13','14','15',
+        '16','17','18','19','20',
+        '21','22','23','24','25',
+        '26','27','28','29','30',
+        '31','32','33','34','35'
+      ]
 
       # Initialize a pager with
       #   5 posts per page
-      #   at page 2 out of 5 pages
+      #   at page 1 out of 5 pages
       pager = Paginator.new(5, "index.html", "/page:num/", posts, 1, 5, '', '')
 
       pager.page.must_equal 1
@@ -80,11 +96,19 @@ module Jekyll::PaginateV2::Generator
 
     it "must not create a next page if we're at the final page" do
       # Create a dummy list of posts that is easy to track
-      posts = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35']
+      posts = [
+        '1','2','3','4','5',
+        '6','7','8','9','10',
+        '11','12','13','14','15',
+        '16','17','18','19','20',
+        '21','22','23','24','25',
+        '26','27','28','29','30',
+        '31','32','33','34','35'
+      ]
 
       # Initialize a pager with
       #   5 posts per page
-      #   at page 2 out of 5 pages
+      #   at page 5 out of 5 pages
       pager = Paginator.new(5, "index.html", "/page:num/", posts, 5, 5, '', '')
 
       pager.page.must_equal 5
@@ -105,7 +129,15 @@ module Jekyll::PaginateV2::Generator
 
     it "must create the explicit index page and index extension when specified" do
       # Create a dummy list of posts that is easy to track
-      posts = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35']
+      posts = [
+        '1','2','3','4','5',
+        '6','7','8','9','10',
+        '11','12','13','14','15',
+        '16','17','18','19','20',
+        '21','22','23','24','25',
+        '26','27','28','29','30',
+        '31','32','33','34','35'
+      ]
 
       # Initialize a pager with
       #   5 posts per page
@@ -130,7 +162,15 @@ module Jekyll::PaginateV2::Generator
 
     it "must create the explicit index page and index extension when specified" do
       # Create a dummy list of posts that is easy to track
-      posts = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35']
+      posts = [
+        '1','2','3','4','5',
+        '6','7','8','9','10',
+        '11','12','13','14','15',
+        '16','17','18','19','20',
+        '21','22','23','24','25',
+        '26','27','28','29','30',
+        '31','32','33','34','35'
+      ]
 
       # Initialize a pager with
       #   5 posts per page
