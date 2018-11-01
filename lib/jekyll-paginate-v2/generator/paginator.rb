@@ -24,38 +24,57 @@ module Jekyll
           raise RuntimeError, "page number can't be greater than total pages: #{@page} > #{@total_pages}"
         end
 
-        init = (@page - 1) * @per_page
-        offset = (init + @per_page - 1) >= posts.size ? posts.size : (init + @per_page - 1)
+        init  = (@page - 1) * @per_page
+        count = init + @per_page - 1
+
+        # get the smaller of two values
+        offset = [count, posts.size].min
+
+        # Ensure that default attributes are neither `nil` nor `false`
+        default_indexpage ||= ''
+        default_ext ||= ''
 
         # Ensure that the current page has correct extensions if needed
-        this_page_url = Utils.ensure_full_path(@page == 1 ? first_index_page_url : paginated_page_url,
-                                               !default_indexpage || default_indexpage.length == 0 ? 'index' : default_indexpage,
-                                               !default_ext || default_ext.length == 0 ? '.html' : default_ext)
+        page_url = @page == 1 ? first_index_page_url : paginated_page_url
+        basename = default_indexpage.empty? ? 'index' : default_indexpage
+        ext_name = default_ext.empty? ? '.html' : default_ext
+
+        this_page_url = Utils.ensure_full_path(page_url, basename, ext_name)
         
         # To support customizable pagination pages we attempt to explicitly append the page name to 
-        # the url incase the user is using extensionless permalinks. 
-        if default_indexpage && default_indexpage.length > 0
-          # Adjust first page url
+        # the url in case the user is using extensionless permalinks.
+        unless default_indexpage.empty?
           first_index_page_url = Utils.ensure_full_path(first_index_page_url, default_indexpage, default_ext)
-          # Adjust the paginated pages as well
-          paginated_page_url = Utils.ensure_full_path(paginated_page_url, default_indexpage, default_ext)
+          paginated_page_url   = Utils.ensure_full_path(paginated_page_url, default_indexpage, default_ext)
         end        
 
         @total_posts = posts.size
-        @posts = posts[init..offset]
-        @page_path = Utils.format_page_number(this_page_url, cur_page_nr, @total_pages)
+        @posts       = posts[init..offset]
+        @page_path   = _number_page(this_page_url, cur_page_nr)
 
-        @previous_page = @page != 1 ? @page - 1 : nil
-        @previous_page_path = @page == 1 ? nil : 
-                              @page == 2 ? Utils.format_page_number(first_index_page_url, 1, @total_pages) : 
-                              Utils.format_page_number(paginated_page_url, @previous_page, @total_pages)
-        @next_page = @page != @total_pages ? @page + 1 : nil
-        @next_page_path = @page != @total_pages ? Utils.format_page_number(paginated_page_url, @next_page, @total_pages) : nil
+        # First page has no "previous page"
+        unless @page == 1
+          @previous_page = @page - 1
+          @previous_page_path = if @page == 2
+                                  _number_page(first_index_page_url, @previous_page)
+                                else
+                                  _number_page(paginated_page_url, @previous_page)
+                                end
+        end
 
+        # Last page has no "next page"
+        unless @page == @total_pages
+          @next_page = @page + 1
+          @next_page_path = _number_page(paginated_page_url, @next_page)
+        end
+
+        # Setup first page
         @first_page = 1
-        @first_page_path = Utils.format_page_number(first_index_page_url, 1, @total_pages)
+        @first_page_path = _number_page(first_index_page_url, @first_page)
+
+        # Setup last page
         @last_page = @total_pages
-        @last_page_path = Utils.format_page_number(paginated_page_url, @total_pages, @total_pages)
+        @last_page_path = _number_page(paginated_page_url, @last_page)
       end
 
       # Convert this Paginator's data to a Hash suitable for use by Liquid.
@@ -79,6 +98,12 @@ module Jekyll
           'last_page_path' => last_page_path,
           'page_trail' => page_trail
         }
+      end
+
+      private
+
+      def _number_page(url, page_number)
+        Utils.format_page_number(url, page_number, @total_pages)
       end
       
     end # class Paginator
