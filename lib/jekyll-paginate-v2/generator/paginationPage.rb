@@ -9,10 +9,14 @@ module Jekyll
     # This page exists purely in memory and is not read from disk
     #
     class PaginationPage < Page
+      attr_reader :relative_path
+
       def initialize(page_to_copy, cur_page_nr, total_pages, index_pageandext)
         @site = page_to_copy.site
         @base = ''
-        @url = ''
+        @url  = ''
+        @relative_path = page_to_copy.relative_path
+
         if cur_page_nr == 1
           @dir = File.dirname(page_to_copy.dir)
           @name = page_to_copy.name
