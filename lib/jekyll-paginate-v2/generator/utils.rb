@@ -156,6 +156,15 @@ module Jekyll
         plural = config_array(config, plural(key), keepcase)
         [ singular, plural ].flatten.uniq
       end
+
+      def self.template_dest_dir(template)
+        url  = template.url
+        ext  = template.output_ext
+        path = Jekyll::URL.unescape_path(url)
+        path = File.join(path, "index.html") if url.end_with?("/")
+        path << ext unless path.end_with?(ext)
+        ensure_trailing_slash(File.dirname(path))
+      end
     end
 
   end # module PaginateV2
