@@ -326,13 +326,9 @@ module Jekyll
           end
 
           # Transfer the title across to the new page
-          if( !template.data['title'] )
-            tmp_title = site_title
-          else
-            tmp_title = template.data['title']
-          end
-          # If the user specified a title suffix to be added then let's add that to all the pages except the first
-          if( cur_page_nr > 1 && config.has_key?('title') )
+          tmp_title = template.data['title'] || site_title
+          if cur_page_nr > 1 && config.has_key?('title')
+            # If the user specified a title suffix to be added then let's add that to all the pages except the first
             newpage.data['title'] = "#{Utils.format_page_title(config['title'], tmp_title, cur_page_nr, total_pages)}"
           else
             newpage.data['title'] = tmp_title
