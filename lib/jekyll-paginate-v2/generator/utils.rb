@@ -157,13 +157,23 @@ module Jekyll
         [ singular, plural ].flatten.uniq
       end
 
-      def self.template_dest_dir(template)
+      def self.validate_url(template)
         url  = template.url
         ext  = template.output_ext
         path = Jekyll::URL.unescape_path(url)
-        path = File.join(path, "index.html") if url.end_with?("/")
+        path = File.join(path, "index") if url.end_with?("/")
         path << ext unless path.end_with?(ext)
-        ensure_trailing_slash(File.dirname(path))
+
+        dirname = File.dirname(path)
+        valid_values = [
+          File.join(dirname, "/"),
+          File.join(dirname, "index#{ext}")
+        ]
+
+        return url if valid_values.include?(url)
+        Jekyll.logger.error "Pagination Error:",
+          "Detected invalid url #{url.inspect} for #{template.relative_path.inspect}"
+        Jekyll.logger.abort_with "", "Expected #{valid_values.map(&:inspect).join(' or ')}"
       end
     end
 
