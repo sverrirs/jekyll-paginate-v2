@@ -56,9 +56,10 @@ module Jekyll
         #Jekyll::Hooks.trigger :pages, :post_init, self
       end
 
-      def set_url(url_value)
+      def url=(url_value)
         @url = @use_permalink_for_url ? self.data['permalink'] : url_value
       end
+      alias_method :set_url, :url=
     end # class PaginationPage
 
   end # module PaginateV2
