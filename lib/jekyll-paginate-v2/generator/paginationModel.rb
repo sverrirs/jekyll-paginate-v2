@@ -312,13 +312,13 @@ module Jekyll
 
           # Create the url for the new page, make sure we prepend any permalinks that are defined in the template page before
           if newpage.pager.page_path.end_with? '/'
-            newpage.set_url(File.join(newpage.pager.page_path, indexPageWithExt))
+            newpage.url = File.join(newpage.pager.page_path, indexPageWithExt)
           elsif newpage.pager.page_path.end_with? indexPageExt
             # Support for direct .html files
-            newpage.set_url(newpage.pager.page_path)
+            newpage.url = newpage.pager.page_path
           else
             # Support for extensionless permalinks
-            newpage.set_url(newpage.pager.page_path+indexPageExt)
+            newpage.url = newpage.pager.page_path + indexPageExt
           end
 
           if( template.data['permalink'] )
