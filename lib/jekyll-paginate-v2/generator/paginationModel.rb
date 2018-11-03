@@ -241,14 +241,14 @@ module Jekyll
           # is called (as this function calls the 'date' field which for drafts are not initialized.)
           # So to unblock this common issue for the date field I simply iterate once over every document and initialize the .date field explicitly
           if @debug
-            puts "Pagination: ".rjust(20) + "Rolling through the date fields for all documents"
+            Jekyll.logger.info "Pagination:", "Rolling through the date fields for all documents"
           end
           using_posts.each do |u_post|
             if u_post.respond_to?('date')
               tmp_date = u_post.date
               if( !tmp_date || tmp_date.nil? )
                 if @debug
-                  puts "Pagination: ".rjust(20) + "Explicitly assigning date for doc: #{u_post.data['title']} | #{u_post.path}"
+                  Jekyll.logger.info "Pagination:", "Explicitly assigning date for doc: #{u_post.data['title']} | #{u_post.path}"
                 end
                 u_post.date = File.mtime(u_post.path)
               end
