@@ -137,7 +137,7 @@ module Jekyll
         end
 
         # Delete the depricated keys
-        config.delete_if{ |k,| keys_to_delete.include? k }
+        config.delete_if { |k,| keys_to_delete.include? k }
       end
 
       LOG_KEY = 'Pagination: '.rjust(20).freeze
@@ -255,7 +255,12 @@ module Jekyll
             end
           end
 
-          using_posts.sort!{ |a,b| Utils.sort_values(Utils.sort_get_post_data(a.data, sort_field), Utils.sort_get_post_data(b.data, sort_field)) }
+          using_posts.sort! do |a, b|
+            Utils.sort_values(
+              Utils.sort_get_post_data(a.data, sort_field),
+              Utils.sort_get_post_data(b.data, sort_field)
+            )
+          end
 
           # Remove the first x entries
           offset_post_count = [0, config['offset'].to_i].max
@@ -362,7 +367,9 @@ module Jekyll
 
               # Convert the newpages array into a two dimensional array that has [index, page_url] as items
               #puts( "Trail created for page #{npage.pager.page} (idx_start:#{idx_start} idx_end:#{idx_end})")
-              npage.pager.page_trail = newpages[idx_start...idx_end].each_with_index.map {|ipage,idx| PageTrail.new(idx_start+idx+1, ipage.pager.page_path, ipage.data['title'])}
+              npage.pager.page_trail = newpages[idx_start...idx_end].each_with_index.map do |ipage, idx|
+                PageTrail.new(idx_start + idx + 1, ipage.pager.page_path, ipage.data['title'])
+              end
               #puts( npage.pager.page_trail )
             end #newpages.select
           end #if trail_before / trail_after
