@@ -35,14 +35,15 @@ module Jekyll
           @use_permalink_for_url = true
         end
 
-        if !page_to_copy.data['autopage']
-          self.content = page_to_copy.content
-        else
+        autopage_data = page_to_copy.data['autopage']
+        if autopage_data
           # If the page is an auto page then migrate the necessary autopage info across into the
           # new pagination page (so that users can get the correct keys etc)
-          if( page_to_copy.data['autopage'].has_key?('display_name') )
-            self.data['autopages'] = Jekyll::Utils.deep_merge_hashes( page_to_copy.data['autopage'], {} )
+          if autopage_data.has_key?('display_name')
+            self.data['autopages'] = autopage_data
           end
+        else
+          self.content = page_to_copy.content
         end
 
         # Store the current page and total page numbers in the pagination_info construct
