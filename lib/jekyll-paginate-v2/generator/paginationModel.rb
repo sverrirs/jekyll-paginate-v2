@@ -305,18 +305,19 @@ module Jekyll
           newpage.pager = Paginator.new( config['per_page'], first_index_page_url, paginated_page_url, using_posts, cur_page_nr, total_pages, indexPageName, indexPageExt)
 
           # Create the url for the new page, make sure we prepend any permalinks that are defined in the template page before
-          if newpage.pager.page_path.end_with? '/'
-            newpage.url = File.join(newpage.pager.page_path, indexPageWithExt)
-          elsif newpage.pager.page_path.end_with? indexPageExt
+          pager_path = newpage.pager.page_path
+          if pager_path.end_with? '/'
+            newpage.url = File.join(pager_path, indexPageWithExt)
+          elsif pager_path.end_with? indexPageExt
             # Support for direct .html files
-            newpage.url = newpage.pager.page_path
+            newpage.url = pager_path
           else
             # Support for extensionless permalinks
-            newpage.url = newpage.pager.page_path + indexPageExt
+            newpage.url = pager_path + indexPageExt
           end
 
           if( template.data['permalink'] )
-            newpage.data['permalink'] = newpage.pager.page_path
+            newpage.data['permalink'] = pager_path
           end
 
           # Transfer the title across to the new page
