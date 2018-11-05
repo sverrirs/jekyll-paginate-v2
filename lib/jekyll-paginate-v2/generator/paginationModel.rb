@@ -32,42 +32,43 @@ module Jekyll
 
         # Now for each template page generate the paginator for it
         templates.each do |template|
-          # All pages that should be paginated need to include the pagination config element
-          if template.data['pagination'].is_a?(Hash)
-            template_config = Jekyll::Utils.deep_merge_hashes(default_config, template.data['pagination'] || {})
+          # All pages that should be paginated need to include the pagination config hash
+          next unless template.data['pagination'].is_a?(Hash)
 
-            # Handling deprecation of configuration values
-            self._fix_deprecated_config_features(template_config)
+          template_config = Jekyll::Utils.deep_merge_hashes(default_config, template.data['pagination'])
 
-            @debug = template_config['debug'] # Is debugging enabled on the page level
+          # Handling deprecation of configuration values
+          self._fix_deprecated_config_features(template_config)
 
-            self._debug_print_config_info(template_config, template.path)
+          @debug = template_config['debug'] # Is debugging enabled on the page level
+          self._debug_print_config_info(template_config, template.path)
             
-            # Only paginate the template if it is explicitly enabled
-            # This makes the logic simpler by avoiding the need to determine which index pages
-            # were generated automatically and which weren't
-            if template_config['enabled'].to_s == 'true'
-              if !@debug
-                @logging_lambda.call "found page: "+template.path, 'debug'
-              end
-
-              # Request all documents in all collections that the user has requested 
-              all_posts = self.get_docs_in_collections(template_config['collection'])
-
-              # Create the necessary indexes for the posts
-              all_categories = PaginationIndexer.index_posts_by(all_posts, 'categories')
-              all_categories['posts'] = all_posts; # Populate a category for all posts (this is here for backward compatibility, do not use this as it will be decommissioned 2018-01-01) 
-                                                  # (this is a default and must not be used in the category system)
-              all_tags = PaginationIndexer.index_posts_by(all_posts, 'tags')
-              all_locales = PaginationIndexer.index_posts_by(all_posts, 'locale')
-
-              # TODO: NOTE!!! This whole request for posts and indexing results could be cached to improve performance, leaving like this for now during testing
-
-              # Now construct the pagination data for this template page
-              self.paginate(template, template_config, site_title, all_posts, all_tags, all_categories, all_locales)
-            end
+          # Only paginate the template if it is explicitly enabled
+          # This makes the logic simpler by avoiding the need to determine which index pages
+          # were generated automatically and which weren't
+          next unless template_config['enabled'].to_s == 'true'
+          unless @debug
+            @logging_lambda.call "found page: #{template.path}", 'debug'
           end
-        end #for
+
+          # Request all documents in all collections that the user has requested
+          all_posts = self.get_docs_in_collections(template_config['collection'])
+
+          # Create the necessary indexes for the posts
+          all_categories = PaginationIndexer.index_posts_by(all_posts, 'categories')
+          all_categories['posts'] = all_posts # Populate a category for all posts
+                                              #   This is here for backward compatibility, do not use this as it
+                                              #   will be decommissioned 2018-01-01
+                                              #   This is a default and must not be used in the category system
+          all_tags    = PaginationIndexer.index_posts_by(all_posts, 'tags')
+          all_locales = PaginationIndexer.index_posts_by(all_posts, 'locale')
+
+          # TODO: NOTE!!! This whole request for posts and indexing results could be cached to improve performance,
+          #       leaving like this for now during testing
+
+          # Now construct the pagination data for this template page
+          self.paginate(template, template_config, site_title, all_posts, all_tags, all_categories, all_locales)
+        end #each
 
         # Return the total number of templates found
         return templates.size
@@ -244,15 +245,12 @@ module Jekyll
             Jekyll.logger.info "Pagination:", "Rolling through the date fields for all documents"
           end
           using_posts.each do |u_post|
-            if u_post.respond_to?('date')
-              tmp_date = u_post.date
-              if( !tmp_date || tmp_date.nil? )
-                if @debug
-                  Jekyll.logger.info "Pagination:", "Explicitly assigning date for doc: #{u_post.data['title']} | #{u_post.path}"
-                end
-                u_post.date = File.mtime(u_post.path)
-              end
+            next unless u_post.respond_to?('date')
+            next if u_post.date
+            if @debug
+              Jekyll.logger.info "Pagination:", "Explicitly assigning date for doc: #{u_post.data['title']} | #{u_post.path}"
             end
+            u_post.date = File.mtime(u_post.path)
           end
 
           using_posts.sort!{ |a,b| Utils.sort_values(Utils.sort_get_post_data(a.data, sort_field), Utils.sort_get_post_data(b.data, sort_field)) }
