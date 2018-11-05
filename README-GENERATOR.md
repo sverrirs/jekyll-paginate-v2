@@ -102,7 +102,7 @@ pagination:
 
   # Optional, the default page values of the generated pages (e.g. 'sitemap: false')
   # Without file extension
-  default_values: nul
+  default_values: null
 
 ############################################################
 ```
