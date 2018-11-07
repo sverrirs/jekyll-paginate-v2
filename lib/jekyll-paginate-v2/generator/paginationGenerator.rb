@@ -32,7 +32,9 @@ module Jekyll
           Jekyll.logger.info "Pagination:","Legacy paginate configuration settings detected and will be used."
           # You cannot run both the new code and the old code side by side
           if !site.config['pagination'].nil?
-            err_msg = "The new jekyll-paginate-v2 and the old jekyll-paginate logic cannot both be configured in the site config at the same time. Please disable the old 'paginate:' config settings by either omitting the values or setting them to 'paginate:off'."
+            err_msg = "The new jekyll-paginate-v2 and the old jekyll-paginate logic cannot both be configured " \
+                      "in the site config at the same time. Please disable the old 'paginate:' config settings " \
+                      "by either omitting the values or setting them to 'paginate:off'."
             Jekyll.logger.error err_msg 
             raise ArgumentError.new(err_msg)
           end
@@ -55,7 +57,10 @@ module Jekyll
 
         # Handle deprecation of settings and features
         if( !default_config['title_suffix' ].nil? )
-          Jekyll::Deprecator.deprecation_message "Pagination: The 'title_suffix' configuration has been deprecated. Please use 'title'. See https://github.com/sverrirs/jekyll-paginate-v2/blob/master/README-GENERATOR.md#site-configuration"
+          Jekyll::Deprecator.deprecation_message(
+            "Pagination: The 'title_suffix' configuration has been deprecated. Please use 'title'. " \
+            "See https://github.com/sverrirs/jekyll-paginate-v2/blob/master/README-GENERATOR.md#site-configuration"
+          )
         end
 
         Jekyll.logger.debug "Pagination:","Starting"
@@ -69,8 +74,9 @@ module Jekyll
 
         ################ 1 #################### 
         # Specify the callback function that returns the correct docs/posts based on the collection name
-        # "posts" are just another collection in Jekyll but a specialized version that require timestamps
-        # This collection is the default and if the user doesn't specify a collection in their front-matter then that is the one we load
+        # "posts" are just another collection in Jekyll but a specialized version that require timestamps.
+        # This collection is the default and if the user doesn't specify a collection in their front-matter
+        # then that is the one we load.
         # If the collection is not found then empty array is returned
         collection_by_name_lambda = lambda do |collection_name|
           coll = []
@@ -79,7 +85,8 @@ module Jekyll
             # this is useful when you want to list items across multiple collections
             site.collections.each do |coll_name, coll_data|
               if( !coll_data.nil? && coll_name != 'posts')
-                coll += coll_data.docs.select { |doc| !doc.data.has_key?('pagination') } # Exclude all pagination pages
+                # Exclude all pagination pages
+                coll += coll_data.docs.select { |doc| !doc.data.has_key?('pagination') }
               end
             end
           else
@@ -87,8 +94,8 @@ module Jekyll
             if !site.collections.has_key?(collection_name)
               return []
             end
-
-            coll = site.collections[collection_name].docs.select { |doc| !doc.data.has_key?('pagination') } # Exclude all pagination pages
+            # Exclude all pagination pages
+            coll = site.collections[collection_name].docs.select { |doc| !doc.data.has_key?('pagination') }
           end
           return coll
         end
@@ -126,7 +133,8 @@ module Jekyll
         # Now create and call the model with the real-life page creation proc and site data
         model = PaginationModel.new(logging_lambda, page_add_lambda, page_remove_lambda, collection_by_name_lambda)
         if( default_config['legacy'] ) #(REMOVE AFTER 2018-01-01)
-          Jekyll.logger.warn "Pagination:", "You are running jekyll-paginate backwards compatible pagination logic. Please ignore all earlier warnings displayed related to the old jekyll-paginate gem."
+          Jekyll.logger.warn "Pagination:", "You are running jekyll-paginate backwards compatible pagination logic. " \
+                             "Please ignore all earlier warnings displayed related to the old jekyll-paginate gem."
           all_posts = site.site_payload['site']['posts'].reject { |post| post['hidden'] }
           model.run_compatability(default_config, all_pages, site_title, all_posts) #(REMOVE AFTER 2018-01-01)
         else
