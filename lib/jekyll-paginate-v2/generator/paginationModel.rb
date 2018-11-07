@@ -200,11 +200,12 @@ module Jekyll
       #
       def discover_paginate_templates(site_pages)
         candidates = []
-        site_pages.select do |page|
-          # If the page has the enabled config set, supports any type of file name html or md
-          if page.data['pagination'].is_a?(Hash) && page.data['pagination']['enabled']
-            candidates << page
-          end
+        site_pages.each do |page|
+          next unless page.data['pagination'].is_a?(Hash)
+          next unless page.data['pagination']['enabled'].to_s == 'true'
+
+          # If the page has the enabled config set, select it irrespective of its filetype
+          candidates << page
         end
         return candidates
       end # function discover_paginate_templates
