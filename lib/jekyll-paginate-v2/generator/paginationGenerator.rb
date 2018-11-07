@@ -110,16 +110,13 @@ module Jekyll
         ################ 3 ####################
         # Create a proc that will delegate logging
         # Decoupling Jekyll specific logging
-        logging_lambda = lambda do | message, type="info" |
-          if type == 'debug'
-            Jekyll.logger.debug "Pagination:","#{message}"
-          elsif type == 'error'
-            Jekyll.logger.error "Pagination:", "#{message}"
-          elsif type == 'warn'
-            Jekyll.logger.warn "Pagination:", "#{message}"
-          else
-            Jekyll.logger.info "Pagination:", "#{message}"
-          end
+        logging_lambda = lambda do |message, type=''|
+          levels = %w(debug error warn)
+          log_level = levels.include?(type) ? type : 'info'
+          log_level = log_level.to_sym
+          message   = message.to_s
+
+          Jekyll.logger.send(log_level, 'Pagination:', message)
         end
 
         ################ 4 ####################
