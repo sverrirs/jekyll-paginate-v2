@@ -6,14 +6,13 @@ module Jekyll
     #
     class PaginationModel
 
-      @debug = false # is debug output enabled?
-      @logging_lambda = nil # The lambda to use for logging
-      @page_add_lambda = nil # The lambda used to create pages and add them to the site
-      @page_remove_lambda = nil # Lambda to remove a page from the site.pages collection
-      @collection_by_name_lambda = nil # Lambda to get all documents/posts in a particular collection (by name)
-
-      # ctor
+      # logging_lambda            :: The lambda to use for logging
+      # page_add_lambda           :: The lambda used to create pages and add them to the site
+      # page_remove_lambda        :: Lambda to remove a page from the site.pages collection
+      # collection_by_name_lambda :: Lambda to get all documents/posts in a particular collection (by name)
       def initialize(logging_lambda, page_add_lambda, page_remove_lambda, collection_by_name_lambda)
+        @debug = false # call #run to determine if debug output is enabled
+
         @logging_lambda = logging_lambda
         @page_add_lambda = page_add_lambda
         @page_remove_lambda = page_remove_lambda
