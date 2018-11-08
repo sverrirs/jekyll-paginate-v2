@@ -5,14 +5,12 @@ module Jekyll
     # Handles the preparation of all the posts based on the current page index
     #
     class Paginator
+      attr_accessor :page_trail
+
       attr_reader :page, :per_page, :posts, :total_posts, :total_pages,
-        :previous_page, :previous_page_path, :next_page, :next_page_path, :page_path, :page_trail,
+        :previous_page, :previous_page_path, :next_page, :next_page_path, :page_path,
         :first_page, :first_page_path, :last_page, :last_page_path
 
-      def page_trail=(page_array)
-        @page_trail = page_array
-      end
-      
       # Initialize a new Paginator.
       #
       def initialize(config_per_page, first_index_page_url, paginated_page_url, posts, cur_page_nr, num_pages, default_indexpage, default_ext)
