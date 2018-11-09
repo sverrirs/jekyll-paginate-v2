@@ -14,7 +14,12 @@ Gem::Specification.new do |spec|
   spec.license       = "MIT"
 
   spec.summary       = "Pagination Generator for Jekyll 3"
-  spec.description   = "An enhanced zero-configuration in-place replacement for the now decomissioned built-in jekyll-paginate gem. This pagination gem offers full backwards compatability as well as a slew of new frequently requested features with minimal additional site and page configuration. Optional features include auto-generation of paginated collection, tag and category pages."
+  spec.description   = <<-DESC
+    An enhanced zero-configuration in-place replacement for the now decomissioned built-in jekyll-paginate gem.
+    This pagination gem offers full backwards compatability as well as a slew of new frequently requested features
+    with minimal additional site and page configuration.
+    Optional features include auto-generation of paginated collection, tag and category pages.
+  DESC
   
   spec.files          = Dir['CODE_OF_CONDUCT.md', 'README*.md', 'LICENSE', 'Rakefile', '*.gemspec', 'Gemfile', 'lib/**/*', 'spec/**/*']
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
