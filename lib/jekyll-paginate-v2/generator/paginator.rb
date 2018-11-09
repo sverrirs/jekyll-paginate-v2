@@ -51,7 +51,7 @@ module Jekyll
 
         @total_posts = posts.size
         @posts       = posts[init..offset]
-        @page_path   = _number_page(this_page_url, cur_page_nr)
+        @page_path   = _format_page_number(this_page_url, cur_page_nr)
 
         _setup_paginator_pages(first_index_page_url, paginated_page_url)
       end
@@ -87,9 +87,9 @@ module Jekyll
         unless @page == 1
           @previous_page = @page - 1
           @previous_page_path = if @page == 2
-                                  _number_page(first_index_page_url, @previous_page)
+                                  _format_page_number(first_index_page_url, @previous_page)
                                 else
-                                  _number_page(paginated_page_url, @previous_page)
+                                  _format_page_number(paginated_page_url, @previous_page)
                                 end
         end
 
@@ -97,24 +97,24 @@ module Jekyll
         # Last page has no "next page" link
         unless @page == @total_pages
           @next_page = @page + 1
-          @next_page_path = _number_page(paginated_page_url, @next_page)
+          @next_page_path = _format_page_number(paginated_page_url, @next_page)
         end
 
         # Setup the first page
         # Every other page knows the first page
         @first_page = 1
-        @first_page_path = _number_page(first_index_page_url, @first_page)
+        @first_page_path = _format_page_number(first_index_page_url, @first_page)
 
         # Setup the last page
         # Every other page knows the last page
         @last_page = @total_pages
-        @last_page_path = _number_page(paginated_page_url, @last_page)
+        @last_page_path = _format_page_number(paginated_page_url, @last_page)
 
         # return nothing
         nil
       end
 
-      def _number_page(url, page_number)
+      def _format_page_number(url, page_number)
         Utils.format_page_number(url, page_number, @total_pages)
       end
       
