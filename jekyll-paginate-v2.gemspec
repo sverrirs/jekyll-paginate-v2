@@ -7,11 +7,14 @@ Gem::Specification.new do |spec|
   spec.name          = "jekyll-paginate-v2"
   spec.version       = Jekyll::PaginateV2::VERSION
   spec.platform      = Gem::Platform::RUBY
-  spec.required_ruby_version = '>= 2.0.0'  # Same as Jekyll
   spec.authors       = ["Sverrir Sigmundarson"]
   spec.email         = ["jekyll@sverrirs.com"]
   spec.homepage      = "https://github.com/sverrirs/jekyll-paginate-v2"
   spec.license       = "MIT"
+
+  spec.files         = Dir['CODE_OF_CONDUCT.md', 'README*.md', 'LICENSE', 'Rakefile', '*.gemspec', 'Gemfile', 'lib/**/*', 'spec/**/*']
+  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.require_paths = ["lib"]
 
   spec.summary       = "Pagination Generator for Jekyll 3"
   spec.description   = <<-DESC
@@ -20,10 +23,8 @@ Gem::Specification.new do |spec|
     with minimal additional site and page configuration.
     Optional features include auto-generation of paginated collection, tag and category pages.
   DESC
-  
-  spec.files          = Dir['CODE_OF_CONDUCT.md', 'README*.md', 'LICENSE', 'Rakefile', '*.gemspec', 'Gemfile', 'lib/**/*', 'spec/**/*']
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
-  spec.require_paths = ["lib"]
+
+  spec.required_ruby_version = ">= 2.0.0" # Same as Jekyll
 
   # Gem requires Jekyll to work
   # ~> is the pessimistic operator and is equivalent to '>= 3.0', '< 4.0'
