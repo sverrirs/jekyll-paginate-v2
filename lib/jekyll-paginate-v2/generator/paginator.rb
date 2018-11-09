@@ -85,12 +85,9 @@ module Jekyll
         # Setup prev pages
         # First page has no "previous page" link
         unless @page == 1
+          pager_page_url = @page == 2 ? first_index_page_url : paginated_page_url
           @previous_page = @page - 1
-          @previous_page_path = if @page == 2
-                                  _format_page_number(first_index_page_url, @previous_page)
-                                else
-                                  _format_page_number(paginated_page_url, @previous_page)
-                                end
+          @previous_page_path = _format_page_number(pager_page_url, @previous_page)
         end
 
         # Setup next pages
