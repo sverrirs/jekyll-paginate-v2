@@ -19,6 +19,17 @@ engines:
         enabled: false
 ratings:
   paths:
-  - "**.rb"
+  - "**/*.rb"
 exclude_paths:
+- "*.*"
+- ".*"
+- "**/*.md"
+- "**/*.yml"
+- "*.gemspec"
+- Gemfile
+- LICENSE
+- Rakefile
+- examples/
+- res/
+- script/
 - spec/
