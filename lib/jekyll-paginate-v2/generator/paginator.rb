@@ -53,29 +53,7 @@ module Jekyll
         @posts       = posts[init..offset]
         @page_path   = _number_page(this_page_url, cur_page_nr)
 
-        # First page has no "previous page"
-        unless @page == 1
-          @previous_page = @page - 1
-          @previous_page_path = if @page == 2
-                                  _number_page(first_index_page_url, @previous_page)
-                                else
-                                  _number_page(paginated_page_url, @previous_page)
-                                end
-        end
-
-        # Last page has no "next page"
-        unless @page == @total_pages
-          @next_page = @page + 1
-          @next_page_path = _number_page(paginated_page_url, @next_page)
-        end
-
-        # Setup first page
-        @first_page = 1
-        @first_page_path = _number_page(first_index_page_url, @first_page)
-
-        # Setup last page
-        @last_page = @total_pages
-        @last_page_path = _number_page(paginated_page_url, @last_page)
+        _setup_paginator_pages(first_index_page_url, paginated_page_url)
       end
 
       # Convert this Paginator's data to a Hash suitable for use by Liquid.
@@ -102,6 +80,39 @@ module Jekyll
       end
 
       private
+
+      def _setup_paginator_pages(first_index_page_url, paginated_page_url)
+        # Setup prev pages
+        # First page has no "previous page" link
+        unless @page == 1
+          @previous_page = @page - 1
+          @previous_page_path = if @page == 2
+                                  _number_page(first_index_page_url, @previous_page)
+                                else
+                                  _number_page(paginated_page_url, @previous_page)
+                                end
+        end
+
+        # Setup next pages
+        # Last page has no "next page" link
+        unless @page == @total_pages
+          @next_page = @page + 1
+          @next_page_path = _number_page(paginated_page_url, @next_page)
+        end
+
+        # Setup the first page
+        # Every other page knows the first page
+        @first_page = 1
+        @first_page_path = _number_page(first_index_page_url, @first_page)
+
+        # Setup the last page
+        # Every other page knows the last page
+        @last_page = @total_pages
+        @last_page_path = _number_page(paginated_page_url, @last_page)
+
+        # return nothing
+        nil
+      end
 
       def _number_page(url, page_number)
         Utils.format_page_number(url, page_number, @total_pages)
