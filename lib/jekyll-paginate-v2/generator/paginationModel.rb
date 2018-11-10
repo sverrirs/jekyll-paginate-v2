@@ -222,16 +222,10 @@ module Jekyll
         using_posts = all_posts
         
         # Now start filtering out any posts that the user doesn't want included in the pagination
-        before = using_posts.size
-        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'category', using_posts, all_categories)
-        self._debug_print_filtering_info('Category', before, using_posts.size)
-        before = using_posts.size
-        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'tag', using_posts, all_tags)
-        self._debug_print_filtering_info('Tag', before, using_posts.size)
-        before = using_posts.size
-        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'locale', using_posts, all_locales)
-        self._debug_print_filtering_info('Locale', before, using_posts.size)
-        
+        using_posts = _filter_posts_with_config(config, 'Category', using_posts, all_categories)
+        using_posts = _filter_posts_with_config(config, 'Tag',      using_posts, all_tags)
+        using_posts = _filter_posts_with_config(config, 'Locale',   using_posts, all_locales)
+
         # Apply sorting to the posts if configured, any field for the post is available for sorting
         if config['sort_field']
           sort_field = config['sort_field'].to_s
@@ -370,6 +364,17 @@ module Jekyll
         end # if config['trail']
 
       end # function paginate
+
+      private
+
+      def _filter_posts_with_config(config, index_label, using_posts, indexed_items)
+        index_key    = index_label.downcase
+        initial_size = using_posts.size
+        using_posts  = PaginationIndexer.read_config_value_and_filter_posts(config, index_key, using_posts, indexed_items)
+        self._debug_print_filtering_info(index_label, initial_size, using_posts.size)
+
+        using_posts
+      end # function _filter_posts_with_config
 
     end # class PaginationV2
 
