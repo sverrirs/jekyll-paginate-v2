@@ -164,13 +164,16 @@ module Jekyll
         path = File.join(path, "index") if url.end_with?("/")
         path << ext unless path.end_with?(ext)
 
-        dirname = File.dirname(path)
-        valid_values = [
-          File.join(dirname, "/"),
-          File.join(dirname, "index#{ext}")
-        ]
+        dirname  = File.dirname(path)
+        basename = File.basename(path, ".*")
+        basename = "" if basename == "index"
 
+        valid_values = [
+          File.join(dirname, basename, "/"),
+          File.join(dirname, basename, "index#{ext}"),
+        ]
         return url if valid_values.include?(url)
+
         Jekyll.logger.error "Pagination Error:",
           "Detected invalid url #{url.inspect} for #{template.relative_path.inspect}"
         Jekyll.logger.abort_with "", "Expected #{valid_values.map(&:inspect).join(' or ')}"
