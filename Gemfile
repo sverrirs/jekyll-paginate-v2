@@ -11,4 +11,5 @@ end
 # `bundle exec [executable] [options]` more easily.
 group :test do
   gem "rubocop", "~> 0.51.0"
+  gem "simplecov"
 end
