@@ -1,34 +1,34 @@
 require_relative '../spec_helper.rb'
 
-module Jekyll::PaginateV2::Generator
-  describe "checking default config" do
+RSpec.describe Jekyll::PaginateV2::Generator::DEFAULT do
+  subject { described_class }
 
+  context "checking default config" do
     it "should always contain the following keys" do
-      DEFAULT.must_include 'enabled'
-      DEFAULT.must_include 'collection'
-      DEFAULT.must_include 'per_page'
-      DEFAULT.must_include 'permalink'
-      DEFAULT.must_include 'title'
-      DEFAULT.must_include 'page_num'
-      DEFAULT.must_include 'sort_reverse'
-      DEFAULT.must_include 'sort_field'
-      DEFAULT.must_include 'limit'
-      DEFAULT.must_include 'debug'
-      DEFAULT.size.must_be :>=, 10
+      expect(subject).to include 'enabled'
+      expect(subject).to include 'collection'
+      expect(subject).to include 'per_page'
+      expect(subject).to include 'permalink'
+      expect(subject).to include 'title'
+      expect(subject).to include 'page_num'
+      expect(subject).to include 'sort_reverse'
+      expect(subject).to include 'sort_field'
+      expect(subject).to include 'limit'
+      expect(subject).to include 'debug'
+      expect(subject.size).to be >= 10
     end
 
     it "should always contain the following key defaults" do
-      DEFAULT['enabled'].must_equal false
-      DEFAULT['collection'].must_equal 'posts'
-      DEFAULT['per_page'].must_equal 10
-      DEFAULT['permalink'].must_equal '/page:num/'
-      DEFAULT['title'].must_equal ':title - page :num'
-      DEFAULT['page_num'].must_equal 1
-      DEFAULT['sort_reverse'].must_equal false
-      DEFAULT['sort_field'].must_equal 'date'
-      DEFAULT['limit'].must_equal 0
-      DEFAULT['debug'].must_equal false
+      expect(subject['enabled']).to eq false
+      expect(subject['collection']).to eq 'posts'
+      expect(subject['per_page']).to eq 10
+      expect(subject['permalink']).to eq '/page:num/'
+      expect(subject['title']).to eq ':title - page :num'
+      expect(subject['page_num']).to eq 1
+      expect(subject['sort_reverse']).to eq false
+      expect(subject['sort_field']).to eq 'date'
+      expect(subject['limit']).to eq 0
+      expect(subject['debug']).to eq false
     end
-
   end
 end

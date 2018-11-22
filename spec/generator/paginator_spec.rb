@@ -1,197 +1,196 @@
 require_relative '../spec_helper.rb'
 
-module Jekyll::PaginateV2::Generator
-  describe Paginator do
+RSpec.describe Jekyll::PaginateV2::Generator::Paginator do
+  let(:per_page) { 10 }
+  let(:first_index_page_url) { "index.html" }
+  let(:paginated_page_url)   { "/page:num/" }
+  let(:posts) { [] }
+  let(:cur_page_nr) { 1 }
+  let(:num_pages)   { 10 }
 
-    it "must include the necessary paginator attributes" do
+  let(:basename)  { "index" }
+  let(:extension) { ".html" }
 
-      #  config_per_page, first_index_page_url, paginated_page_url, posts, cur_page_nr, num_pages
-      pager = Paginator.new(10, "index.html", "/page:num/", [], 1, 10, 'index', '.html')
+  subject do
+    described_class.new(
+      per_page, first_index_page_url, paginated_page_url, posts, cur_page_nr, num_pages, basename, extension
+    )
+  end
+  alias_method :pager, :subject
 
-      # None of these accessors should throw errors, just run through them to test
-      val = pager.page
-      val = pager.per_page
-      val = pager.posts
-      val = pager.total_posts
-      val = pager.total_pages
-      val = pager.previous_page
-      val = pager.previous_page_path
-      val = pager.next_page
-      val = pager.next_page_path
-      
+  it "should have the necessary paginator attributes" do
+    expect( pager.page ).to eql 1
+    expect( pager.per_page ).to eql 10
+    expect( pager.posts ).to eql []
+    expect( pager.total_posts ).to eql 0
+    expect( pager.total_pages ).to eql 10
+    expect( pager.previous_page ).to be_nil
+    expect( pager.previous_page_path ).to be_nil
+    expect( pager.next_page ).to eql 2
+    expect( pager.next_page_path ).to eql "/page2/index.html"
+  end
+
+  context "initializing with current page number greater than the total pages" do
+    let(:cur_page_nr) { 10 }
+    let(:num_pages)   { 8 }
+
+    it "should throw an error" do
+      expect { subject }.to raise_error(
+        RuntimeError, "page number can't be greater than total pages: 10 > 8"
+      )
+    end
+  end
+
+  context "with a list of posts" do
+    # Create a dummy list of posts that is easy to track (buckets)
+    let(:posts) do
+      [
+         '1',  '2',  '3',  '4',  '5',
+         '6',  '7',  '8',  '9', '10',
+        '11', '12', '13', '14', '15',
+        '16', '17', '18', '19', '20',
+        '21', '22', '23', '24', '25',
+        '26', '27', '28', '29', '30',
+        '31', '32', '33', '34', '35'
+      ]
     end
 
-    it "must throw an error if the current page number is greater than the total pages" do
-      err = -> { pager = Paginator.new(10, "index.html", "/page:num/", [], 10, 8, 'index', '.html') }.must_raise RuntimeError
+    # Initialize a pager with
+    #   5 posts per page
+    #   at page 2 out of 5 pages
+    #
+    # pager = Paginator.new(5, "index.html", "/page:num/", posts, 2, 5, "", "")
+    #
+    # current bucket: ["6", "7", "8", "9", "10"]
+    #
+    let(:per_page)    { 5 }
+    let(:cur_page_nr) { 2 }
+    let(:num_pages)   { 5 }
 
-      # No error should be raised below
-      pager = Paginator.new(10, "index.html", "/page:num/", [], 8, 10, 'index', '.html')
-    end
+    let(:basename)    { "" }
+    let(:extension)   { "" }
 
     it "must trim the list of posts correctly based on the cur_page_nr and per_page" do
-      # Create a dummy list of posts that is easy to track
-      posts = [
-        '1','2','3','4','5',
-        '6','7','8','9','10',
-        '11','12','13','14','15',
-        '16','17','18','19','20',
-        '21','22','23','24','25',
-        '26','27','28','29','30',
-        '31','32','33','34','35'
-      ]
+      expect( pager.per_page ).to eq 5
+      expect( pager.page ).to eq 2
+      expect( pager.total_pages ).to eq 5
 
-      # Initialize a pager with
-      #   5 posts per page
-      #   at page 2 out of 5 pages
-      pager = Paginator.new(5, "index.html", "/page:num/", posts, 2, 5, '', '')
+      expect( pager.total_posts ).to eq 35
 
-      pager.page.must_equal 2
-      pager.per_page.must_equal 5
-      pager.total_pages.must_equal 5
+      expect( pager.posts.size ).to eq 5
+      expect( pager.posts[0] ).to eq "6"
+      expect( pager.posts[4] ).to eq "10"
 
-      pager.total_posts.must_equal 35
-
-      pager.posts.size.must_equal 5
-      pager.posts[0].must_equal '6'
-      pager.posts[4].must_equal '10'
-
-      pager.previous_page.must_equal 1
-      pager.previous_page_path.must_equal 'index.html'
-      pager.next_page.must_equal 3
-      pager.next_page_path.must_equal '/page3/'
+      expect( pager.previous_page ).to eq 1
+      expect( pager.previous_page_path ).to eq "index.html"
+      expect( pager.next_page ).to eq 3
+      expect( pager.next_page_path ).to eq "/page3/"
     end
 
-    it "must not create a previous page if we're at first page" do
-      # Create a dummy list of posts that is easy to track
-      posts = [
-        '1','2','3','4','5',
-        '6','7','8','9','10',
-        '11','12','13','14','15',
-        '16','17','18','19','20',
-        '21','22','23','24','25',
-        '26','27','28','29','30',
-        '31','32','33','34','35'
-      ]
+    context "with index basename and extension specified" do
+      # pager = Paginator.new(5, "index.html", "/page:num/", posts, 2, 5, "index", ".html")
+      #
+      # current bucket: ["6", "7", "8", "9", "10"]
+      #
+      let(:basename)  { "index" }
+      let(:extension) { ".html" }
 
-      # Initialize a pager with
-      #   5 posts per page
-      #   at page 1 out of 5 pages
-      pager = Paginator.new(5, "index.html", "/page:num/", posts, 1, 5, '', '')
+      it "should create the index page with extension" do
+        expect( pager.per_page ).to eq 5
+        expect( pager.page ).to eq 2
+        expect( pager.total_pages ).to eq 5
 
-      pager.page.must_equal 1
-      pager.per_page.must_equal 5
-      pager.total_pages.must_equal 5
+        expect( pager.total_posts ).to eq 35
 
-      pager.total_posts.must_equal 35
+        expect( pager.posts.size ).to eq 5
+        expect( pager.posts[0] ).to eq "6"
+        expect( pager.posts[4] ).to eq "10"
 
-      pager.posts.size.must_equal 5
-      pager.posts[0].must_equal '1'
-      pager.posts[4].must_equal '5'
-
-      pager.previous_page.must_be_nil
-      pager.previous_page_path.must_be_nil
-      pager.next_page.must_equal 2
-      pager.next_page_path.must_equal '/page2/'
+        expect( pager.previous_page ).to eq 1
+        expect( pager.previous_page_path ).to eq "index.html"
+        expect( pager.next_page ).to eq 3
+        expect( pager.next_page_path ).to eq "/page3/index.html"
+      end
     end
 
-    it "must not create a next page if we're at the final page" do
-      # Create a dummy list of posts that is easy to track
-      posts = [
-        '1','2','3','4','5',
-        '6','7','8','9','10',
-        '11','12','13','14','15',
-        '16','17','18','19','20',
-        '21','22','23','24','25',
-        '26','27','28','29','30',
-        '31','32','33','34','35'
-      ]
+    context "with index basename template and extension specified" do
+      # pager = Paginator.new(5, "/", "/", posts, 2, 5, "feed:num", ".json")
+      #
+      # current bucket: ["6", "7", "8", "9", "10"]
+      #
+      let(:first_index_page_url) { "/" }
+      let(:paginated_page_url) { "/" }
+      let(:basename)  { "feed:num" }
+      let(:extension) { ".json" }
 
-      # Initialize a pager with
-      #   5 posts per page
-      #   at page 5 out of 5 pages
-      pager = Paginator.new(5, "index.html", "/page:num/", posts, 5, 5, '', '')
+      it "should create the index page with specified extension" do
+        expect( pager.per_page ).to eq 5
+        expect( pager.page ).to eq 2
+        expect( pager.total_pages ).to eq 5
 
-      pager.page.must_equal 5
-      pager.per_page.must_equal 5
-      pager.total_pages.must_equal 5
+        expect( pager.total_posts ).to eq 35
 
-      pager.total_posts.must_equal 35
+        expect( pager.posts.size ).to eq 5
+        expect( pager.posts[0] ).to eq "6"
+        expect( pager.posts[4] ).to eq "10"
 
-      pager.posts.size.must_equal 5
-      pager.posts[0].must_equal '21'
-      pager.posts[4].must_equal '25'
+        expect( pager.page_path ).to eq "/feed2.json"
 
-      pager.previous_page.must_equal 4
-      pager.previous_page_path.must_equal '/page4/'
-      pager.next_page.must_be_nil
-      pager.next_page_path.must_be_nil
+        expect( pager.previous_page ).to eq 1
+        expect( pager.previous_page_path ).to eq "/feed1.json"
+        expect( pager.next_page ).to eq 3
+        expect( pager.next_page_path ).to eq "/feed3.json"
+      end
     end
 
-    it "must create the explicit index page and index extension when specified" do
-      # Create a dummy list of posts that is easy to track
-      posts = [
-        '1','2','3','4','5',
-        '6','7','8','9','10',
-        '11','12','13','14','15',
-        '16','17','18','19','20',
-        '21','22','23','24','25',
-        '26','27','28','29','30',
-        '31','32','33','34','35'
-      ]
+    context "at the first page" do
+      # pager = Paginator.new(5, "index.html", "/page:num/", posts, 1, 5, "", "")
+      #
+      # current bucket: ["1", "2", "3", "4", "5"]
+      #
+      let(:cur_page_nr) { 1 }
 
-      # Initialize a pager with
-      #   5 posts per page
-      #   at page 2 out of 5 pages
-      pager = Paginator.new(5, "index.html", "/page:num/", posts, 2, 5, 'index', '.html')
+      it "should not create a previous page" do
+        expect( pager.per_page ).to eq 5
+        expect( pager.page ).to eq 1
+        expect( pager.total_pages ).to eq 5
 
-      pager.page.must_equal 2
-      pager.per_page.must_equal 5
-      pager.total_pages.must_equal 5
+        expect( pager.total_posts ).to eq 35
 
-      pager.total_posts.must_equal 35
+        expect( pager.posts.size ).to eq 5
+        expect( pager.posts[0] ).to eq "1"
+        expect( pager.posts[4] ).to eq "5"
 
-      pager.posts.size.must_equal 5
-      pager.posts[0].must_equal '6'
-      pager.posts[4].must_equal '10'
-
-      pager.previous_page.must_equal 1
-      pager.previous_page_path.must_equal 'index.html'
-      pager.next_page.must_equal 3
-      pager.next_page_path.must_equal '/page3/index.html'
+        expect( pager.previous_page ).to be_nil
+        expect( pager.previous_page_path ).to be_nil
+        expect( pager.next_page ).to eq 2
+        expect( pager.next_page_path ).to eq "/page2/"
+      end
     end
 
-    it "must create the explicit index page and index extension when specified" do
-      # Create a dummy list of posts that is easy to track
-      posts = [
-        '1','2','3','4','5',
-        '6','7','8','9','10',
-        '11','12','13','14','15',
-        '16','17','18','19','20',
-        '21','22','23','24','25',
-        '26','27','28','29','30',
-        '31','32','33','34','35'
-      ]
+    context "at the final page" do
+      # pager = Paginator.new(5, "index.html", "/page:num/", posts, 5, 5, "", "")
+      #
+      # current bucket: ["21", "22", "23", "24", "25"]
+      #
+      let(:cur_page_nr) { 5 }
 
-      # Initialize a pager with
-      #   5 posts per page
-      #   at page 2 out of 5 pages
-      pager = Paginator.new(5, "/", "/", posts, 2, 5, 'feed:num', '.json')
+      it "should not create a next page" do
+        expect( pager.per_page ).to eq 5
+        expect( pager.page ).to eq 5
+        expect( pager.total_pages ).to eq 5
 
-      pager.page.must_equal 2
-      pager.per_page.must_equal 5
-      pager.total_pages.must_equal 5
+        expect( pager.total_posts ).to eq 35
 
-      pager.total_posts.must_equal 35
+        expect( pager.posts.size ).to eq 5
+        expect( pager.posts[0] ).to eq "21"
+        expect( pager.posts[4] ).to eq "25"
 
-      pager.posts.size.must_equal 5
-      pager.posts[0].must_equal '6'
-      pager.posts[4].must_equal '10'
-
-      pager.previous_page.must_equal 1
-      pager.previous_page_path.must_equal '/feed1.json'
-      pager.next_page.must_equal 3
-      pager.next_page_path.must_equal '/feed3.json'
+        expect( pager.previous_page ).to eq 4
+        expect( pager.previous_page_path ).to eq "/page4/"
+        expect( pager.next_page ).to be_nil
+        expect( pager.next_page_path ).to be_nil
+      end
     end
-
   end
 end

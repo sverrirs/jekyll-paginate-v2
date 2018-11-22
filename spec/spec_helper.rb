@@ -1,6 +1,3 @@
-require 'minitest/spec'
-require 'minitest/autorun'
-
 require 'jekyll'
 require_relative '../lib/jekyll-paginate-v2/version'
 require_relative '../lib/jekyll-paginate-v2/generator/defaults'
