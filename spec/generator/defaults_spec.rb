@@ -28,6 +28,7 @@ module Jekyll::PaginateV2::Generator
       DEFAULT['sort_field'].must_equal 'date'
       DEFAULT['limit'].must_equal 0
       DEFAULT['debug'].must_equal false
+      DEFAULT['page_config'].must_equal nil
     end
 
   end
