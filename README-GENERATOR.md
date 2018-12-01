@@ -36,6 +36,7 @@ The **Generator** forms the core of the pagination logic. It is responsible for 
     - [Pagination pages are not found](#my-pagination-pages-are-not-being-found-couldnt-find-any-pagination-page-skipping-pagination)
     - [Categories cause excess folder nesting](#my-pages-are-being-nested-multiple-levels-deep)
     - [Pagination pages overwriting each others pages](#my-pagination-pages-are-overwriting-each-others-pages)
+    - [Configuration must be added to the generated pages](#i-use-jekyll-sitemap-a-configuration-based-plugin-that-creates-the-sitemap-how-can-i-exclude-the-pagination-pages-from-my-sitemap)
 
 ## Site configuration
 
@@ -100,9 +101,10 @@ pagination:
   # Without file extension
   indexpage: 'index'
 
-  # Optional, the default page values of the generated pages (e.g. 'sitemap: false')
-  # Without file extension
-  default_values: null
+  # Optional, some configuration that will be associated to the generated pages.
+  # Very useful if you use configuration-base plugins or Liquid content queries.
+  # Default value: empty.
+  page_config: ~
 
 ############################################################
 ```
@@ -710,3 +712,13 @@ pagination:
 ```
 
 Make absolutely sure that your pagination permalink paths do not clash with any other paths in your final site. For simplicity it is recommended that you keep all custom pagination (non root index.html) in a single or multiple separate sub folders under your site root.
+
+### I use `jekyll-sitemap`, a configuration-based plugin that creates the sitemap. How can I exclude the pagination pages from my sitemap?
+
+The `page_config` configuration key will help you determine some configuration that will be added to the generated pagination pages. To exclude those pages from the sitemap, just configure `false` as default value for the `sitemap` key, in your `_config.yml` configuration file.
+
+``` yml
+pagination: 
+  page_config:
+    sitemap: false
+```

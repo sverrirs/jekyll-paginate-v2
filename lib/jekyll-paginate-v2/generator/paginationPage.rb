@@ -52,8 +52,8 @@ module Jekyll
         default_config = Jekyll::Utils.deep_merge_hashes(DEFAULT, site.config['pagination'] || {})
 
         # Set the pagination pages default values
-        if( default_config.has_key?('default_values') )
-          default_config['default_values'].each do |key, value|
+        if( default_config.has_key?('page_config') )
+          default_config['page_config'].each do |key, value|
             self.data[key] = value;
           end
         end

@@ -21,7 +21,7 @@ module Jekyll
       'extension'    => 'html', # The default extension for the output pages (ignored if indexpage is nil)
       'debug'        => false, # Turns on debug output for the gem
       'legacy'       => false, # Internal value, do not use (will be removed after 2018-01-01)
-      'default_values' => nil # Default front-matter values to inject into the generated pages
+      'page_config' => nil # Default front-matter values to inject into the generated pages
     }
 
   end # module PaginateV2
