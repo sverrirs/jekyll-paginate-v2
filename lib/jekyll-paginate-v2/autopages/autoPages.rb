@@ -51,25 +51,25 @@ module Jekyll
     # STATIC: this function actually performs the steps to generate the autopages. It uses a lambda function to delegate the creation of the individual
     #         page types to the calling code (this way all features can reuse the logic).
     #
-    def self.autopage_create(autopage_config, pagination_config, posts_to_use, configkey_name, indexkey_name, createpage_lambda )
-      if !autopage_config[configkey_name].nil?
-        ap_sub_config = autopage_config[configkey_name]
-        if ap_sub_config ['enabled']
-          Jekyll.logger.info "AutoPages:","Generating #{configkey_name} pages"
+    def self.autopage_create(autopage_config, pagination_config, posts_to_use, configkey_name, indexkey_name, createpage_lambda)
+      ap_sub_config = autopage_config[configkey_name]
+      if ap_sub_config['enabled'].to_s == 'true'
+        Jekyll.logger.info "AutoPages:", "Generating #{configkey_name} pages"
 
-          # Roll through all documents in the posts collection and extract the tags
-          index_keys = Utils.ap_index_posts_by(posts_to_use, indexkey_name) # Cannot use just the posts here, must use all things.. posts, collections...
+        # Roll through all documents in the posts collection and extract the tags
+        # Cannot use just the posts here, must use all things.. posts, collections...
+        index_keys = Utils.ap_index_posts_by(posts_to_use, indexkey_name)
 
-          index_keys.each do |index_key, value|
-            # Iterate over each layout specified in the config
-            ap_sub_config ['layouts'].each do | layout_name |
-              # Use site.dest here as these pages are never created in the actual source but only inside the _site folder
-              createpage_lambda.call(ap_sub_config, pagination_config, layout_name, index_key, value[-1]) # the last item in the value array will be the display name
-            end
+        index_keys.each do |index_key, value|
+          # Iterate over each layout specified in the config
+          ap_sub_config['layouts'].each do |layout_name|
+            # Use site.dest here as these pages are never created in the actual source but only inside the _site folder.
+            # The last item in the value array will be the display name
+            createpage_lambda.call(ap_sub_config, pagination_config, layout_name, index_key, value[-1])
           end
-        else
-          Jekyll.logger.info "AutoPages:","#{configkey_name} pages are disabled/not configured in site.config."
         end
+      else
+        Jekyll.logger.info "AutoPages:", "#{configkey_name} pages are not enabled in site.config."
       end
     end
 
