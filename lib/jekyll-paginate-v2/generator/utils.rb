@@ -170,10 +170,16 @@ module Jekyll
           File.join(dirname, "index#{ext}")
         ]
 
-        return url if valid_values.include?(url)
-        Jekyll.logger.error "Pagination Error:",
-          "Detected invalid url #{url.inspect} for #{template.relative_path.inspect}"
-        Jekyll.logger.abort_with "", "Expected #{valid_values.map(&:inspect).join(' or ')}"
+        index_page_url = "/index#{ext}"
+        trailing_index_page_regex = %r!#{Regexp.escape(index_page_url)}\z!
+
+        if valid_values.include?(url)
+          url.sub(trailing_index_page_regex, "/")
+        else
+          Jekyll.logger.error "Pagination Error:",
+            "Detected invalid url #{url.inspect} for #{template.relative_path.inspect}"
+          Jekyll.logger.abort_with "", "Expected #{valid_values.map(&:inspect).join(' or ')}"
+        end
       end
     end
 
