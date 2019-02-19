@@ -2,10 +2,10 @@
 
 Pagination gem built specially for Jekyll 3 and newer that is fully backwards compatible and serves as an enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate). View it on [rubygems.org](https://rubygems.org/gems/jekyll-paginate-v2).
 
+[![Code Shelter](https://www.codeshelter.co/static/badges/badge-flat.svg)](https://www.codeshelter.co/)
 [![Gem](https://img.shields.io/gem/v/jekyll-paginate-v2.svg)](https://rubygems.org/gems/jekyll-paginate-v2)
 [![Join the chat at https://gitter.im/jekyll-paginate-v2/Lobby](https://badges.gitter.im/jekyll-paginate-v2/Lobby.svg)](https://gitter.im/jekyll-paginate-v2/Lobby)
 [![Build Status](https://travis-ci.org/sverrirs/jekyll-paginate-v2.svg?branch=master)](https://travis-ci.org/sverrirs/jekyll-paginate-v2) 
-[![Dependency Status](https://gemnasium.com/badges/github.com/sverrirs/jekyll-paginate-v2.svg)](https://gemnasium.com/github.com/sverrirs/jekyll-paginate-v2)
 [![Code Climate](https://codeclimate.com/github/sverrirs/jekyll-paginate-v2/badges/gpa.svg)](https://codeclimate.com/github/sverrirs/jekyll-paginate-v2)
 [![security](https://hakiri.io/github/sverrirs/jekyll-paginate-v2/master.svg)](https://hakiri.io/github/sverrirs/jekyll-paginate-v2/master)
 [![Gem](https://img.shields.io/gem/dt/jekyll-paginate-v2.svg)](https://rubygems.org/gems/jekyll-paginate-v2)
