@@ -18,6 +18,8 @@ module Jekyll
           next if post.data[index_key].nil?
           next if post.data[index_key].size <= 0
           next if post.data[index_key].to_s.strip.length == 0
+            
+          # Jekyll.logger.info "Pag-debug:", post.data.to_json
           
           # Only tags and categories come as premade arrays, locale does not, so convert any data
           # elements that are strings into arrays
@@ -31,6 +33,10 @@ module Jekyll
             # If the key is a delimetered list of values 
             # (meaning the user didn't use an array but a string with commas)
             key.split(/;|,/).each do |k_split|
+              # if k_split == ":language"
+              #    k_split = Utils.format_page_lang(k_split, post.data.language)
+              # end
+                
               k_split = k_split.to_s.downcase.strip #Clean whitespace and junk
               if !index.has_key?(k_split)
                 index[k_split.to_s] = []
@@ -62,15 +68,21 @@ module Jekyll
       # Filters posts based on a keyed source_posts hash of indexed posts and performs a intersection of 
       # the two sets. Returns only posts that are common between all collections 
       #
-      def self.read_config_value_and_filter_posts(config, config_key, posts, source_posts)
+      def self.read_config_value_and_filter_posts(config, config_key, posts, source_posts, page_language = nil)
         return nil if posts.nil?
         return nil if source_posts.nil? # If the source is empty then simply don't do anything
         return posts if config.nil?
 
         plural_key = Utils.plural(config_key)
 
+        # Jekyll.logger.info "Pag-debug: ", "Key: " + config_key + " => " + config[config_key]
+          
         return posts if !config.has_key?(config_key) && !config.has_key?(plural_key)
         return posts if config[config_key].nil? && config[plural_key].nil?
+        
+        if config[config_key] == ":language" && !page_language.nil?
+            config[config_key] = config[config_key].sub(':language', page_language)
+        end
         
         # Get the filter values from the config (this is the cat/tag/locale values that should be filtered on)
         
