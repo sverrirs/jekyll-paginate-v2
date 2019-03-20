@@ -33,11 +33,7 @@ module Jekyll
         # Now for each template page generate the paginator for it
         templates.each do |template|
           # All pages that should be paginated need to include the pagination config element
-          if template.data['pagination'].is_a?(Hash)
-            # unless template.data['language'].nil?
-            #     Jekyll.logger.info "Pag-debug-lang: ", template.data['language']
-            # end
-              
+          if template.data['pagination'].is_a?(Hash)          
             template_config = Jekyll::Utils.deep_merge_hashes(default_config, template.data['pagination'] || {})
 
             # Handling deprecation of configuration values

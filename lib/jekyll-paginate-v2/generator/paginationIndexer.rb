@@ -19,8 +19,6 @@ module Jekyll
           next if post.data[index_key].size <= 0
           next if post.data[index_key].to_s.strip.length == 0
             
-          # Jekyll.logger.info "Pag-debug:", post.data.to_json
-          
           # Only tags and categories come as premade arrays, locale does not, so convert any data
           # elements that are strings into arrays
           post_data = post.data[index_key]
