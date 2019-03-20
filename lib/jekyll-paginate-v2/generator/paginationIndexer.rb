@@ -30,11 +30,7 @@ module Jekyll
             key = key.to_s.downcase.strip
             # If the key is a delimetered list of values 
             # (meaning the user didn't use an array but a string with commas)
-            key.split(/;|,/).each do |k_split|
-              # if k_split == ":language"
-              #    k_split = Utils.format_page_lang(k_split, post.data.language)
-              # end
-                
+            key.split(/;|,/).each do |k_split|            
               k_split = k_split.to_s.downcase.strip #Clean whitespace and junk
               if !index.has_key?(k_split)
                 index[k_split.to_s] = []
@@ -78,8 +74,13 @@ module Jekyll
         return posts if !config.has_key?(config_key) && !config.has_key?(plural_key)
         return posts if config[config_key].nil? && config[plural_key].nil?
         
-        if config[config_key] == ":language" && !page_language.nil?
-            config[config_key] = config[config_key].sub(':language', page_language)
+        if config[config_key] == ":language"
+            lang = "en" # Default_lang
+            unless page_language.nil?
+                lang = page_language.to_s
+            end
+            
+            config[config_key] = config[config_key].sub(':language', lang)
         end
         
         # Get the filter values from the config (this is the cat/tag/locale values that should be filtered on)
