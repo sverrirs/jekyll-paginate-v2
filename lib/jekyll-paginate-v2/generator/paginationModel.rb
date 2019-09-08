@@ -33,7 +33,7 @@ module Jekyll
         # Now for each template page generate the paginator for it
         templates.each do |template|
           # All pages that should be paginated need to include the pagination config element
-          if template.data['pagination'].is_a?(Hash)
+          if template.data['pagination'].is_a?(Hash)          
             template_config = Jekyll::Utils.deep_merge_hashes(default_config, template.data['pagination'] || {})
 
             # Handling deprecation of configuration values
@@ -64,7 +64,7 @@ module Jekyll
               # TODO: NOTE!!! This whole request for posts and indexing results could be cached to improve performance, leaving like this for now during testing
 
               # Now construct the pagination data for this template page
-              self.paginate(template, template_config, site_title, all_posts, all_tags, all_categories, all_locales)
+              self.paginate(template, template_config, site_title, all_posts, all_tags, all_categories, all_locales, template.data['language'])
             end
           end
         end #for
@@ -217,7 +217,7 @@ module Jekyll
       # template - The index.html Page that requires pagination.
       # config - The configuration settings that should be used
       #
-      def paginate(template, config, site_title, all_posts, all_tags, all_categories, all_locales)
+      def paginate(template, config, site_title, all_posts, all_tags, all_categories, all_locales, page_language = nil)
         # By default paginate on all posts in the site
         using_posts = all_posts
         
@@ -229,7 +229,7 @@ module Jekyll
         using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'tag', using_posts, all_tags)
         self._debug_print_filtering_info('Tag', before, using_posts.size)
         before = using_posts.size
-        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'locale', using_posts, all_locales)
+        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'locale', using_posts, all_locales, page_language)
         self._debug_print_filtering_info('Locale', before, using_posts.size)
         
         # Apply sorting to the posts if configured, any field for the post is available for sorting
