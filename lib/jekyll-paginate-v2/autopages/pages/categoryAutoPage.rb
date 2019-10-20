@@ -10,7 +10,15 @@ module Jekyll
         # Construc the lambda function to set the config values
         # this function received the pagination config hash and manipulates it
         set_autopage_data_lambda = lambda do | in_config |
-          in_config['category'] = category
+          if in_config.key?('category')
+            in_config['category'] = in_config['category'] + "," +category
+          else 
+            if in_config.key?('categories')
+              in_config['categories'] << category
+            else
+              in_config['category'] = category
+            end
+          end
           in_config['collection'] = site.collections.keys
         end
 
