@@ -9,32 +9,16 @@ module Jekyll
     # This page exists purely in memory and is not read from disk
     #
     class PaginationPage < Page
-      attr_reader :relative_path
-
       def initialize(page_to_copy, cur_page_nr, total_pages, index_pageandext)
         @site = page_to_copy.site
         @base = ''
-        @url  = ''
-        @relative_path = page_to_copy.relative_path
-
-        if cur_page_nr == 1
-          @dir = File.dirname(page_to_copy.dir)
-          @name = page_to_copy.name
-        else
-          @name = index_pageandext.nil? ? 'index.html' : index_pageandext
-        end
+        @url = ''
+        @name = index_pageandext.nil? ? 'index.html' : index_pageandext
 
         self.process(@name) # Creates the basename and ext member values
 
-        # Copy page data over site defaults
-        defaults = @site.frontmatter_defaults.all(page_to_copy.relative_path, type)
-        self.data = Jekyll::Utils.deep_merge_hashes(defaults, page_to_copy.data)
-
-        if defaults.has_key?('permalink')
-          self.data['permalink'] = Jekyll::URL.new(:template => defaults['permalink'], :placeholders => self.url_placeholders).to_s
-          @use_permalink_for_url = true
-        end
-
+        # Only need to copy the data part of the page as it already contains the layout information
+        self.data = Jekyll::Utils.deep_merge_hashes( page_to_copy.data, {} )
         if !page_to_copy.data['autopage']
           self.content = page_to_copy.content
         else
@@ -56,10 +40,9 @@ module Jekyll
         #Jekyll::Hooks.trigger :pages, :post_init, self
       end
 
-      def url=(url_value)
-        @url = @use_permalink_for_url ? self.data['permalink'] : url_value
+      def set_url(url_value)
+        @url = url_value
       end
-      alias_method :set_url, :url=
     end # class PaginationPage
 
   end # module PaginateV2

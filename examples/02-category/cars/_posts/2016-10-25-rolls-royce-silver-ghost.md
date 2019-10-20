@@ -2,10 +2,7 @@
 layout: post
 title:  Rolls-Royce Silver Ghost
 date:   2016-10-25 19:16:49 +0100
-categories:
-  - cars
-  - vintage
-  - sports car
+categories: cars, vintage, sports car
 ---
 _From Wikipedia, the free encyclopedia_
 

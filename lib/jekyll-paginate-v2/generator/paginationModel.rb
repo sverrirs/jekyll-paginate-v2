@@ -24,7 +24,7 @@ module Jekyll
       def run(default_config, site_pages, site_title)
         # By default if pagination is enabled we attempt to find all index.html pages in the site
         templates = self.discover_paginate_templates(site_pages)
-        if templates.size <= 0
+        if( templates.size.to_i <= 0 )
           @logging_lambda.call "Is enabled, but I couldn't find any pagination page. Skipping pagination. "+
           "Pages must have 'pagination: enabled: true' in their front-matter for pagination to work.", "warn"
           return
@@ -44,9 +44,9 @@ module Jekyll
             self._debug_print_config_info(template_config, template.path)
             
             # Only paginate the template if it is explicitly enabled
-            # This makes the logic simpler by avoiding the need to determine which index pages
+            # requiring this makes the logic simpler as I don't need to determine which index pages 
             # were generated automatically and which weren't
-            if template_config['enabled'].to_s == 'true'
+            if( template_config['enabled'] )
               if !@debug
                 @logging_lambda.call "found page: "+template.path, 'debug'
               end
@@ -70,7 +70,7 @@ module Jekyll
         end #for
 
         # Return the total number of templates found
-        return templates.size
+        return templates.size.to_i
       end # function run
 
       #
@@ -140,56 +140,42 @@ module Jekyll
         config.delete_if{ |k,| keys_to_delete.include? k }
       end
 
-      LOG_KEY = 'Pagination: '.rjust(20).freeze
-      DIVIDER = ('-' * 80).freeze
-      NOT_SET = '[Not set]'.freeze
-
-      # Debug print the config
-      def _debug_log(topic, message = nil)
-        return unless @debug
-
-        message = message.to_s
-        topic   = "#{topic.ljust(24)}: " unless message.empty?
-        puts LOG_KEY + topic + message
-      end
-
-      # Debug print the config
       def _debug_print_config_info(config, page_path)
-        return unless @debug
+        r = 20
+        f = "Pagination: ".rjust(20)
+        # Debug print the config
+        if @debug
+          puts f + "----------------------------"
+          puts f + "Page: "+page_path.to_s
+          puts f + " Active configuration"
+          puts f + "  Enabled: ".ljust(r) + config['enabled'].to_s
+          puts f + "  Items per page: ".ljust(r) + config['per_page'].to_s
+          puts f + "  Permalink: ".ljust(r) + config['permalink'].to_s
+          puts f + "  Title: ".ljust(r) + config['title'].to_s
+          puts f + "  Limit: ".ljust(r) + config['limit'].to_s
+          puts f + "  Sort by: ".ljust(r) + config['sort_field'].to_s
+          puts f + "  Sort reverse: ".ljust(r) + config['sort_reverse'].to_s
+          
+          puts f + " Active Filters"
+          puts f + "  Collection: ".ljust(r) + config['collection'].to_s
+          puts f + "  Category: ".ljust(r) + (config['category'].nil? || config['category'] == "posts" ? "[Not set]" : config['category'].to_s)
+          puts f + "  Tag: ".ljust(r) + (config['tag'].nil? ? "[Not set]" : config['tag'].to_s)
+          puts f + "  Locale: ".ljust(r) + (config['locale'].nil? ? "[Not set]" : config['locale'].to_s)
 
-        puts ''
-        puts LOG_KEY + "Page: #{page_path}"
-        puts LOG_KEY + DIVIDER
-        _debug_log '  Active configuration'
-        _debug_log '    Enabled',        config['enabled']
-        _debug_log '    Items per page', config['per_page']
-        _debug_log '    Permalink',      config['permalink']
-        _debug_log '    Title',          config['title']
-        _debug_log '    Limit',          config['limit']
-        _debug_log '    Sort by',        config['sort_field']
-        _debug_log '    Sort reverse',   config['sort_reverse']
-        _debug_log '  Active Filters'
-        _debug_log '    Collection',     config['collection']
-        _debug_log '    Offset',         config['offset']
-        _debug_log '    Category',       (config['category'].nil? || config['category'] == 'posts' ? NOT_SET : config['category'])
-        _debug_log '    Tag',            config['tag']    || NOT_SET
-        _debug_log '    Locale',         config['locale'] || NOT_SET
-
-        return unless config['legacy']
-
-        _debug_log '  Legacy Paginate Code Enabled'
-        _debug_log '    Legacy Paginate', config['per_page']
-        _debug_log '    Legacy Source',   config['legacy_source']
-        _debug_log '    Legacy Path',     config['paginate_path']
+          if config['legacy'] 
+            puts f + " Legacy Paginate Code Enabled"
+            puts f + "  Legacy Paginate: ".ljust(r) + config['per_page'].to_s
+            puts f + "  Legacy Source: ".ljust(r) + config['legacy_source'].to_s
+            puts f + "  Legacy Path: ".ljust(r) + config['paginate_path'].to_s
+          end
+        end
       end
 
-      # Debug print the config
       def _debug_print_filtering_info(filter_name, before_count, after_count)
-        return unless @debug
-
-        filter_name  = filter_name.to_s.ljust(9)
-        before_count = before_count.to_s.rjust(3)
-        _debug_log "  Filtering by #{filter_name}", "#{before_count} => #{after_count}"
+        # Debug print the config
+        if @debug
+          puts "Pagination: ".rjust(20) + " Filtering by: "+filter_name.to_s.ljust(9) + " " + before_count.to_s.rjust(3) + " => " + after_count.to_s  
+        end
       end
       
       #
@@ -222,15 +208,15 @@ module Jekyll
         using_posts = all_posts
         
         # Now start filtering out any posts that the user doesn't want included in the pagination
-        before = using_posts.size
+        before = using_posts.size.to_i
         using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'category', using_posts, all_categories)
-        self._debug_print_filtering_info('Category', before, using_posts.size)
-        before = using_posts.size
+        self._debug_print_filtering_info('Category', before, using_posts.size.to_i)
+        before = using_posts.size.to_i
         using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'tag', using_posts, all_tags)
-        self._debug_print_filtering_info('Tag', before, using_posts.size)
-        before = using_posts.size
+        self._debug_print_filtering_info('Tag', before, using_posts.size.to_i)
+        before = using_posts.size.to_i
         using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'locale', using_posts, all_locales)
-        self._debug_print_filtering_info('Locale', before, using_posts.size)
+        self._debug_print_filtering_info('Locale', before, using_posts.size.to_i)
         
         # Apply sorting to the posts if configured, any field for the post is available for sorting
         if config['sort_field']
@@ -241,14 +227,14 @@ module Jekyll
           # is called (as this function calls the 'date' field which for drafts are not initialized.)
           # So to unblock this common issue for the date field I simply iterate once over every document and initialize the .date field explicitly
           if @debug
-            Jekyll.logger.info "Pagination:", "Rolling through the date fields for all documents"
+            puts "Pagination: ".rjust(20) + "Rolling through the date fields for all documents"
           end
           using_posts.each do |u_post|
             if u_post.respond_to?('date')
               tmp_date = u_post.date
               if( !tmp_date || tmp_date.nil? )
                 if @debug
-                  Jekyll.logger.info "Pagination:", "Explicitly assigning date for doc: #{u_post.data['title']} | #{u_post.path}"
+                  puts "Pagination: ".rjust(20) + "Explicitly assigning date for doc: #{u_post.data['title']} | #{u_post.path}"
                 end
                 u_post.date = File.mtime(u_post.path)
               end
@@ -256,10 +242,6 @@ module Jekyll
           end
 
           using_posts.sort!{ |a,b| Utils.sort_values(Utils.sort_get_post_data(a.data, sort_field), Utils.sort_get_post_data(b.data, sort_field)) }
-
-          # Remove the first x entries
-          offset_post_count = [0, config['offset'].to_i].max
-          using_posts.pop(offset_post_count)
 
           if config['sort_reverse']
             using_posts.reverse!
@@ -298,32 +280,41 @@ module Jekyll
           newpage = PaginationPage.new( template, cur_page_nr, total_pages, indexPageWithExt )
 
           # 2. Create the url for the in-memory page (calc permalink etc), construct the title, set all page.data values needed
-          first_index_page_url = Utils.validate_url(template)
-          paginated_page_url   = File.join(first_index_page_url, config['permalink'])
+          paginated_page_url = config['permalink']
+          first_index_page_url = ""
+          if template.data['permalink']
+            first_index_page_url = Utils.ensure_trailing_slash(template.data['permalink'])
+          else
+            first_index_page_url = Utils.ensure_trailing_slash(template.dir)
+          end
+          paginated_page_url = File.join(first_index_page_url, paginated_page_url)
           
           # 3. Create the pager logic for this page, pass in the prev and next page numbers, assign pager to in-memory page
           newpage.pager = Paginator.new( config['per_page'], first_index_page_url, paginated_page_url, using_posts, cur_page_nr, total_pages, indexPageName, indexPageExt)
 
           # Create the url for the new page, make sure we prepend any permalinks that are defined in the template page before
-          pager_path = newpage.pager.page_path
-          if pager_path.end_with? '/'
-            newpage.url = File.join(pager_path, indexPageWithExt)
-          elsif pager_path.end_with? indexPageExt
+          if newpage.pager.page_path.end_with? '/'
+            newpage.set_url(File.join(newpage.pager.page_path, indexPageWithExt))
+          elsif newpage.pager.page_path.end_with? indexPageExt
             # Support for direct .html files
-            newpage.url = pager_path
+            newpage.set_url(newpage.pager.page_path)
           else
             # Support for extensionless permalinks
-            newpage.url = pager_path + indexPageExt
+            newpage.set_url(newpage.pager.page_path+indexPageExt)
           end
 
           if( template.data['permalink'] )
-            newpage.data['permalink'] = pager_path
+            newpage.data['permalink'] = newpage.pager.page_path
           end
 
           # Transfer the title across to the new page
-          tmp_title = template.data['title'] || site_title
-          if cur_page_nr > 1 && config.has_key?('title')
-            # If the user specified a title suffix to be added then let's add that to all the pages except the first
+          if( !template.data['title'] )
+            tmp_title = site_title
+          else
+            tmp_title = template.data['title']
+          end
+          # If the user specified a title suffix to be added then let's add that to all the pages except the first
+          if( cur_page_nr > 1 && config.has_key?('title') )
             newpage.data['title'] = "#{Utils.format_page_title(config['title'], tmp_title, cur_page_nr, total_pages)}"
           else
             newpage.data['title'] = tmp_title
@@ -345,7 +336,7 @@ module Jekyll
         # Now generate the pagination number path, e.g. so that the users can have a prev 1 2 3 4 5 next structure on their page
         # simplest is to include all of the links to the pages preceeding the current one
         # (e.g for page 1 you get the list 2, 3, 4.... and for page 2 you get the list 3,4,5...)
-        if config['trail'] && newpages.size > 1
+        if( config['trail'] && !config['trail'].nil? && newpages.size.to_i > 1 )
           trail_before = [config['trail']['before'].to_i, 0].max
           trail_after = [config['trail']['after'].to_i, 0].max
           trail_length = trail_before + trail_after + 1
@@ -353,7 +344,7 @@ module Jekyll
           if( trail_before > 0 || trail_after > 0 )
             newpages.select do | npage |
               idx_start = [ npage.pager.page - trail_before - 1, 0].max # Selecting the beginning of the trail
-              idx_end = [idx_start + trail_length, newpages.size].min # Selecting the end of the trail
+              idx_end = [idx_start + trail_length, newpages.size.to_i].min # Selecting the end of the trail
 
               # Always attempt to maintain the max total of <trail_length> pages in the trail (it will look better if the trail doesn't shrink)
               if( idx_end - idx_start < trail_length )

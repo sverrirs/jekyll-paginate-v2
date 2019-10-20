@@ -21,7 +21,6 @@ The **Generator** forms the core of the pagination logic. It is responsible for 
   + [Filtering locales](#filtering-locales)
 * [How to paginate on combination of filters](#paginate-on-combination-of-filters)
 * [Overriding site configuration](#configuration-overrides)
-* [Offsetting posts (how to skip newest posts)](#offsetting-posts)
 * [Advanced Sorting](#advanced-sorting)
 * [Creating Pagination Trails](#creating-pagination-trails)
 * [How to detect auto-generated pages](#detecting-generated-pagination-pages)
@@ -272,36 +271,6 @@ pagination:
   category: software, ruby
 ```
 
-You may use also use `categories` instead:
-
-``` yml
-pagination:
-  enabled: true
-  categories:
-    - software
-    - ruby
-```
-
-**Note:** Do *not* use `categories` as follows:
-
-``` yml
-  categories: programming language, ruby
-```
-
-i.e. with category names that have spaces in them. Jekyll will split the above using spaces as the delimiter, resulting in `programming`, `language,`, and `ruby` as categories. Instead, use
-
-``` yml
-  category: programming language, ruby
-```
-
-or
-
-``` yml
-  categories:
-    - programming language
-    - ruby
-```
-
 > To define categories you can either specify them in the front-matter or through the [directory structure](http://jekyllrb.com/docs/variables/#page-variables) of your jekyll site (Categories are derived from the directory structure above the \_posts directory). You can actually use both approaches to assign your pages to multiple categories.
 
 ### Filtering tags
@@ -320,16 +289,6 @@ Filter on multiple tags
 pagination: 
   enabled: true
   tag: cool, life
-```
-
-As with categories, you may also use the following syntax:
-
-``` yml
-pagination:
-  enabled: true
-  tags:
-    - cool
-    - life
 ```
 
 > When specifying tags in your posts make sure that the values are not enclosed in single quotes (double quotes are fine). If they are you will get a cryptic error when generating your site that looks like _"Error: could not read file <FILE>: did not find expected key while parsing a block mapping at line 2 column 1"_
@@ -394,20 +353,6 @@ pagination:
   sort_field: 'title'
   sort_reverse: false
 ```
-
-## Offsetting posts
-The paging logic can be instructed to exclude the first _N_ number of newest posts from the pagination.
-This can be useful in situations where your site treats the first N posts differently from the rest (e.g. a featured post that is always present).
-
-The number of pages to skip is configured using the `offset` setting like so
-
-``` yml
-pagination: 
-  enabled: true
-  offset: 3
-```
-
-This example skips the 3 newest posts from the pagination logic.
 
 ## Advanced Sorting
 Sorting can be done by any field that is available in the post front-matter. You can even sort by nested fields.
