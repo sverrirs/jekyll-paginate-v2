@@ -23,8 +23,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Gem requires Jekyll to work
-  # ~> is the pessimistic operator and is equivalent to '>= 3.0', '< 4.0'
-  spec.add_runtime_dependency "jekyll", "~> 3.0"
+  # cf . https://jekyllrb.com/news/2019/08/20/jekyll-4-0-0-released/
+  spec.add_runtime_dependency "jekyll", ">= 3.6", "< 5.0"
 
   # Development requires more
   spec.add_development_dependency "bundler", "~> 1.5"
