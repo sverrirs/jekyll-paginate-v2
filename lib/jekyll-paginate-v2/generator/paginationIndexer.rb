@@ -74,14 +74,15 @@ module Jekyll
         return posts if !config.has_key?(config_key) && !config.has_key?(plural_key)
         return posts if config[config_key].nil? && config[plural_key].nil?
         
-        if config[config_key] == ":language"
-            lang = "en" # Default_lang
-            unless page_language.nil?
-                lang = page_language.to_s
-            end
-            
-            config[config_key] = config[config_key].sub(':language', lang)
-        end
+        # TODO: Fix this
+        # if config[config_key] == ":language"
+        #     lang = "en" # Default_lang
+        #     unless page_language.nil?
+        #         lang = page_language.to_s
+        #     end
+        #     
+        #     config[config_key] = config[config_key].sub(':language', lang)
+        # end
         
         # Get the filter values from the config (this is the cat/tag/locale values that should be filtered on)
         
