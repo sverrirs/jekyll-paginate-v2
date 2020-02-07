@@ -21,7 +21,7 @@ gem "minima", "~> 2.0"
 source 'https://rubygems.org'
 
 group :jekyll_plugins do
-  gem "jekyll-paginate-v2", "~> 1.7"
+  gem "jekyll-paginate-v2", ">= 3.0"
   gem "jekyll-feed"
 end
 
