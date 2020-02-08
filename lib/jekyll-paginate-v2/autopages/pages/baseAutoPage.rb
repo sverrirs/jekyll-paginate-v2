@@ -40,7 +40,8 @@ module Jekyll
         @url = File.join(permalink_formatted, @name)
         @dir = permalink_formatted
 
-        self.data['layout'] = File.basename(layout_name, File.extname(layout_name))
+        self.data['layout'] = File.join(File.dirname(layout_name),
+                                        File.basename(layout_name, '.*'))
         self.data['title'] = get_autopage_title_lambda.call( page_title )
         self.data['pagination']  = pagination_layout_config # Store the pagination configuration
 
