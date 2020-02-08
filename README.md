@@ -14,8 +14,6 @@ Pagination gem built specially for Jekyll 3 and newer that is fully backwards co
 
 Reach me at the [project issues](https://github.com/sverrirs/jekyll-paginate-v2/issues) section or via email at [jekyll@sverrirs.com](mailto:jekyll@sverrirs.com), you can also get in touch on the project's [Gitter chat room](https://gitter.im/jekyll-paginate-v2/Lobby).
 
-> The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were sourced from discussions such as [#27](https://github.com/jekyll/jekyll-paginate/issues/27) (thanks [Günter Kits](https://github.com/gynter)).
-
 * [Installation](#installation)
 * [Example Sites](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples)
 * [Pagination Generator](#pagination-generator)
@@ -52,16 +50,6 @@ The [Pagination Generator](README-GENERATOR.md) forms the core of the pagination
 The [Auto-Pages](README-AUTOPAGES.md) is an optional feature that auto-magically generates paginated pages for all your tags, categories and collections.
 
 
-## Issues / to-be-completed
-
-* Unit-tests do not cover all critical code paths
-* No integration tests yet [#2](https://github.com/jekyll/jekyll-paginate/pull/2)
-* _Exclude_ filter not implemented [#6](https://github.com/jekyll/jekyll-paginate/issues/6)
-* Elegant way of collecting and printing debug information during pagination
-
-
-I welcome all testers and people willing to give me feedback and code reviews.
-
 ## Contributing
 
 > Although this project is small it has a [code of conduct](CODE_OF_CONDUCT.md) that I hope everyone will do their best to follow when contributing to any aspects of this project. Be it discussions, issue reporting, documentation or programming. 
@@ -78,3 +66,5 @@ If you don't want to open issues here on Github, send me your feedback by email 
 8. Create new Pull Request
 
 Note: This project uses [semantic versioning](http://semver.org/).
+
+> The code was based on the original design of [jekyll-paginate](https://github.com/jekyll/jekyll-paginate) and features were sourced from discussions such as [#27](https://github.com/jekyll/jekyll-paginate/issues/27) (thanks [Günter Kits](https://github.com/gynter)).
