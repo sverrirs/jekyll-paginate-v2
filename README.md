@@ -1,5 +1,7 @@
 # Jekyll::Paginate V2
 
+> :warning: Please note that this plugin is **NOT** supported by GitHub pages. Here is a [list of all plugins supported](https://pages.github.com/versions/). However you can follow [this GitHub guide](https://help.github.com/articles/adding-jekyll-plugins-to-a-github-pages-site/) to enable it or by using [Travis CI](https://ayastreb.me/deploy-jekyll-to-github-pages-with-travis-ci/). GitLab supposedly supports [any plugin](https://about.gitlab.com/comparison/gitlab-pages-vs-github-pages.html). 
+
 Pagination gem built specially for Jekyll 3 and newer that is fully backwards compatible and serves as an enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate). View it on [rubygems.org](https://rubygems.org/gems/jekyll-paginate-v2).
 
 [![Code Shelter](https://www.codeshelter.co/static/badges/badge-flat.svg)](https://www.codeshelter.co/)
@@ -38,10 +40,6 @@ Update your [_config.yml](README-GENERATOR.md#site-configuration) and [pages](RE
 Now you're ready to run `jekyll serve` and your paginated files should be generated.
 
 Please see the [Examples](https://github.com/sverrirs/jekyll-paginate-v2/tree/master/examples) for tips and tricks on how to configure the pagination logic.
-
-> :warning: Please note that this plugin is currently NOT supported by GitHub pages. Here is a [list of all plugins supported](https://pages.github.com/versions/). There is work underway to try to get it added it but until then please follow [this GitHub guide](https://help.github.com/articles/adding-jekyll-plugins-to-a-github-pages-site/) to enable it or use [Travis CI](https://ayastreb.me/deploy-jekyll-to-github-pages-with-travis-ci/). 
-
-> GitLab supposedly supports [any plugin](https://about.gitlab.com/comparison/gitlab-pages-vs-github-pages.html).
 
 
 ## Pagination Generator
