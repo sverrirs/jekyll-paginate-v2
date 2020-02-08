@@ -7,7 +7,7 @@ module Jekyll
         @base = base
         @name = 'index.html'
                 
-        layout_dir = '_layouts'
+        layout_dir = site.config['layouts_dir'] || '_layouts'
 
         # Path is only used by the convertible module and accessed below when calling read_yaml
         # Handling themes stored in a gem
