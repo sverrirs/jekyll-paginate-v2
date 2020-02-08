@@ -75,7 +75,7 @@ module Jekyll
       enabled, disabled = [], []
       config_keys.each do |key|
         key_config = config[key] # config for key
-        next if config.nil?
+        next if config.nil? || key_config['silent']
 
         (key_config['enabled'] ? enabled : disabled) << key
       end
