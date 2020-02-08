@@ -42,6 +42,8 @@ autopages:
     # Optional, the permalink for the  pagination page (:cat is replaced), 
     # the pagination permalink path is then appended to this permalink structure
     permalink: '/category/:cat'
+    # Optional, when true logging related to category pages will be supressed.
+    silent: false
 
   # Collection pages, omit to disable
   collections:
@@ -49,6 +51,7 @@ autopages:
       - 'autopage_collection.html'
     title: 'Posts in collection :coll' # :coll is replaced by the collection name
     permalink: '/collection/:coll'
+    silent: false
   
   # Tag pages, omit to disable
   tags:
@@ -56,6 +59,7 @@ autopages:
       - 'autopage_tags.html'
     title: 'Posts tagged with :tag' # :tag is replaced by the tag name
     permalink: '/tag/:tag'
+    silent: false
 ```
 
 ## Simple configuration
