@@ -42,6 +42,9 @@ autopages:
     # Optional, the permalink for the  pagination page (:cat is replaced), 
     # the pagination permalink path is then appended to this permalink structure
     permalink: '/category/:cat'
+    slugify:
+      mode: 'default'   # :cat is slugified. Modes: default, raw, pretty, ascii, latin
+      case: false       # Whether to replace all uppercase letters with their lowercase counterparts
 
   # Collection pages, omit to disable
   collections:
@@ -49,6 +52,9 @@ autopages:
       - 'autopage_collection.html'
     title: 'Posts in collection :coll' # :coll is replaced by the collection name
     permalink: '/collection/:coll'
+    slugify:
+      mode: 'default'   # :coll is slugified.
+      case: false 
   
   # Tag pages, omit to disable
   tags:
@@ -56,6 +62,9 @@ autopages:
       - 'autopage_tags.html'
     title: 'Posts tagged with :tag' # :tag is replaced by the tag name
     permalink: '/tag/:tag'
+    slugify:
+      mode: 'default'   # :tag is slugified.
+      case: false
 ```
 
 ## Simple configuration
