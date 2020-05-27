@@ -42,7 +42,7 @@ module Jekyll
       end
 
       def set_url(url_value)
-        @path = path[0] == '/' ? path[1..-1] : path
+        @path = url_value[0] == '/' ? url_value[1..-1] : url_value
         @dir = File.dirname(@path)
         @url = url_value
       end
