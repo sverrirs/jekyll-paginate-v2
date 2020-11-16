@@ -59,10 +59,26 @@ module Jekyll
       end #function intersect_arrays
       
       #
-      # Filters posts based on a keyed source_posts hash of indexed posts and performs a intersection of 
-      # the two sets. Returns only posts that are common between all collections 
+      # Creates a union (returns unique elements from both)
+      # between multiple arrays
       #
-      def self.read_config_value_and_filter_posts(config, config_key, posts, source_posts)
+      def self.union_arrays(first, *rest)
+        return nil if first.nil?
+        return nil if rest.nil?
+
+        union = first
+        rest.each do |item|
+          return [] if item.nil?
+          union = union | item
+        end
+        return union
+      end #function union_arrays
+
+      #
+      # Filters posts based on a keyed source_posts hash of indexed posts and performs a intersection of
+      # the two sets. Returns only posts that are common between all collections
+      #
+      def self.read_config_value_and_filter_posts(config, config_key, posts, source_posts, should_union = false)
         return nil if posts.nil?
         return nil if source_posts.nil? # If the source is empty then simply don't do anything
         return posts if config.nil?
@@ -81,7 +97,11 @@ module Jekyll
         # aren't common for all collections that the user wants to filter on
         config_value.each do |key|
           key = key.to_s.downcase.strip
-          posts = PaginationIndexer.intersect_arrays(posts, source_posts[key])
+          posts = if should_union
+            PaginationIndexer.union_arrays(posts, source_posts[key])
+          else
+            PaginationIndexer.intersect_arrays(posts, source_posts[key])
+          end
         end
         
         # The fully filtered final post list

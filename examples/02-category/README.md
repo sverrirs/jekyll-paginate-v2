@@ -70,6 +70,30 @@ Page 2: http://localhost:4000/porsches/2/
 Page N: http://localhost:4000/porsches/N/
 ```
 
+### Categories/toyota-or-porsche.md
+This is a more complex category pagination similar to the `porsche.md` setup, but this sets the combine option to union to include posts with toyota or porsche. The configuration for the page looks like this:
+
+``` yml
+---
+layout: home
+title: Toyota or Porsche
+permalink: /toyota-or-porsches/
+pagination:
+  enabled: true
+  category: toyota, porsche
+  combine: union
+  permalink: /:num/
+---
+```
+
+The paging list posts with the category `toyota` or `porsche`.
+
+```
+Page 1: http://localhost:4000/toyota-or-porsche/
+Page 2: http://localhost:4000/toyota-or-porsche/2/
+Page N: http://localhost:4000/toyota-or-porsche/N/
+```
+
 ### Categories/byname.md
 This pagination page expands on the the first two examples by adding a custom sorting for the category pagination. It displays all cars but by alphabetical order by Car name.
 
