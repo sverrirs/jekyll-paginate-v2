@@ -2,7 +2,7 @@
 
 > :warning: Please note that this plugin is **NOT** supported by GitHub pages. Here is a [list of all plugins supported](https://pages.github.com/versions/). However you can follow [this GitHub guide](https://help.github.com/articles/adding-jekyll-plugins-to-a-github-pages-site/) to enable it or by using [Travis CI](https://ayastreb.me/deploy-jekyll-to-github-pages-with-travis-ci/). GitLab supposedly supports [any plugin](https://about.gitlab.com/comparison/gitlab-pages-vs-github-pages.html). 
 
-Pagination gem built specially for Jekyll 3 and newer that is fully backwards compatible and serves as an enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate). View it on [rubygems.org](https://rubygems.org/gems/jekyll-paginate-v2).
+Pagination gem built specially for Jekyll 3, and newer, that is fully backwards compatible and serves as an enhanced replacement for the previously built-in [jekyll-paginate gem](https://github.com/jekyll/jekyll-paginate). View it on [rubygems.org](https://rubygems.org/gems/jekyll-paginate-v2).
 
 [![Code Shelter](https://www.codeshelter.co/static/badges/badge-flat.svg)](https://www.codeshelter.co/)
 [![Gem](https://img.shields.io/gem/v/jekyll-paginate-v2.svg)](https://rubygems.org/gems/jekyll-paginate-v2)
