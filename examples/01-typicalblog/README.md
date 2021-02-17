@@ -46,7 +46,7 @@ pagination:
   enabled: true
   per_page: 3
   permalink: '/page/:num/'
-  title_suffix: ' - page :num'
+  title: ' - page :num'
   limit: 0
   sort_field: 'date'
   sort_reverse: true
