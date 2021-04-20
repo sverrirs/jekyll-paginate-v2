@@ -32,6 +32,9 @@ module Jekyll
         # Store the current page and total page numbers in the pagination_info construct
         self.data['pagination_info'] = {"curr_page" => cur_page_nr, 'total_pages' => total_pages }       
 
+        # Retain the extention so the page exists in site.html_pages
+        self.ext = page_to_copy.ext
+
         # Perform some validation that is also performed in Jekyll::Page
         validate_data! page_to_copy.path
         validate_permalink! page_to_copy.path
