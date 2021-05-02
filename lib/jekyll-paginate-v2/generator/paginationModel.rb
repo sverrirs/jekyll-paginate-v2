@@ -159,6 +159,7 @@ module Jekyll
           puts f + " Active Filters"
           puts f + "  Collection: ".ljust(r) + config['collection'].to_s
           puts f + "  Offset: ".ljust(r) + config['offset'].to_s
+          puts f + "  Combine: ".ljust(r) + config['combine'].to_s
           puts f + "  Category: ".ljust(r) + (config['category'].nil? || config['category'] == "posts" ? "[Not set]" : config['category'].to_s)
           puts f + "  Tag: ".ljust(r) + (config['tag'].nil? ? "[Not set]" : config['tag'].to_s)
           puts f + "  Locale: ".ljust(r) + (config['locale'].nil? ? "[Not set]" : config['locale'].to_s)
@@ -207,16 +208,18 @@ module Jekyll
       def paginate(template, config, site_title, all_posts, all_tags, all_categories, all_locales)
         # By default paginate on all posts in the site
         using_posts = all_posts
-        
+
+        should_union = config['combine'] == 'union'
+
         # Now start filtering out any posts that the user doesn't want included in the pagination
         before = using_posts.size.to_i
-        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'category', using_posts, all_categories)
+        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'category', using_posts, all_categories, should_union)
         self._debug_print_filtering_info('Category', before, using_posts.size.to_i)
         before = using_posts.size.to_i
-        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'tag', using_posts, all_tags)
+        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'tag', using_posts, all_tags, should_union)
         self._debug_print_filtering_info('Tag', before, using_posts.size.to_i)
         before = using_posts.size.to_i
-        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'locale', using_posts, all_locales)
+        using_posts = PaginationIndexer.read_config_value_and_filter_posts(config, 'locale', using_posts, all_locales, should_union)
         self._debug_print_filtering_info('Locale', before, using_posts.size.to_i)
         
         # Apply sorting to the posts if configured, any field for the post is available for sorting
