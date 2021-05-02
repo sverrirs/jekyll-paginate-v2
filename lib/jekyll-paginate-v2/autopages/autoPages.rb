@@ -16,6 +16,8 @@ module Jekyll
         return
       end
 
+      autopages_log(autopage_config, 'tags', 'categories', 'collections')
+
       # TODO: Should I detect here and disable if we're running the legacy paginate code???!
 
       # Simply gather all documents across all pages/posts/collections that we have
@@ -55,8 +57,6 @@ module Jekyll
       if !autopage_config[configkey_name].nil?
         ap_sub_config = autopage_config[configkey_name]
         if ap_sub_config ['enabled']
-          Jekyll.logger.info "AutoPages:","Generating #{configkey_name} pages"
-
           # Roll through all documents in the posts collection and extract the tags
           index_keys = Utils.ap_index_posts_by(posts_to_use, indexkey_name) # Cannot use just the posts here, must use all things.. posts, collections...
 
@@ -67,11 +67,31 @@ module Jekyll
               createpage_lambda.call(ap_sub_config, pagination_config, layout_name, index_key, value[-1]) # the last item in the value array will be the display name
             end
           end
-        else
-          Jekyll.logger.info "AutoPages:","#{configkey_name} pages are disabled/not configured in site.config."
         end
       end
     end
 
+    def self.autopages_log(config, *config_keys)
+      enabled, disabled = [], []
+      config_keys.each do |key|
+        key_config = config[key] # config for key
+        next if config.nil? || key_config['silent']
+
+        (key_config['enabled'] ? enabled : disabled) << key
+      end
+
+      Jekyll.logger.info("AutoPages:","Generating pages for #{_to_sentence(enabled)}") unless enabled.empty?
+      Jekyll.logger.info("AutoPages:","#{_to_sentence(disabled)} pages are disabled/not configured in site.config") unless disabled.empty?
+    end
+
+    def self._to_sentence(array)
+      if array.empty?
+        ""
+      elsif array.length == 1
+        array[0].to_s
+      else
+        array[0..-2].join(", ") + " & " + array.last
+      end
+    end
   end # module PaginateV2
 end # module Jekyll
