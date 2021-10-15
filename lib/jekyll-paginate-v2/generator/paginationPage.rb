@@ -48,6 +48,10 @@ module Jekyll
 
       def set_url(url_value)
         @url = url_value
+
+        # Set dir now that url has been set, as dir is calculated from the url - dir is in turn used to
+        # set the relative_path, which we need to link to the pagination page using the link tag
+        @dir = dir
       end
     end # class PaginationPage
 
