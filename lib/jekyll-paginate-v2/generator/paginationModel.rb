@@ -42,21 +42,21 @@ module Jekyll
             @debug = template_config['debug'] # Is debugging enabled on the page level
 
             self._debug_print_config_info(template_config, template.path)
-            
+
             # Only paginate the template if it is explicitly enabled
-            # requiring this makes the logic simpler as I don't need to determine which index pages 
+            # requiring this makes the logic simpler as I don't need to determine which index pages
             # were generated automatically and which weren't
             if( template_config['enabled'] )
               if !@debug
                 @logging_lambda.call "found page: "+template.path, 'debug'
               end
 
-              # Request all documents in all collections that the user has requested 
+              # Request all documents in all collections that the user has requested
               all_posts = self.get_docs_in_collections(template_config['collection'])
 
               # Create the necessary indexes for the posts
               all_categories = PaginationIndexer.index_posts_by(all_posts, 'categories')
-              all_categories['posts'] = all_posts; # Populate a category for all posts (this is here for backward compatibility, do not use this as it will be decommissioned 2018-01-01) 
+              all_categories['posts'] = all_posts; # Populate a category for all posts (this is here for backward compatibility, do not use this as it will be decommissioned 2018-01-01)
                                                   # (this is a default and must not be used in the category system)
               all_tags = PaginationIndexer.index_posts_by(all_posts, 'tags')
               all_locales = PaginationIndexer.index_posts_by(all_posts, 'locale')
@@ -244,9 +244,9 @@ module Jekyll
         #
         # We need to make each data item appear to be a post; just having
         # a .data method is enough
-        using_posts = specific_data.map {|data_item| OpenStruct.new(data: data_item) }
+        using_posts = specific_data.map {|data_item| OpenStruct.new(data: data_item) } unless specific_data.nil? 
         self._debug_print_filtering_info('Data', before, using_posts.size.to_i)
-        
+
         # Apply sorting to the posts if configured, any field for the post is available for sorting
         if config['sort_field']
           sort_field = config['sort_field'].to_s
