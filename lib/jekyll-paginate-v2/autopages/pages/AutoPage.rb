@@ -67,7 +67,7 @@ module Jekyll
           pagination_layout_config[index_key] = doc[index_key]
         else
           # user definable different collections, or default
-          pagination_layout_config['collection'] = autopage_config['collection'] || 'posts'
+          pagination_layout_config['collection'] = autopage_config['collection'] || pagination_config['collection'] || 'posts'
           pagination_layout_config[index_key] = doc[index_key]
           pagination_layout_config['filter_coll_by'] = index_key if autopage_config['filter_collection']
         end
