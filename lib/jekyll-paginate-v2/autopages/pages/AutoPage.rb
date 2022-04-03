@@ -83,6 +83,10 @@ module Jekyll
         ignore_keys = %w[layout title permalink autopages]
         # include all data unless it's a disallowed key
         doc.data.each do |key, value|
+          if key == 'excerpt'
+            value = value.output.strip
+          end
+
           self.data[key] = value unless ignore_keys.include?(key)
         end
 
@@ -90,7 +94,7 @@ module Jekyll
           # run renderer on document to render out data to get the rendered content
           doc.renderer.run
           # set content separately since it's not part of data
-          self.data['content'] = doc.content
+          self.data['content'] = doc.content.strip.empty? ? nil : doc.content.strip
         end
 
         # Add the auto page flag in there to be able to detect the page (necessary when figuring out where to load it from)
