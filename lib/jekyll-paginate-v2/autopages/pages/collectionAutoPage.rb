@@ -14,11 +14,11 @@ module Jekyll
         end
 
         get_autopage_permalink_lambda = lambda do |permalink_pattern|
-          return Utils.format_coll_macro(permalink_pattern, collection, slugify_config)
+          return Utils.format_coll_macro(permalink_pattern, collection, collection_name, slugify_config)
         end
 
         get_autopage_title_lambda = lambda do |title_pattern|
-          return Utils.format_coll_macro(title_pattern, collection, slugify_config)
+          return Utils.format_coll_macro(title_pattern, collection, collection_name, slugify_config)
         end
                 
         # Call the super constuctor with our custom lambda
