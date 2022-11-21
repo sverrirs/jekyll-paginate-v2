@@ -129,7 +129,7 @@ module Jekyll
         if( url.end_with?('/'))
           return url + default_index + default_ext
         elsif !url.include?('.')
-          return url + default_index
+          return url + default_ext
         end
         # Default
         return url
