@@ -37,8 +37,8 @@ autopages:
     # Optional, the list of layouts that should be processed for every category found in the site
     layouts: 
       - 'autopage_category.html'
-    # Optional, the title that each category paginate page should get (:cat is replaced by the Category name)
-    title: 'Posts in category :cat'
+    # Optional, the title that each category paginate page should get (:cat_name is replaced by the Category name)
+    title: 'Posts in category :cat_name'
     # Optional, the permalink for the  pagination page (:cat is replaced), 
     # the pagination permalink path is then appended to this permalink structure
     permalink: '/category/:cat'
@@ -52,8 +52,8 @@ autopages:
   collections:
     layouts: 
       - 'autopage_collection.html'
-    title: 'Posts in collection :coll' # :coll is replaced by the collection name
-    permalink: '/collection/:coll'
+    title: 'Posts in collection :coll' # :coll_name is replaced by the collection name
+    permalink: '/collection/:coll_name'
     silent: false
     slugify:
       mode: 'default'   # :coll is slugified.
@@ -63,7 +63,7 @@ autopages:
   tags:
     layouts: 
       - 'autopage_tags.html'
-    title: 'Posts tagged with :tag' # :tag is replaced by the tag name
+    title: 'Posts tagged with :tag_name' # :tag_name is replaced by the tag name
     permalink: '/tag/:tag'
     silent: false
     slugify:

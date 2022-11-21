@@ -3,28 +3,53 @@ module Jekyll
 
     class Utils
 
-      # Static: returns a fully formatted string with the tag macro (:tag) replaced
+      # Static: Expand placeholders within s
+      def self.expand_placeholders(s, placeholders)
+        # Create a pattern like /abc|def|./ for each key in placeholders
+        # Longer keys come first to ensure that a key like :foobar will take priority over :foo.
+        pattern = Regexp.new(((placeholders.keys.sort { |a, b| b.length <=> a.length }) + ["."]).join("|"))
+
+        # Format the output string. The pattern will cause scan() to return an array where each
+        # element is a single placeholder key, or a single character.
+        return s.scan(pattern).map { |token| placeholders.key?(token) ? placeholders[token] : token }.join
+      end
+
+      # Static: returns a fully formatted string with the tag macro (:tag) and tag name macro
+      # (:tag_name) replaced
       #
-      def self.format_tag_macro(toFormat, tag, slugify_config=nil)
+      def self.format_tag_macro(toFormat, tag, tag_name, slugify_config=nil)
         slugify_mode = slugify_config.has_key?('mode') ? slugify_config['mode'] : nil
         slugify_cased = slugify_config.has_key?('cased') ? slugify_config['cased'] : false
-        return toFormat.sub(':tag', Jekyll::Utils.slugify(tag.to_s, mode:slugify_mode, cased:slugify_cased))
+
+        return expand_placeholders(toFormat, {
+          ":tag"      => Jekyll::Utils.slugify(tag.to_s, mode:slugify_mode, cased:slugify_cased),
+          ":tag_name" => tag_name,
+        })
       end #function format_tag_macro
 
-      # Static: returns a fully formatted string with the category macro (:cat) replaced
+      # Static: returns a fully formatted string with the category macro (:cat) and category
+      # name macro (:cat_name) replaced
       #
-      def self.format_cat_macro(toFormat, category, slugify_config=nil)
+      def self.format_cat_macro(toFormat, category, category_name, slugify_config=nil)
         slugify_mode = slugify_config.has_key?('mode') ? slugify_config['mode'] : nil
         slugify_cased = slugify_config.has_key?('cased') ? slugify_config['cased'] : false
-        return toFormat.sub(':cat', Jekyll::Utils.slugify(category.to_s, mode:slugify_mode, cased:slugify_cased))
+
+        return expand_placeholders(toFormat, {
+          ":cat"      => Jekyll::Utils.slugify(category.to_s, mode:slugify_mode, cased:slugify_cased),
+          ":cat_name" => category_name,
+        })
       end #function format_cat_macro
 
       # Static: returns a fully formatted string with the collection macro (:coll) replaced
       #
-      def self.format_coll_macro(toFormat, collection, slugify_config=nil)
+      def self.format_coll_macro(toFormat, collection, collection_name, slugify_config=nil)
         slugify_mode = slugify_config.has_key?('mode') ? slugify_config['mode'] : nil
         slugify_cased = slugify_config.has_key?('cased') ? slugify_config['cased'] : false
-        return toFormat.sub(':coll', Jekyll::Utils.slugify(collection.to_s, mode:slugify_mode, cased:slugify_cased))
+
+        return expand_placeholders(toFormat, {
+          ":coll"      => Jekyll::Utils.slugify(collection.to_s, mode:slugify_mode, cased:slugify_cased),
+          ":coll_name" => collection_name,
+        })
       end #function format_coll_macro
 
       # Static: returns all documents from all collections defined in the hash of collections passed in
