@@ -18,7 +18,18 @@ module Jekyll
                 end
         
         self.process(@name) # Creates the base name and extension
-        self.read_yaml(File.join(site.source, layout_dir), layout_name)
+
+        layout = @site.layouts.find { |k,v| v.name == layout_name }[1]
+
+        if layout.path.end_with? 'html'
+          @path = layout.path
+        else
+          @path = File.join(layout.path, layout.name)
+        end
+
+        base_path = @path.dup
+        base_path.slice! layout.name
+        self.read_yaml(base_path, layout.name)
 
         # Merge the config with any config that might already be defined in the layout
         pagination_layout_config = Jekyll::Utils.deep_merge_hashes( pagination_config, self.data['pagination'] || {} )
