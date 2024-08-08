@@ -666,3 +666,17 @@ pagination:
 ```
 
 Make absolutely sure that your pagination permalink paths do not clash with any other paths in your final site. For simplicity it is recommended that you keep all custom pagination (non root index.html) in a single or multiple separate sub folders under your site root.
+
+There is also a known issue in Jekyll v4 that affects `jekyll-paginate-v2`, where different pagination pages’ layouts may not be rendered correctly and that only the first pagination layout in cache is used (reference: [issue #209](https://github.com/sverrirs/jekyll-paginate-v2/issues/209)). To temporarily resolve this issue, use the fix provided in [issue #195](https://github.com/sverrirs/jekyll-paginate-v2/pull/195) or [issue #182](https://github.com/sverrirs/jekyll-paginate-v2/pull/182) instead.
+
+In your `Gemfile`:
+```ruby
+# Before change
+gem 'jekyll-paginate-v2'
+
+# After change, fix option 1 from issue #195
+gem 'jekyll-paginate-v2', git: 'https://github.com/jameshi16/jekyll-paginate-v2.git', branch: 'cache-mismatch-error'
+
+# OR after change, fix option 2 from #182
+gem 'jekyll-paginate-v2', git: 'https://github.com/mohkale/jekyll-paginate-v2.git', branch: 'liquid-cache-bypass'
+```
