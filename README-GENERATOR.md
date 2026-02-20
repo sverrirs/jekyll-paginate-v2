@@ -50,6 +50,9 @@ pagination:
   # Site-wide kill switch, disabled here it doesn't run at all 
   enabled: true
 
+  # Prevent empty pages to be printed
+  allow_empty_pages: false
+
   # Set to 'true' to enable pagination debugging. This can be enabled in the site config or only for individual pagination pages
   debug: false
 
