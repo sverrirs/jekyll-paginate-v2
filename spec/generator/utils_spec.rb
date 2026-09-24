@@ -61,6 +61,14 @@ module Jekyll::PaginateV2::Generator
       Utils.format_page_number( ":num/:max", 1000, 2000).must_equal "1000/2000"
     end
 
+    it "should append the index page and extension only where the url needs them" do
+      Utils.ensure_full_path("/page:num/", "index", ".html").must_equal "/page:num/index.html"
+      Utils.ensure_full_path("/page/:num", "index", ".html").must_equal "/page/:num.html"
+      Utils.ensure_full_path("/page-:num", "index", ".html").must_equal "/page-:num.html"
+      Utils.ensure_full_path("/page/:num.html", "index", ".html").must_equal "/page/:num.html"
+      Utils.ensure_full_path("/feed/:num", "feed", ".json").must_equal "/feed/:num.json"
+    end
+
 
   end
 end
