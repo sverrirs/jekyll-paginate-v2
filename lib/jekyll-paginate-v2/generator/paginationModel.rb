@@ -273,7 +273,7 @@ module Jekyll
         # Consider the default index page name and extension
         indexPageName = config['indexpage'].nil? ? '' : config['indexpage'].split('.')[0]
         indexPageExt =  config['extension'].nil? ? '' : Utils.ensure_leading_dot(config['extension'])
-        indexPageWithExt = indexPageName + indexPageExt
+        indexPageWithExt = (indexPageName.empty? ? 'index' : indexPageName) + indexPageExt
 
         # In case there are no (visible) posts, generate the index file anyway
         total_pages = 1 if total_pages.zero?
@@ -300,19 +300,11 @@ module Jekyll
           # 3. Create the pager logic for this page, pass in the prev and next page numbers, assign pager to in-memory page
           newpage.pager = Paginator.new( config['per_page'], first_index_page_url, paginated_page_url, using_posts, cur_page_nr, total_pages, indexPageName, indexPageExt)
 
-          # Create the url for the new page, make sure we prepend any permalinks that are defined in the template page before
-          if newpage.pager.page_path.end_with? '/'
-            newpage.set_url(File.join(newpage.pager.page_path, indexPageWithExt))
-          elsif newpage.pager.page_path.end_with? indexPageExt
-            # Support for direct .html files
-            newpage.set_url(newpage.pager.page_path)
-          else
-            # Support for extensionless permalinks
-            newpage.set_url(newpage.pager.page_path+indexPageExt)
-          end
+          # Create the url for the new page
+          newpage.set_url(newpage.pager.url_page_path)
 
           if( template.data['permalink'] )
-            newpage.data['permalink'] = newpage.pager.page_path
+            newpage.data['permalink'] = newpage.pager.url_page_path
           end
 
           # Transfer the title across to the new page
@@ -362,7 +354,7 @@ module Jekyll
 
               # Convert the newpages array into a two dimensional array that has [index, page_url] as items
               #puts( "Trail created for page #{npage.pager.page} (idx_start:#{idx_start} idx_end:#{idx_end})")
-              npage.pager.page_trail = newpages[idx_start...idx_end].each_with_index.map {|ipage,idx| PageTrail.new(idx_start+idx+1, ipage.pager.page_path, ipage.data['title'])}
+              npage.pager.page_trail = newpages[idx_start...idx_end].each_with_index.map {|ipage,idx| PageTrail.new(idx_start+idx+1, ipage.pager.url_page_path, ipage.data['title'])}
               #puts( npage.pager.page_trail )
             end #newpages.select
           end #if trail_before / trail_after
