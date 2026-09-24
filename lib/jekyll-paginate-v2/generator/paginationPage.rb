@@ -37,6 +37,7 @@ module Jekyll
         
         # Map the first page back to the source file path, to play nice with other plugins
         self.data['path'] = page_to_copy.path if cur_page_nr == 1
+        @relative_path = page_to_copy.relative_path if cur_page_nr == 1
 
         # Perform some validation that is also performed in Jekyll::Page
         validate_data! page_to_copy.path
@@ -48,6 +49,10 @@ module Jekyll
 
       def set_url(url_value)
         @url = url_value
+      end
+
+      def relative_path
+        @relative_path || super
       end
     end # class PaginationPage
 
