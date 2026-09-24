@@ -6,7 +6,7 @@ module Jekyll
     #
     class Paginator
       attr_reader :page, :per_page, :posts, :total_posts, :total_pages,
-        :previous_page, :previous_page_path, :next_page, :next_page_path, :page_path, :page_trail,
+        :previous_page, :previous_page_path, :next_page, :next_page_path, :page_path, :url_page_path, :page_trail,
         :first_page, :first_page_path, :last_page, :last_page_path
 
       def page_trail
@@ -48,6 +48,8 @@ module Jekyll
         @total_posts = posts.size
         @posts = posts[init..offset]
         @page_path = Utils.format_page_number(this_page_url, cur_page_nr, @total_pages)
+        # The url used when linking to this page, formatted the same way as the other pager paths
+        @url_page_path = Utils.format_page_number(@page == 1 ? first_index_page_url : paginated_page_url, cur_page_nr, @total_pages)
 
         @previous_page = @page != 1 ? @page - 1 : nil
         @previous_page_path = @page == 1 ? nil : 
