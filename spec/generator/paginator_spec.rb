@@ -153,5 +153,27 @@ module Jekyll::PaginateV2::Generator
       pager.next_page_path.must_equal '/feed3.json'
     end
 
+    it "must name the page after the number and keep extensionless links for extensionless permalinks" do
+      posts = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35']
+
+      pager = Paginator.new(5, "/", "/page/:num", posts, 2, 5, '', '.html')
+
+      pager.page_path.must_equal '/page/2.html'
+      pager.previous_page_path.must_equal '/'
+      pager.next_page_path.must_equal '/page/3'
+      pager.last_page_path.must_equal '/page/5'
+    end
+
+    it "must name the page after the number and link to the html file for extensionless permalinks when the index page is specified" do
+      posts = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35']
+
+      pager = Paginator.new(5, "/", "/page/:num", posts, 2, 5, 'index', '.html')
+
+      pager.page_path.must_equal '/page/2.html'
+      pager.previous_page_path.must_equal '/index.html'
+      pager.next_page_path.must_equal '/page/3.html'
+      pager.last_page_path.must_equal '/page/5.html'
+    end
+
   end
 end
