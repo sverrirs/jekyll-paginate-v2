@@ -273,7 +273,7 @@ module Jekyll
         # Consider the default index page name and extension
         indexPageName = config['indexpage'].nil? ? '' : config['indexpage'].split('.')[0]
         indexPageExt =  config['extension'].nil? ? '' : Utils.ensure_leading_dot(config['extension'])
-        indexPageWithExt = indexPageName + indexPageExt
+        indexPageWithExt = (indexPageName.empty? ? 'index' : indexPageName) + indexPageExt
 
         # In case there are no (visible) posts, generate the index file anyway
         total_pages = 1 if total_pages.zero?
