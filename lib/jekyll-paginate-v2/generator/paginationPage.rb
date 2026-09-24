@@ -49,6 +49,11 @@ module Jekyll
       def set_url(url_value)
         @url = url_value
       end
+
+      def output_ext
+        url_ext = File.extname(url)
+        url_ext.empty? ? super : url_ext
+      end
     end # class PaginationPage
 
   end # module PaginateV2
